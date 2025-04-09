@@ -73,6 +73,7 @@ clean:
 # Removes objects and executables
 fclean: clean
 	$(RM) $(NAME)
+	make clean -C $(MLX_DIR)
 	make fclean -C $(LIBFT_DIR)
 
 # Removes objects and executables and remakes
