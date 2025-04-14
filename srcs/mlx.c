@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/14 19:12:47 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/14 19:49:17 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,19 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	char	*dst;
 
 	dst = img->address + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	// printf("endian%d\n", img->endian);
 	*(unsigned int*)dst = color;
+}
+
+void put_one_pixel(t_mlx *mlx)
+{
+	mlx->img = malloc(sizeof(t_img));
+	mlx->img->ptr = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
+
+	mlx->img->address = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bits_per_pixel, &mlx->img->line_length,
+								&mlx->img->endian);
+	my_mlx_pixel_put(mlx->img, 10, 10, create_trgb(0, 220, 100, 0));
+	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
 
 void start_mlx()
@@ -69,12 +81,6 @@ void start_mlx()
 	mlx.window = mlx_new_window(mlx.ptr, WIDTH, HEIGHT, "Cub3d");
 	mlx_hook(mlx.window, DestroyNotify, 0, close_window, &mlx);
 	mlx_hook(mlx.window, KeyPress, 1, key_hook, &mlx);
-	mlx.img = malloc(sizeof(t_img));
-	mlx.img->ptr = mlx_new_image(mlx.ptr, WIDTH, HEIGHT);
-
-	mlx.img->address = mlx_get_data_addr(mlx.img->ptr, &mlx.img->bits_per_pixel, &mlx.img->line_length,
-								&mlx.img->endian);
-	my_mlx_pixel_put(mlx.img, 10, 10, create_trgb(0, 220, 100, 0));
-	mlx_put_image_to_window(mlx.ptr, mlx.window, mlx.img->ptr, 0, 0);
+	put_one_pixel(&mlx);
 	mlx_loop(mlx.ptr);
 }
