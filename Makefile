@@ -36,8 +36,9 @@ OBJS_DIR		=	bin/
 
 LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
-SRCS_FILES		=	srcs/main.c
-
+SRCS_FILES		=	srcs/main.c \
+					srcs/debug.c \
+					srcs/mlx.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 

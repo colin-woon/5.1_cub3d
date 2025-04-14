@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/14 18:24:17 by cwoon            ###   ########.fr       */
+/*   Created: 2025/04/14 18:22:21 by cwoon             #+#    #+#             */
+/*   Updated: 2025/04/14 18:24:45 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+int debug_event(int keycode, t_mlx *mlx);
 
-
-int	main(void)
+int debug_event(int keycode, t_mlx *mlx)
 {
-	start_mlx();
+	printf("DEBUG: event\n");
+	return (0);
 }
