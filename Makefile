@@ -38,7 +38,8 @@ LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXex
 
 SRCS_FILES		=	srcs/main.c \
 					srcs/debug.c \
-					srcs/mlx.c
+					srcs/mlx.c \
+					srcs/mlx_colour_utils.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 

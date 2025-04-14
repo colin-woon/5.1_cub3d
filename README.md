@@ -55,3 +55,6 @@ C 225,30,0
 11111111 1111111 111111111111
 ```
 
+## Breakdown
+- how to read from a file and display texture
+- how to display colour
