@@ -11,8 +11,8 @@
 
 # add back WFLAGS later to CFLAGS, removed cause it doesnt work for testing
 # Compiler and flags
-CC			=	gcc
-CFLAGS		=	$(INCLUDES)
+CC			=	clang
+CFLAGS		=	$(INCLUDES) $(DEBUG) $(FSAN)
 WFLAGS		=	-Wall -Werror -Wextra
 INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
 DEBUG		=	-g3
