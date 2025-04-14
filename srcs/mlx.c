@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/14 19:49:17 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/14 20:12:22 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,19 @@ void put_one_pixel(t_mlx *mlx)
 void start_mlx()
 {
 	t_mlx	mlx;
+	void	*img;
+	char	*relative_path = "imgs/Tung_tung_tung_tung_tung_sahur.xpm";
+	int		img_width;
+	int		img_height;
 
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, WIDTH, HEIGHT, "Cub3d");
 	mlx_hook(mlx.window, DestroyNotify, 0, close_window, &mlx);
 	mlx_hook(mlx.window, KeyPress, 1, key_hook, &mlx);
 	put_one_pixel(&mlx);
+	img = mlx_xpm_file_to_image(mlx.ptr, relative_path, &img_width, &img_height);
+	if (!img)
+		printf("image failed to read\n");
+	mlx_put_image_to_window(mlx.ptr, mlx.window, img, 100, 100);
 	mlx_loop(mlx.ptr);
 }
