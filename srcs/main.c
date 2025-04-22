@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/22 21:14:21 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/22 21:21:36 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,17 @@ static bool ft_strend(char *s, char *suffix)
 // 	return (false);
 // }
 
+char	*get_next_row(int fd)
+{
+	char *line;
+	char *res_line;
+	
+	line = get_next_line(fd);
+	res_line = ft_strtrim(line, "\n");
+	free(line);
+	return (res_line);
+}
+
 typedef struct s_texture
 {
 	void	*n_texture;
@@ -120,11 +131,11 @@ void parse_map(char *path_to_map)
 	}
 	textures = ft_calloc(1, sizeof(t_texture));
 	char *line;
-	line = get_next_line(fd);
+	line = get_next_row(fd);
 	while (line != NULL)
 	{
 		printf("%s\n", line);
-		line = get_next_line(fd);
+		line = get_next_row(fd);
 	}
 
 }
