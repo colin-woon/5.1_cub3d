@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/22 21:21:36 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/23 21:22:37 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-typedef struct s_vars
+typedef struct s_game
 {
 	void *mlx;
 	void *mlx_win;
-} t_vars;
+} t_game;
 
-int close_window(int keycode, t_vars *vars)
+int close_window(int keycode, t_game *game)
 {
-	mlx_destroy_window(vars->mlx, vars->mlx_win);
+	mlx_destroy_window(game->mlx, game->mlx_win);
 	exit(0);
 }
 
@@ -105,14 +105,48 @@ char	*get_next_row(int fd)
 
 typedef struct s_texture
 {
-	void	*n_texture;
-	void	*s_texture;
-	void	*e_texture;
-	void	*w_texture;
+	char	*s_tex_file;
+	char	*e_tex_file;
+	char	*w_tex_file;
+	char	*n_tex_file;
+	
+	void	*n_tex_img;
+	void	*w_tex_img;	
+	void	*e_tex_img;	
+	void	*s_tex_img;	
+	
 }	t_texture;
 
+void	compare_texture(char *line, t_texture *textures, t_game *game)
+{
+	int	img_width;
+	int	img_height;
+	if (ft_strncmp(line, "NO", 2) == 0)
+	{
+		textures->n_tex_file = ft_strchr(line, '.');
+		textures->n_tex_img = mlx_xpm_file_to_image(game->mlx, textures->n_tex_file, &img_height, &img_width);
+		mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, 0, 500);
+	}
+	if (ft_strncmp(line, "SO", 2) == 0)
+	{
+		textures->s_tex_file = ft_strchr(line, '.');
+		mlx_xpm_file_to_image(game->mlx, textures->s_tex_img, &img_height, &img_width);
+	}
+	if (ft_strncmp(line, "WE", 2) == 0)
+	{
+		textures->w_tex_file = ft_strchr(line, '.');
+		mlx_xpm_file_to_image(game->mlx, textures->w_tex_img, &img_height, &img_width);
+	}
+	if (ft_strncmp(line, "EA", 2) == 0)
+	{
+		textures->e_tex_file = ft_strchr(line, '.');
+		mlx_xpm_file_to_image(game->mlx, textures->e_tex_img, &img_height, &img_width);
+	}
+		
+	return ;
+}
 
-void parse_map(char *path_to_map)
+void parse_map(char *path_to_map, t_game *game)
 {
 	int fd;
 	t_texture	*textures;
@@ -135,25 +169,28 @@ void parse_map(char *path_to_map)
 	while (line != NULL)
 	{
 		printf("%s\n", line);
+		compare_texture(line, textures, game);
 		line = get_next_row(fd);
 	}
-
+	// int x;
+	// int y;
+	// mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, &x, &y);
 }
 
 int main(int ac, char *av[])
 {
-	t_vars vars;
+	t_game game;
 	t_data img;
 	int x;
 	int y;
 
 	if (ac == 2)
 	{
-		parse_map(av[1]);
-		vars.mlx = mlx_init();
-		vars.mlx_win = mlx_new_window(vars.mlx, 1920, 1080, "hello");
-		mlx_hook(vars.mlx_win, 2, 1L << 0, close_window, &vars);
-		mlx_loop(vars.mlx);
+		game.mlx = mlx_init();
+		game.mlx_win = mlx_new_window(game.mlx, 1920, 1080, "hello");
+		parse_map(av[1], &game);
+		mlx_hook(game.mlx_win, 2, 1L << 0, close_window, &game);
+		mlx_loop(game.mlx);
 		return (0);
 	}
 	printf("Wrong input\n");
