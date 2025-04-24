@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/23 21:22:37 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/24 13:40:10 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,6 @@ static bool ft_strend(char *s, char *suffix)
 	return true;
 }
 
-// bool	valid_filetype(char *path_to_map)
-// {
-// 	size_t	len;
-// 	char	*str;
-
-// 	str = ".cub";
-// 	len = ft_strlen(path_to_map);
-// 	int j = 3;
-// 	while (path_to_map[--len] && j >= 0)
-// 	{
-// 		printf("path_to_map: %c\n", path_to_map[len]);
-// 		printf("cub: %c\n", str[j]);
-// 		if (path_to_map[len] != str[j])
-// 		{
-// 			printf("false, not valid\n");
-// 			return (false);
-// 		}
-// 		path_to_map[len] == str[j--];
-// 	}
-// 	if (j == -1)
-// 	{
-// 		printf("valid .cub, returning true\n");
-// 		return (true);
-// 	}
-// 	printf("false, not valid\n");
-// 	return (false);
-// }
-
 char	*get_next_row(int fd)
 {
 	char *line;
@@ -102,6 +74,9 @@ char	*get_next_row(int fd)
 	free(line);
 	return (res_line);
 }
+
+//goal is to get the textures and the floor colour
+//something like what i did, was to put it into a struct
 
 typedef struct s_texture
 {
@@ -130,19 +105,19 @@ void	compare_texture(char *line, t_texture *textures, t_game *game)
 	if (ft_strncmp(line, "SO", 2) == 0)
 	{
 		textures->s_tex_file = ft_strchr(line, '.');
-		mlx_xpm_file_to_image(game->mlx, textures->s_tex_img, &img_height, &img_width);
+		textures->s_tex_img = mlx_xpm_file_to_image(game->mlx, textures->s_tex_file, &img_height, &img_width);
 	}
 	if (ft_strncmp(line, "WE", 2) == 0)
 	{
 		textures->w_tex_file = ft_strchr(line, '.');
-		mlx_xpm_file_to_image(game->mlx, textures->w_tex_img, &img_height, &img_width);
+		textures->s_tex_img = mlx_xpm_file_to_image(game->mlx, textures->w_tex_file, &img_height, &img_width);
 	}
 	if (ft_strncmp(line, "EA", 2) == 0)
 	{
 		textures->e_tex_file = ft_strchr(line, '.');
-		mlx_xpm_file_to_image(game->mlx, textures->e_tex_img, &img_height, &img_width);
+		textures->s_tex_img = mlx_xpm_file_to_image(game->mlx, textures->e_tex_file, &img_height, &img_width);
 	}
-		
+
 	return ;
 }
 
@@ -170,8 +145,11 @@ void parse_map(char *path_to_map, t_game *game)
 	{
 		printf("%s\n", line);
 		compare_texture(line, textures, game);
+		free(line);
 		line = get_next_row(fd);
 	}
+	mlx_destroy_image(game->mlx, textures->n_tex_img);
+	free(textures);
 	// int x;
 	// int y;
 	// mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, &x, &y);
