@@ -20,7 +20,7 @@ FSAN		=	-fsanitize=address,leak -g3
 RM			=	rm -rf
 
 # Output file name
-NAME	=	cub3d
+NAME	=	cub3D
 
 # Directories
 LIBFT_DIR		=	libft/
@@ -34,9 +34,9 @@ OBJS_DIR		=	bin/
 
 
 
-LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz ${FSAN}
+LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
-SRCS_FILES		=	srcs/main.c
+SRCS_FILES		=	srcs/main.c srcs/error.c srcs/utils.c
 
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))

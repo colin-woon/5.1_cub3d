@@ -6,39 +6,11 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/24 13:40:10 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/24 16:24:16 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include "libft.h"
-#include <fcntl.h> //for the open
-
-typedef struct s_data
-{
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
-} t_data;
-
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char *dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-typedef struct s_game
-{
-	void *mlx;
-	void *mlx_win;
-} t_game;
+#include "cub3d.h"
 
 int close_window(int keycode, t_game *game)
 {
@@ -46,51 +18,8 @@ int close_window(int keycode, t_game *game)
 	exit(0);
 }
 
-static bool ft_strend(char *s, char *suffix)
-{
-	size_t s_len;
-	size_t suffix_len;
-
-	s_len = ft_strlen(s);
-	suffix_len = ft_strlen(suffix);
-
-	if (suffix_len > s_len)
-		return false;
-	while (suffix_len > 0)
-	{
-		if (s[s_len--] != suffix[suffix_len--])
-			return (false);
-	}
-	return true;
-}
-
-char	*get_next_row(int fd)
-{
-	char *line;
-	char *res_line;
-	
-	line = get_next_line(fd);
-	res_line = ft_strtrim(line, "\n");
-	free(line);
-	return (res_line);
-}
-
 //goal is to get the textures and the floor colour
 //something like what i did, was to put it into a struct
-
-typedef struct s_texture
-{
-	char	*s_tex_file;
-	char	*e_tex_file;
-	char	*w_tex_file;
-	char	*n_tex_file;
-	
-	void	*n_tex_img;
-	void	*w_tex_img;	
-	void	*e_tex_img;	
-	void	*s_tex_img;	
-	
-}	t_texture;
 
 void	compare_texture(char *line, t_texture *textures, t_game *game)
 {
@@ -100,7 +29,7 @@ void	compare_texture(char *line, t_texture *textures, t_game *game)
 	{
 		textures->n_tex_file = ft_strchr(line, '.');
 		textures->n_tex_img = mlx_xpm_file_to_image(game->mlx, textures->n_tex_file, &img_height, &img_width);
-		mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, 0, 500);
+		// mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, 0, 500);
 	}
 	if (ft_strncmp(line, "SO", 2) == 0)
 	{
@@ -148,25 +77,22 @@ void parse_map(char *path_to_map, t_game *game)
 		free(line);
 		line = get_next_row(fd);
 	}
-	mlx_destroy_image(game->mlx, textures->n_tex_img);
+	if (textures->n_tex_img)
+		mlx_destroy_image(game->mlx, textures->n_tex_img);
 	free(textures);
-	// int x;
-	// int y;
-	// mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, &x, &y);
 }
 
 int main(int ac, char *av[])
 {
 	t_game game;
-	t_data img;
 	int x;
 	int y;
 
 	if (ac == 2)
 	{
 		game.mlx = mlx_init();
-		game.mlx_win = mlx_new_window(game.mlx, 1920, 1080, "hello");
 		parse_map(av[1], &game);
+		game.mlx_win = mlx_new_window(game.mlx, 1920, 1080, "hello");
 		mlx_hook(game.mlx_win, 2, 1L << 0, close_window, &game);
 		mlx_loop(game.mlx);
 		return (0);
