@@ -6,11 +6,12 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/24 16:24:23 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/24 16:42:03 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "error.h"
 
 
 char	*get_next_row(int fd)
@@ -40,4 +41,13 @@ bool ft_strend(char *s, char *suffix)
 			return (false);
 	}
 	return true;
+}
+
+int	open_file(char *path_to_file)
+{
+	int	fd;
+	fd = open(path_to_file, O_RDONLY);
+	if (fd == -1)
+		error_msg("file not found or cant be open");
+	return (fd);
 }

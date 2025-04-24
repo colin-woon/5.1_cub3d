@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:41:06 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/24 16:24:37 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/24 16:41:02 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ typedef struct s_texture
 
 char	*get_next_row(int fd);
 bool	ft_strend(char *s, char *suffix);
+int		open_file(char *path_to_file);
+void	parse_map(char *path_to_cub, t_game *game);
 
 #endif
