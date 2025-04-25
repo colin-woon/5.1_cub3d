@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/24 16:51:59 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 17:16:04 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int close_window(int keycode, t_game *game)
 	exit(0);
 }
 
-
-
 int main(int ac, char *av[])
 {
 	t_game game;
@@ -30,11 +28,12 @@ int main(int ac, char *av[])
 	{
 		game.mlx = mlx_init();
 		game.mlx_win = mlx_new_window(game.mlx, 1920, 1080, "hello");
-		parse_map(av[1], &game);
+		parse(av[1], &game);
+		mlx_put_image_to_window(game.mlx, game.mlx_win, game.textures->n_tex_img, 0, 0);
 		mlx_hook(game.mlx_win, 2, 1L << 0, close_window, &game);
 		mlx_loop(game.mlx);
 		return (0);
 	}
-	printf("Wrong input\n");
+	msg("Bad Input\nExample ./cub3D .cub\n");
 	return (0);
 }

@@ -6,22 +6,11 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 16:28:53 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 17:16:26 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-
-//goal is to get the textures and the floor colour
-//something like what i did, was to put it into a struct
-
-//i have succesfully initialized it to the way i want it to
-//i would want to add a checking function that is static and goes to the next point in the array or something like that
-//so it would be like a iterator as such moving after initializing one.
-
-//next step is to check that it is in a strict format of no so we ea f c
-//plan to use 
 
 static	void	match_word(char	*word_match)
 {
@@ -118,15 +107,13 @@ static void	compare_texture(char *line, t_texture *textures, t_game *game)
 
 
 
-void parse_map(char *path_to_cub, t_game *game)
+t_texture	*parse_texture(int fd, t_game *game)
 {
-	int fd;
+
 	char *line;
 	t_texture	*textures;
 
-	if (ft_strend(path_to_cub, ".cub") == false)
-		msg("input given is not a .cub file");
-	fd = open_file(path_to_cub);
+
 	textures = ft_calloc(1, sizeof(t_texture));
 	line = get_next_row(fd);
 	while (line != NULL)
@@ -135,10 +122,17 @@ void parse_map(char *path_to_cub, t_game *game)
 		free(line);
 		line = get_next_row(fd);
 	}
-	mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, 0, 0);
-	if (textures->n_tex_img)
-		mlx_destroy_image(game->mlx, textures->n_tex_img);
-	free(textures->ceiling_rgb);
-	free(textures->floor_rgb);
-	free(textures);
+	return (textures);
+}
+
+void	parse(char *path_to_cub, t_game *game)
+{
+	int fd;
+
+	if (ft_strend(path_to_cub, ".cub") == false)
+		msg("input given is not a .cub file");
+	fd = open_file(path_to_cub);
+	if (fd < 0)
+		error_msg("File cannot be opened");
+	game->textures = parse_texture(fd, game);
 }

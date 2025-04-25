@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:41:06 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 16:23:21 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 17:09:54 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@
 # include <fcntl.h> //for the open
 # include "error.h"
 
-typedef struct s_game
-{
-	void *mlx;
-	void *mlx_win;
-} t_game;
-
 typedef struct s_texture
 {	
 	void	*n_tex_img;
@@ -38,9 +32,18 @@ typedef struct s_texture
 	int		*ceiling_rgb;
 }	t_texture;
 
-char	*get_next_row(int fd);
-bool	ft_strend(char *s, char *suffix);
-int		open_file(char *path_to_file);
-void	parse_map(char *path_to_cub, t_game *game);
+typedef struct s_game
+{
+	void 		*mlx;
+	void 		*mlx_win;
+	t_texture	*textures;
+	
+} t_game;
+
+char		*get_next_row(int fd);
+bool		ft_strend(char *s, char *suffix);
+int			open_file(char *path_to_file);
+void		parse(char *path_to_cub, t_game *game);
+t_texture	*parse_texture(int fd, t_game *game);
 
 #endif
