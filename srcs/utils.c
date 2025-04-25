@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/24 16:42:03 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:28:58 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 char	*get_next_row(int fd)
 {
-	char *line;
-	char *res_line;
+	char	*line;
+	char	*res_line;
 	
 	line = get_next_line(fd);
 	res_line = ft_strtrim(line, "\n");

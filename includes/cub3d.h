@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:41:06 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/24 16:41:02 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 13:32:28 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_texture
 	void	*e_tex_img;	
 	void	*s_tex_img;	
 	
+	int		*floor_rgb;
+	int		*ceiling_rgb;
 }	t_texture;
 
 char	*get_next_row(int fd);
