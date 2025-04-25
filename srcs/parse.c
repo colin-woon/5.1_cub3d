@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 14:59:16 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 16:28:53 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,7 @@ static	void	match_word(char	*word_match)
 {
 	static	int i = 0;
 	char *buff[6] = {"NO", "SO", "WE", "EA", "F", "C"};
-	
-	printf("word match: %s\n", word_match);
-	printf("buff: %s\n", buff[i]);
-	printf("i: %i\n", i);
-	while (*word_match == '\t' || *word_match == ' ')
-		word_match++;
+
 	if (i > 5)
 		msg("Format of cub is wrong\nexample NO-SO-WE-EA-F-C");
 	if (ft_strncmp(word_match, buff[i], ft_strlen(buff[i])) != 0)
@@ -48,96 +43,76 @@ static bool	is_empty_line(char *line)
 	{
 		if (*line != '\t' || *line != ' ' || *line != '\n')
 			return false;
-		printf("%s\n", line);
 		line++;
 	}
 	return true;
 }
 
-static void	compare_texture(char *line, t_texture *textures, t_game *game)
-{
-	int	img_width;
-	int	img_height;
 
-	if (is_empty_line(line))
-		return ;
-	printf("line: %s\n", line);
-	match_word(line);
-	if (ft_strncmp(line, "NO", 2) == 0)
-	{
-		textures->n_tex_file = ft_strchr(line, '.');
-		textures->n_tex_img = mlx_xpm_file_to_image(game->mlx, textures->n_tex_file, &img_height, &img_width);
-		mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, 0, 0);
-	}
-	if (ft_strncmp(line, "SO", 2) == 0)
-	{
-		textures->s_tex_file = ft_strchr(line, '.');
-		textures->s_tex_img = mlx_xpm_file_to_image(game->mlx, textures->s_tex_file, &img_height, &img_width);
-	}
-	if (ft_strncmp(line, "WE", 2) == 0)
-	{
-		textures->w_tex_file = ft_strchr(line, '.');
-		textures->s_tex_img = mlx_xpm_file_to_image(game->mlx, textures->w_tex_file, &img_height, &img_width);
-	}
-	if (ft_strncmp(line, "EA", 2) == 0)
-	{
-		textures->e_tex_file = ft_strchr(line, '.');
-		textures->s_tex_img = mlx_xpm_file_to_image(game->mlx, textures->e_tex_file, &img_height, &img_width);
-	}
-	if (ft_strncmp(line, "F", 1) == 0)
-	{
+//writing to initialize rgb
+//removing useless information like keeping n_tex_file
+//make code neater by making a function that has mlx_xpm bla bla to just make_img
+
+int	*init_rgb(char *rgb_c)
+{
 		int	i = 0;
 		int	j = 0;
 		int	color_val = 0;
 		int	len;
 		char *tmp;
+		int		*res_rgb;
 
-		textures->floor_rgb = ft_calloc(3, (sizeof(int)));
-		while (line[i])
+		res_rgb = ft_calloc(3, (sizeof(int)));
+		while (rgb_c[i])
 		{
-			while (!ft_isdigit(line[i]))
+			while (!ft_isdigit(rgb_c[i]))
 				i++;
 			j = i;
-			while (ft_isdigit(line[j]))
+			while (ft_isdigit(rgb_c[j]))
 				j++;
 			len = j - i;
 			tmp = malloc(len + 1);
 			tmp[len] = '\0';
 			i = j;
 			while (len-- > 0)
-				tmp[len] = line[--j];
-			textures->floor_rgb[color_val] = ft_atoi(tmp);
+				tmp[len] = rgb_c[--j];
+			res_rgb[color_val] = ft_atoi(tmp);
 			color_val++;
 			free(tmp);
 		}
-	}
-	if (ft_strncmp(line, "C", 1) == 0)
-	{
-		int	i = 0;
-		int	j = 0;
-		int	color_val = 0;
-		int	len;
-		char *tmp;
+	return (res_rgb);
+}
 
-		textures->ceiling_rgb = ft_calloc(3, (sizeof(int)));
-		while (line[i])
-		{
-			while (!ft_isdigit(line[i]))
-				i++;
-			j = i;
-			while (ft_isdigit(line[j]))
-				j++;
-			len = j - i;
-			tmp = malloc(len + 1);
-			tmp[len] = '\0';
-			i = j;
-			while (len-- > 0)
-				tmp[len] = line[--j];
-			textures->ceiling_rgb[color_val] = ft_atoi(tmp);
-			color_val++;
-			free(tmp);
-		}	
-	}
+void	*make_img(char	*str, t_game *game)
+{
+	char	*path_to_file;
+	void	*img_ptr;
+	int		img_width;
+	int		img_height;
+	
+	path_to_file = ft_strchr(str, '.');
+	img_ptr = mlx_xpm_file_to_image(game->mlx, path_to_file, &img_height, &img_width);
+}
+
+static void	compare_texture(char *line, t_texture *textures, t_game *game)
+{
+	if (is_empty_line(line))
+		return ;
+	while (*line == '\t' || *line == ' ')
+		line++;
+	match_word(line);
+	if (ft_strncmp(line, "NO", 2) == 0)
+		textures->n_tex_img = make_img(line, game);
+	else if (ft_strncmp(line, "SO", 2) == 0)
+		textures->s_tex_img = make_img(line, game);
+	else if (ft_strncmp(line, "WE", 2) == 0)
+		textures->w_tex_img = make_img(line, game);
+	else if (ft_strncmp(line, "EA", 2) == 0)
+		textures->e_tex_img = make_img(line, game);
+	else if (ft_strncmp(line, "F", 1) == 0)
+		textures->floor_rgb = init_rgb(line);
+	else if (ft_strncmp(line, "C", 1) == 0)
+		textures->ceiling_rgb = init_rgb(line);
 	return ;
 }
 
@@ -154,17 +129,16 @@ void parse_map(char *path_to_cub, t_game *game)
 	fd = open_file(path_to_cub);
 	textures = ft_calloc(1, sizeof(t_texture));
 	line = get_next_row(fd);
-	printf("line: %s\n", line);
 	while (line != NULL)
 	{
 		compare_texture(line, textures, game);
 		free(line);
 		line = get_next_row(fd);
 	}
-	int i = 0;
-	// while (i < 3)
-	// 	printf("%i\n", textures->floor_rgb[i++]);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, textures->n_tex_img, 0, 0);
 	if (textures->n_tex_img)
 		mlx_destroy_image(game->mlx, textures->n_tex_img);
+	free(textures->ceiling_rgb);
+	free(textures->floor_rgb);
 	free(textures);
 }

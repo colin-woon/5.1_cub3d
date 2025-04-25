@@ -34,7 +34,7 @@ OBJS_DIR		=	bin/
 
 
 
-LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz $(FSAN)
 
 SRCS_FILES		=	srcs/main.c srcs/error.c srcs/utils.c srcs/parse.c
 

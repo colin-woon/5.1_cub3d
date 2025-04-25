@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:41:06 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 13:32:28 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 16:23:21 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,7 @@ typedef struct s_game
 } t_game;
 
 typedef struct s_texture
-{
-	char	*s_tex_file;
-	char	*e_tex_file;
-	char	*w_tex_file;
-	char	*n_tex_file;
-	
+{	
 	void	*n_tex_img;
 	void	*w_tex_img;	
 	void	*e_tex_img;	
