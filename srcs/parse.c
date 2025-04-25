@@ -6,19 +6,31 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 17:16:26 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/25 21:25:55 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+
 static	void	match_word(char	*word_match)
 {
 	static	int i = 0;
-	char *buff[6] = {"NO", "SO", "WE", "EA", "F", "C"};
+	int		j;
+	char 	**buff;
+	buff = (char *[6]){"NO", "SO", "WE", "EA", "F", "C"};
 
-	if (i > 5)
-		msg("Format of cub is wrong\nexample NO-SO-WE-EA-F-C");
+	j = 0;
+	while (j < i)
+	{
+		if (ft_strncmp(word_match, buff[j], ft_strlen(buff[j])) == 0)
+		{
+			ft_putstr_fd("ERROR:\n", 1);
+			ft_dprintf(1, "Duplicate of %s found", buff[j]);
+			exit(EXIT_SUCCESS);
+		}
+		j++;
+	}
 	if (ft_strncmp(word_match, buff[i], ft_strlen(buff[i])) != 0)
 		msg("Format of cub is wrong\nexample NO-SO-WE-EA-F-C");
 	i++;
@@ -105,15 +117,11 @@ static void	compare_texture(char *line, t_texture *textures, t_game *game)
 	return ;
 }
 
-
-
 t_texture	*parse_texture(int fd, t_game *game)
 {
-
 	char *line;
 	t_texture	*textures;
-
-
+	
 	textures = ft_calloc(1, sizeof(t_texture));
 	line = get_next_row(fd);
 	while (line != NULL)
@@ -123,6 +131,14 @@ t_texture	*parse_texture(int fd, t_game *game)
 		line = get_next_row(fd);
 	}
 	return (textures);
+}
+
+//now need to work on parsing the map
+//would continue to add error handling on the textures
+
+char	**parse_map(int fd, t_game *game)
+{
+	
 }
 
 void	parse(char *path_to_cub, t_game *game)
@@ -135,4 +151,5 @@ void	parse(char *path_to_cub, t_game *game)
 	if (fd < 0)
 		error_msg("File cannot be opened");
 	game->textures = parse_texture(fd, game);
+	game->map = parse_map(fd, game);
 }
