@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 16:11:26 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 16:23:53 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 
 typedef struct s_texture
 {	
-	void	*n_tex_img; //no_img_ptr
-	void	*w_tex_img;
-	void	*e_tex_img;
-	void	*s_tex_img;
+	void	*no_img_ptr; //no_img_ptr
+	void	*we_img_ptr;
+	void	*ea_img_ptr;
+	void	*so_img_ptr;
 
 	int		*floor_rgb;
 	int		*ceiling_rgb;
