@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 18:47:41 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/28 19:16:08 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	msg(char *err);
 int debug_event(int keycode, t_mlx *mlx);
 
 // mlx.c
-// int	close_window(int keycode, t_mlx *mlx);
+int	close_window(int keycode, t_mlx *mlx);
 int	key_hook(int keysym, t_mlx *mlx);
-void	start_mlx();
+void	start_mlx(t_game *game);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);

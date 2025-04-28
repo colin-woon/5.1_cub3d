@@ -6,15 +6,15 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 19:01:28 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/28 19:24:52 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// int	close_window(int keycode, t_mlx *mlx);
+int	close_window(int keycode, t_mlx *mlx);
 int	key_hook(int keysym, t_mlx *mlx);
-void	start_mlx();
+void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 int	key_hook(int keysym, t_mlx *mlx)
@@ -24,7 +24,7 @@ int	key_hook(int keysym, t_mlx *mlx)
 	if (keysym == XK_Escape)
 	{
 		printf("DEBUG: Escape\n");
-		// close_window(0, NULL);
+		close_window(0, NULL);
 	}
 	else if (keysym == XK_Left)
 		printf("Left\n");
@@ -45,13 +45,13 @@ int	key_hook(int keysym, t_mlx *mlx)
 	return (0);
 }
 
-// int	close_window(int keycode, t_mlx *mlx)
-// {
-// 	printf("DEBUG: closing window\n");
-// 	exit(0);
-// 	// mlx_destroy_window(mlx->mlx, mlx->window);
-// 	return (0);
-// }
+int	close_window(int keycode, t_mlx *mlx)
+{
+	printf("DEBUG: closing window\n");
+	exit(0);
+	// mlx_destroy_window(mlx->mlx, mlx->window);
+	return (0);
+}
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -73,7 +73,7 @@ void put_one_pixel(t_mlx *mlx)
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
 
-void start_mlx()
+void start_mlx(t_game *game)
 {
 	t_mlx	mlx;
 	void	*img;
@@ -81,14 +81,15 @@ void start_mlx()
 	int		img_width;
 	int		img_height;
 
-	mlx.ptr = mlx_init();
-	mlx.window = mlx_new_window(mlx.ptr, WIDTH, HEIGHT, "Cub3d");
-	// mlx_hook(mlx.window, DestroyNotify, 0, close_window, &mlx);
-	mlx_hook(mlx.window, KeyPress, 1, key_hook, &mlx);
-	put_one_pixel(&mlx);
-	img = mlx_xpm_file_to_image(mlx.ptr, relative_path, &img_width, &img_height);
+	game->mlx_data = malloc(sizeof(t_mlx));
+	game->mlx_data->ptr = mlx_init();
+	game->mlx_data->window = mlx_new_window(game->mlx_data->ptr, WIDTH, HEIGHT, "Cub3d");
+	mlx_hook(game->mlx_data->window, DestroyNotify, 0, close_window, &game->mlx_data);
+	mlx_hook(game->mlx_data->window, KeyPress, 1, key_hook, &game->mlx_data);
+	put_one_pixel(game->mlx_data);
+	img = mlx_xpm_file_to_image(game->mlx_data->ptr, relative_path, &img_width, &img_height);
 	if (!img)
 		printf("image failed to read\n");
-	mlx_put_image_to_window(mlx.ptr, mlx.window, img, 100, 100);
-	mlx_loop(mlx.ptr);
+	mlx_put_image_to_window(game->mlx_data->ptr, game->mlx_data->window, img, 100, 100);
+	mlx_loop(game->mlx_data->ptr);
 }
