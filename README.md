@@ -58,3 +58,11 @@ C 225,30,0
 ## Breakdown
 - how to read from a file and display texture
 - how to display colour
+
+
+## Execution
+- get a simple map with a player starting position
+- dot all the points of the map, use top view 2D
+- then draw a straight line first until it hits a wall with DDA
+- center all the points in the middle
+- scale it to become bigger

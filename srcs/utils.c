@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/28 15:59:55 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 18:28:09 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
 char	*get_next_row(int fd)
 {
 	char	*line;
 	char	*res_line;
-	
+
 	line = get_next_line(fd);
 	res_line = ft_strtrim(line, "\n");
 	free(line);
