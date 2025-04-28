@@ -6,12 +6,11 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 21:01:44 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 15:59:55 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "error.h"
+#include "cub3d.h"
 
 
 char	*get_next_row(int fd)

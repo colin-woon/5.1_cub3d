@@ -6,40 +6,11 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/28 15:50:10 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 16:04:00 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-
-static	void	match_word(char	*word_match)
-{
-	static	int i = 0;
-	int		j;
-	char 	**buff;
-	buff = (char *[6]){"NO", "SO", "WE", "EA", "F", "C"}; //doesnt have to follow order
-
-	j = 0;
-	while (j < i)
-	{
-		if (ft_strncmp(word_match, buff[j], ft_strlen(buff[j])) == 0)
-		{
-			ft_putendl_fd("ERROR:", 2);
-			ft_putstr_fd("Duplicate of ", 2);
-			ft_putstr_fd(buff[j], 2);
-			ft_putendl_fd(" found", 2);
-			// ft_dprintf(1, "Duplicate of %s found", buff[j]); // remove library ft_dprintf
-			exit(EXIT_SUCCESS);
-		}
-		j++;
-	}
-	if (ft_strncmp(word_match, buff[i], ft_strlen(buff[i])) != 0)
-		msg("Format of cub is wrong\nexample NO-SO-WE-EA-F-C");
-	i++;
-	return ;
-}
-
 
 static bool	is_empty_line(char *line)
 {
@@ -118,6 +89,9 @@ static void	compare_texture(char *line, t_texture *textures, t_game *game)
 		textures->ceiling_rgb = init_rgb(line);
 	return ;
 }
+
+//i need to check if its the start of the map
+//defined by 1 0 number found on the line
 
 t_texture	*parse_texture(int fd, t_game *game)
 {
