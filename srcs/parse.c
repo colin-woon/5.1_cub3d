@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 21:25:55 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 15:50:10 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@ static	void	match_word(char	*word_match)
 	static	int i = 0;
 	int		j;
 	char 	**buff;
-	buff = (char *[6]){"NO", "SO", "WE", "EA", "F", "C"};
+	buff = (char *[6]){"NO", "SO", "WE", "EA", "F", "C"}; //doesnt have to follow order
 
 	j = 0;
 	while (j < i)
 	{
 		if (ft_strncmp(word_match, buff[j], ft_strlen(buff[j])) == 0)
 		{
-			ft_putstr_fd("ERROR:\n", 1);
-			ft_dprintf(1, "Duplicate of %s found", buff[j]);
+			ft_putendl_fd("ERROR:", 2);
+			ft_putstr_fd("Duplicate of ", 2);
+			ft_putstr_fd(buff[j], 2);
+			ft_putendl_fd(" found", 2);
+			// ft_dprintf(1, "Duplicate of %s found", buff[j]); // remove library ft_dprintf
 			exit(EXIT_SUCCESS);
 		}
 		j++;
@@ -91,7 +94,7 @@ void	*make_img(char	*str, t_game *game)
 	int		img_width;
 	int		img_height;
 	
-	path_to_file = ft_strchr(str, '.');
+	path_to_file = ft_strchr(str, '.'); // not./ maybe
 	img_ptr = mlx_xpm_file_to_image(game->mlx, path_to_file, &img_height, &img_width);
 }
 
@@ -101,7 +104,6 @@ static void	compare_texture(char *line, t_texture *textures, t_game *game)
 		return ;
 	while (*line == '\t' || *line == ' ')
 		line++;
-	match_word(line);
 	if (ft_strncmp(line, "NO", 2) == 0)
 		textures->n_tex_img = make_img(line, game);
 	else if (ft_strncmp(line, "SO", 2) == 0)
@@ -136,10 +138,10 @@ t_texture	*parse_texture(int fd, t_game *game)
 //now need to work on parsing the map
 //would continue to add error handling on the textures
 
-char	**parse_map(int fd, t_game *game)
-{
+// char	**parse_map(int fd, t_game *game)
+// {
 	
-}
+// }
 
 void	parse(char *path_to_cub, t_game *game)
 {
@@ -151,5 +153,5 @@ void	parse(char *path_to_cub, t_game *game)
 	if (fd < 0)
 		error_msg("File cannot be opened");
 	game->textures = parse_texture(fd, game);
-	game->map = parse_map(fd, game);
+	// game->map = parse_map(fd, game);
 }

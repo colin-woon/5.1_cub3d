@@ -6,7 +6,7 @@
 /*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:41:06 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/25 21:18:43 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 15:55:59 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@
 # include "libft.h"
 # include <fcntl.h> //for the open
 # include "error.h"
-# include "ft_dprintf.h"
 
 typedef struct s_texture
 {	
-	void	*n_tex_img;
-	void	*w_tex_img;	
-	void	*e_tex_img;	
-	void	*s_tex_img;	
+	void	*n_tex_img; //no_img_ptr
+	void	*w_tex_img;
+	void	*e_tex_img;
+	void	*s_tex_img;
 
 	int		*floor_rgb;
 	int		*ceiling_rgb;

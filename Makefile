@@ -14,7 +14,7 @@
 CC			=	gcc
 CFLAGS		=	$(INCLUDES)
 WFLAGS		=	-Wall -Werror -Wextra
-INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR) -I$(INC_FT_DPRINTF)
+INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
 DEBUG		=	-g3
 FSAN		=	-fsanitize=address,leak -g3
 RM			=	rm -rf
@@ -27,8 +27,6 @@ LIBFT_DIR		=	libft/
 INC_LIBFT		=	libft/includes
 INC_DIR			=	includes/
 MLX_DIR			=	minilibx-linux/
-FT_DPRINTF_DIR	= 	ft_dprintf/
-INC_FT_DPRINTF	=	ft_dprintf/
 
 
 SRCS_DIR		=	srcs/
@@ -36,7 +34,7 @@ OBJS_DIR		=	bin/
 
 
 
-LIB_FLAGS		=	-L$(FT_DPRINTF_DIR) -lft_dprintf -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz $(FSAN)
+LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz $(FSAN)
 
 SRCS_FILES		=	srcs/main.c srcs/error.c srcs/utils.c srcs/parse.c
 
@@ -53,9 +51,7 @@ all: $(NAME)
 $(NAME): $(OBJS_FILES)
 	make -C $(LIBFT_DIR)
 	make -C $(MLX_DIR)
-	make -C $(FT_DPRINTF_DIR)
 	make clean -C $(LIBFT_DIR)
-	make clean -C $(FT_DPRINTF_DIR)
 	$(CC) $(CFLAGS) $(OBJS_FILES) -o $(NAME) $(LIB_FLAGS)
 
 # Rule to compile the object files
@@ -69,7 +65,6 @@ $(OBJS_DIR):
 
 remake_libft:
 	make re -C $(LIBFT_DIR)
-	make re -C $(FT_DPRINTF_DIR)
 
 # Removes objects
 clean:
@@ -80,7 +75,6 @@ fclean: clean
 	$(RM) $(NAME)
 	make clean -C $(MLX_DIR)
 	make fclean -C $(LIBFT_DIR)
-	make fclean -C $(FT_DPRINTF_DIR)
 
 # Removes objects and executables and remakes
 re: fclean $(OBJS_DIR) all

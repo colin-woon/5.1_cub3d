@@ -1,6 +1,3 @@
 [submodule "minilibx-linux"]
 	path = minilibx-linux
 	url = git@github.com:42paris/minilibx-linux.git
-[submodule "ft_dprintf"]
-	path = ft_dprintf
-	url = git@github.com:ricetea25/ft_dprintf.git
