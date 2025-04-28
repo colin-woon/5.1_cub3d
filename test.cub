@@ -1,8 +1,21 @@
+
+
+
 F 220,100,0
-EA ./path_to_the_east_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
+EA ./texture/test_texture.xpm
+
+SO ./texture/test_texture.xpm
+
+WE ./texture/test_texture.xpm
+
 
 
 C 225,30,0
 NO ./texture/test_texture.xpm
+
+
+	111111
+100101
+101001
+1100N1
+111111
