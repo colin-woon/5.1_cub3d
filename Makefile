@@ -12,11 +12,11 @@
 # add back WFLAGS later to CFLAGS, removed cause it doesnt work for testing
 # Compiler and flags
 CC			=	clang
-CFLAGS		=	$(INCLUDES) $(DEBUG) $(FSAN)
+CFLAGS		=	$(INCLUDES) $(DEBUG)
 WFLAGS		=	-Wall -Werror -Wextra
 INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
 DEBUG		=	-g3
-FSAN		=	-fsanitize=address,leak -g3
+FSAN		=	-fsanitize=address,leak
 RM			=	rm -rf
 
 # Output file name
@@ -33,7 +33,7 @@ SRCS_DIR		=	srcs/
 OBJS_DIR		=	bin/
 
 
-LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz $(FSAN)
+LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
 
 SRCS_FILES		=	srcs/main.c \
