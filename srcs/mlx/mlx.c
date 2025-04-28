@@ -6,13 +6,13 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/14 20:12:22 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/04/28 19:01:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	close_window(int keycode, t_mlx *mlx);
+// int	close_window(int keycode, t_mlx *mlx);
 int	key_hook(int keysym, t_mlx *mlx);
 void	start_mlx();
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -24,7 +24,7 @@ int	key_hook(int keysym, t_mlx *mlx)
 	if (keysym == XK_Escape)
 	{
 		printf("DEBUG: Escape\n");
-		close_window(0, NULL);
+		// close_window(0, NULL);
 	}
 	else if (keysym == XK_Left)
 		printf("Left\n");
@@ -45,13 +45,13 @@ int	key_hook(int keysym, t_mlx *mlx)
 	return (0);
 }
 
-int	close_window(int keycode, t_mlx *mlx)
-{
-	printf("DEBUG: closing window\n");
-	exit(0);
-	// mlx_destroy_window(mlx->mlx, mlx->window);
-	return (0);
-}
+// int	close_window(int keycode, t_mlx *mlx)
+// {
+// 	printf("DEBUG: closing window\n");
+// 	exit(0);
+// 	// mlx_destroy_window(mlx->mlx, mlx->window);
+// 	return (0);
+// }
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -83,7 +83,7 @@ void start_mlx()
 
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, WIDTH, HEIGHT, "Cub3d");
-	mlx_hook(mlx.window, DestroyNotify, 0, close_window, &mlx);
+	// mlx_hook(mlx.window, DestroyNotify, 0, close_window, &mlx);
 	mlx_hook(mlx.window, KeyPress, 1, key_hook, &mlx);
 	put_one_pixel(&mlx);
 	img = mlx_xpm_file_to_image(mlx.ptr, relative_path, &img_width, &img_height);

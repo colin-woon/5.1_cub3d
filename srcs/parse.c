@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/28 16:31:13 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/28 18:48:44 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void *make_img(char *str, t_game *game)
 	int img_height;
 
 	path_to_file = ft_strchr(str, '.'); // not./ maybe
-	img_ptr = mlx_xpm_file_to_image(game->mlx, path_to_file, &img_height, &img_width);
+	img_ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img_height, &img_width);
+	return (img_ptr);
 }
 
 static void compare_texture(char *line, t_texture *textures, t_game *game)
@@ -98,7 +99,7 @@ static bool start_of_map(char *line)
 
 	i = 0;
 	while (line[i])
-		if (ftisdigit(line[i++]))
+		if (ft_isdigit(line[i++]))
 			return true;
 	return false;
 }
@@ -107,7 +108,8 @@ static bool start_of_map(char *line)
 
 static void check_texture_complete(t_texture *textures)
 {
-	if (textures->no_img_ptr == NULL || textures->ea_img_ptr == NULL 
+	if (textures->no_img_ptr == NULL
+		|| textures->ea_img_ptr == NULL
 		|| textures->we_img_ptr == NULL
 		|| textures->so_img_ptr == NULL)
 	{
@@ -124,7 +126,7 @@ t_texture *parse_texture(int fd, t_game *game)
 	line = get_next_row(fd);
 	while (line != NULL)
 	{
-		if (start_of_map)
+		if (start_of_map(line))
 			break;
 		compare_texture(line, textures, game);
 		free(line);
