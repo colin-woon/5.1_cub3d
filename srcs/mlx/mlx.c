@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 19:24:52 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/02 17:44:30 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	close_window(int keycode, t_mlx *mlx);
 int	key_hook(int keysym, t_mlx *mlx);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void draw_vertical_line(t_mlx *mlx, int length, int color);
 
 int	key_hook(int keysym, t_mlx *mlx)
 {
@@ -69,17 +70,37 @@ void put_one_pixel(t_mlx *mlx)
 
 	mlx->img->address = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bits_per_pixel, &mlx->img->line_length,
 								&mlx->img->endian);
-	my_mlx_pixel_put(mlx->img, 10, 10, create_trgb(0, 220, 100, 0));
+	draw_vertical_line(mlx, 100, 0);
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
+}
+// DEBUG: create_trgb should change to color/texture
+void draw_vertical_line(t_mlx *mlx, int length, int color)
+{
+	(void)color;
+	int y = 0;
+
+	while (y < length)
+	{
+		my_mlx_pixel_put(mlx->img, WIDTH/2, HEIGHT/2 - y, create_trgb(0, 220, 100, 0));
+		my_mlx_pixel_put(mlx->img, WIDTH/2, HEIGHT/2 + y, create_trgb(0, 220, 100, 0));
+		y++;
+	}
 }
 
 void start_mlx(t_game *game)
 {
 	t_mlx	mlx;
 	void	*img;
-	char	*relative_path = "imgs/Tung_tung_tung_tung_tung_sahur.xpm";
+	// char	*relative_path = "imgs/Tung_tung_tung_tung_tung_sahur.xpm";
 	int		img_width;
 	int		img_height;
+	int		debug_map[4][4] =
+	{
+		{1, 1 ,1, 1},
+		{1, 0 ,0, 1},
+		{1, 0 ,'N', 1},
+		{1, 1 ,1, 1},
+	};
 
 	game->mlx_data = malloc(sizeof(t_mlx));
 	game->mlx_data->ptr = mlx_init();
@@ -87,9 +108,9 @@ void start_mlx(t_game *game)
 	mlx_hook(game->mlx_data->window, DestroyNotify, 0, close_window, &game->mlx_data);
 	mlx_hook(game->mlx_data->window, KeyPress, 1, key_hook, &game->mlx_data);
 	put_one_pixel(game->mlx_data);
-	img = mlx_xpm_file_to_image(game->mlx_data->ptr, relative_path, &img_width, &img_height);
-	if (!img)
-		printf("image failed to read\n");
-	mlx_put_image_to_window(game->mlx_data->ptr, game->mlx_data->window, img, 100, 100);
+	// img = mlx_xpm_file_to_image(game->mlx_data->ptr, relative_path, &img_width, &img_height);
+	// if (!img)
+	// 	printf("image failed to read\n");
+	// mlx_put_image_to_window(game->mlx_data->ptr, game->mlx_data->window, img, 100, 100);
 	mlx_loop(game->mlx_data->ptr);
 }
