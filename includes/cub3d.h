@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 16:23:53 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/30 21:58:35 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,30 @@ typedef struct s_texture
 	int		*ceiling_rgb;
 }	t_texture;
 
+typedef	struct s_map
+{
+	int	map_height;
+	int	map_width;
+	
+	char	**map_layout;
+
+	
+}	t_map;
+
+
 typedef struct s_game
 {
 	void 		*mlx;
 	void 		*mlx_win;
 	t_texture	*textures;
-	char		**map;
+	t_map		*map;
 } t_game;
 
 char		*get_next_row(int fd);
 bool		ft_strend(char *s, char *suffix);
 int			open_file(char *path_to_file);
 void		parse(char *path_to_cub, t_game *game);
-t_texture	*parse_texture(int fd, t_game *game);
+void		parse_texture(char *line, t_game *game);
 
 
 void	error_msg(char *err);

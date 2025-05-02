@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/28 16:26:50 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/04/30 22:14:24 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int close_window(int keycode, t_game *game)
 
 int main(int ac, char *av[])
 {
-	t_game game;
+	t_game game = {0};
 	int x;
 	int y;
 

@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/28 16:49:53 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/02 16:52:48 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,7 @@ static bool start_of_map(char *line)
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (ft_isdigit(line[i]))
-	{
-		printf("%s\n", line);
 		return true;
-	}
 	return false;
 }
 
@@ -112,7 +109,8 @@ static bool start_of_map(char *line)
 
 static void check_texture_complete(t_texture *textures)
 {
-	if (textures->no_img_ptr == NULL || textures->ea_img_ptr == NULL 
+	if (textures->no_img_ptr == NULL
+		|| textures->ea_img_ptr == NULL 
 		|| textures->we_img_ptr == NULL
 		|| textures->so_img_ptr == NULL)
 	{
@@ -120,42 +118,79 @@ static void check_texture_complete(t_texture *textures)
 	}
 }
 
-t_texture *parse_texture(int fd, t_game *game)
+t_texture	*init_textures(void)
 {
-	char *line;
-	t_texture *textures;
-
+	t_texture	*textures;
+	
 	textures = ft_calloc(1, sizeof(t_texture));
-	line = get_next_row(fd);
-	while (line != NULL)
-	{
-		if (start_of_map(line))
-			break;
-		compare_texture(line, textures, game);
-		free(line);
-		line = get_next_row(fd);
-	}
-	check_texture_complete(textures);
+	if (textures == NULL)
+		error_msg("CALLOC ERROR\n");
 	return (textures);
+}
+
+
+
+void	parse_texture(char *line, t_game *game)
+{
+	if (!game->textures)
+		game->textures = init_textures();
+	compare_texture(line, game->textures, game);
+	return ;
 }
 
 // now need to work on parsing the map
 // would continue to add error handling on the textures
 
-// char	**parse_map(int fd, t_game *game)
-// {
+void	store_map(char *line, char **map_layout, int map_height)
+{
+	int	i;
 
-// }
+	i = map_height;
+	if (!map_layout)
+		map_layout = ft_calloc(1, sizeof(char *) * (i + 2));
+	while (map_layout[i] != NULL)
+		i++;
+	map_layout[i] = line;
+	map_layout[i] = new_layout;
+}
+
+t_map	*parse_map(int fd, char *line, t_game *game)
+{
+	t_map	*map;
+	int		map_height;
+	int		map_width;
+	
+	map_height = 1;
+	map = ft_calloc(1, sizeof(t_map));
+	while (line != NULL)
+	{
+		store_map(line, map->map_layout, map_height);
+		free(line);
+		line = get_next_row(fd);
+	}
+	map->map_height = map_height;
+	return (map);
+}
 
 void parse(char *path_to_cub, t_game *game)
 {
-	int fd;
+	int 	fd;
+	char	*line;
 
 	if (ft_strend(path_to_cub, ".cub") == false)
 		msg("input given is not a .cub file");
 	fd = open_file(path_to_cub);
 	if (fd < 0)
 		error_msg("File cannot be opened");
-	game->textures = parse_texture(fd, game);
-	// game->map = parse_map(fd, game);
+	line = get_next_row(fd);
+	while (line != NULL)
+	{
+		if (start_of_map(line))
+			break;
+		parse_texture(line, game);
+		free(line);
+		line = get_next_row(fd);
+	}
+	check_texture_complete(game->textures);
+	game->map = parse_map(fd, line, game);
 }
