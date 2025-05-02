@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/02 17:59:21 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/02 18:45:01 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	key_hook(int keysym, t_mlx *mlx);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void draw_vertical_line(t_mlx *mlx, int from, int to, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int color);
 
 int	key_hook(int keysym, t_mlx *mlx)
 {
@@ -63,13 +64,14 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void put_one_pixel(t_mlx *mlx)
+void draw_pixels(t_mlx *mlx)
 {
 	mlx->img = malloc(sizeof(t_img));
 	mlx->img->ptr = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
 
 	mlx->img->address = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bits_per_pixel, &mlx->img->line_length,
 								&mlx->img->endian);
+	init_floor_and_ceiling(mlx, 0);
 	draw_vertical_line(mlx, 100, 500, 0);
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
@@ -83,6 +85,36 @@ void draw_vertical_line(t_mlx *mlx, int from, int to, int color)
 	{
 		my_mlx_pixel_put(mlx->img, WIDTH/2, y, create_trgb(0, 220, 100, 0));
 		y++;
+	}
+}
+
+// DEBUG: should add ceiling texture, floor texture
+void init_floor_and_ceiling(t_mlx *mlx, int color)
+{
+	int x;
+	int y;
+
+	(void)color;
+	x = 0;
+	while (x < HEIGHT/2)
+	{
+		y = 0;
+		while (y < WIDTH)
+		{
+			my_mlx_pixel_put(mlx->img, y, x, create_trgb(0, 0, 0, 220));
+			y++;
+		}
+		x++;
+	}
+	while (x < HEIGHT)
+	{
+		y = 0;
+		while (y < WIDTH)
+		{
+			my_mlx_pixel_put(mlx->img, y, x, create_trgb(0, 0, 220, 0));
+			y++;
+		}
+		x++;
 	}
 }
 
@@ -106,7 +138,7 @@ void start_mlx(t_game *game)
 	game->mlx_data->window = mlx_new_window(game->mlx_data->ptr, WIDTH, HEIGHT, "Cub3d");
 	mlx_hook(game->mlx_data->window, DestroyNotify, 0, close_window, &game->mlx_data);
 	mlx_hook(game->mlx_data->window, KeyPress, 1, key_hook, &game->mlx_data);
-	put_one_pixel(game->mlx_data);
+	draw_pixels(game->mlx_data);
 	// img = mlx_xpm_file_to_image(game->mlx_data->ptr, relative_path, &img_width, &img_height);
 	// if (!img)
 	// 	printf("image failed to read\n");

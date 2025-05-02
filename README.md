@@ -61,8 +61,39 @@ C 225,30,0
 
 
 ## Execution
-- get a simple map with a player starting position
-- dot all the points of the map, use top view 2D
-- then draw a straight line first until it hits a wall with DDA
-- center all the points in the middle
-- scale it to become bigger
+- render raycast first
+	- init pixels texture?
+	- init player variables
+	- init raycasting variables
+	- run raycasting (will loop window width)
+		- calculate the rays from the player position
+		- setup DDA
+		- perform DDA
+		- calculate the line height
+		- update pixel textures
+	- render frame
+		- sets the image frame pixels
+
+player start position
+posX
+posY
+
+player direction vector (defines the camera direction)
+dirX = -1
+dirY = 1
+
+camera (should always be perpendicular to the direction)
+planeX = 0
+planeY = 0.66
+FOV depends on ratio between (length of direction:camera plane)
+
+when rotating around with input keys, the values of
+dir
+plane
+will change, but they always remain perpendicular to each other and keep the same length
+
+time and old time, used for FPS, difference between them can determine how much the rays should move when a key is pressed
+
+EVERYTHING IN A LOOP
+- use DDA to determine whether hit to a wall or not
+- once hit a wall, only calculate its line height
