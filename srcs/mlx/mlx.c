@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/02 17:44:30 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/02 17:59:21 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	close_window(int keycode, t_mlx *mlx);
 int	key_hook(int keysym, t_mlx *mlx);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void draw_vertical_line(t_mlx *mlx, int length, int color);
+void draw_vertical_line(t_mlx *mlx, int from, int to, int color);
 
 int	key_hook(int keysym, t_mlx *mlx)
 {
@@ -70,19 +70,18 @@ void put_one_pixel(t_mlx *mlx)
 
 	mlx->img->address = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bits_per_pixel, &mlx->img->line_length,
 								&mlx->img->endian);
-	draw_vertical_line(mlx, 100, 0);
+	draw_vertical_line(mlx, 100, 500, 0);
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
 // DEBUG: create_trgb should change to color/texture
-void draw_vertical_line(t_mlx *mlx, int length, int color)
+void draw_vertical_line(t_mlx *mlx, int from, int to, int color)
 {
 	(void)color;
-	int y = 0;
+	int y = from;
 
-	while (y < length)
+	while (y < to)
 	{
-		my_mlx_pixel_put(mlx->img, WIDTH/2, HEIGHT/2 - y, create_trgb(0, 220, 100, 0));
-		my_mlx_pixel_put(mlx->img, WIDTH/2, HEIGHT/2 + y, create_trgb(0, 220, 100, 0));
+		my_mlx_pixel_put(mlx->img, WIDTH/2, y, create_trgb(0, 220, 100, 0));
 		y++;
 	}
 }
