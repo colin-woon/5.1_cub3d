@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 19:16:08 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 18:06:41 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h> //for the open
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <math.h>
 
 # define WIDTH 1200
 # define HEIGHT 800
@@ -50,12 +51,43 @@ typedef struct	s_mlx {
 	t_img	*img;
 }	t_mlx;
 
+typedef struct	s_player {
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_player;
+
+typedef struct	s_raycasting {
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	prep_wall_dist;
+	int		step_x;
+	int		step_y;
+	int		is_wall_hit;
+	int		wall_hit_side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_ray;
+
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
 	t_texture	*textures;
+	t_player	*player;
+	t_ray		*ray;
 	char		**map;
-} t_game;
+}	t_game;
 
 
 char		*get_next_row(int fd);
@@ -74,6 +106,11 @@ int debug_event(int keycode, t_mlx *mlx);
 int	close_window(int keycode, t_mlx *mlx);
 int	key_hook(int keysym, t_mlx *mlx);
 void	start_mlx(t_game *game);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void init_mlx_img(t_mlx *mlx);
+void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int color);
+
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);
