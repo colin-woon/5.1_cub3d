@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/02 16:52:48 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/06 02:19:25 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static bool start_of_map(char *line)
 static void check_texture_complete(t_texture *textures)
 {
 	if (textures->no_img_ptr == NULL
-		|| textures->ea_img_ptr == NULL 
+		|| textures->ea_img_ptr == NULL
 		|| textures->we_img_ptr == NULL
 		|| textures->so_img_ptr == NULL)
 	{
@@ -121,7 +121,7 @@ static void check_texture_complete(t_texture *textures)
 t_texture	*init_textures(void)
 {
 	t_texture	*textures;
-	
+
 	textures = ft_calloc(1, sizeof(t_texture));
 	if (textures == NULL)
 		error_msg("CALLOC ERROR\n");
@@ -141,17 +141,164 @@ void	parse_texture(char *line, t_game *game)
 // now need to work on parsing the map
 // would continue to add error handling on the textures
 
-void	store_map(char *line, char **map_layout, int map_height)
+// void	free_layout(char **map_layout)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!map_layout)
+// 		return ;
+// 	while (map_layout[i] != NULL)
+// 		free(map_layout[i++]);
+// 	free(map_layout[i]);
+// 	return ;
+// }
+
+void	store_map(char *line, t_map *map, int map_height)
+{
+	char	**rows;
+	int		i;
+
+	i = 0;
+	rows = malloc(sizeof(*rows) * (map_height + 2));
+	if (!rows)
+		error_msg("malloc error\n");
+	if (ft_strlen(line) > map->map_width)
+		map->map_width = ft_strlen(line);
+	while (i < map_height)
+	{
+		rows[i] = map->map_layout[i];
+		i++;
+	}
+	rows[i] = line;
+	rows[i + 1] = NULL;
+	free(map->map_layout);
+	map->map_layout = rows;
+}
+
+bool	ft_iswall(int c)
+{
+	if (c == '1')
+		return true;
+	return false;
+}
+
+void	check_wall_behind(char *row, int i)
+{
+	if (i == 0)
+		return ;
+	else
+		if (!ft_iswall(row[i - 1]))
+			msg("map is not closed\n");
+	return ;
+}
+
+bool	ft_isplayer(char c)
+{
+	if (c == 'W' || c == 'E' || c == 'N' || c == 'S')
+		return true;
+	return false;
+}
+
+bool	ft_iszero(char c)
+{
+	if (c == '0')
+		return true;
+	return false;
+}
+
+
+void	check_horizontal_walls(char *row)
 {
 	int	i;
 
-	i = map_height;
-	if (!map_layout)
-		map_layout = ft_calloc(1, sizeof(char *) * (i + 2));
-	while (map_layout[i] != NULL)
+	i = 0;
+	while (row[i])
+	{
+		if (ft_isspace(row[i]))
+		{
+			check_wall_behind(row, i);
+			while (ft_isspace(row[i]))
+				i++;
+			if (!ft_iswall(row[i++]))
+				msg("map is not closed\n");
+		}
+		while (ft_iszero(row[i]) || ft_isplayer(row[i]))
+			i++;
+		if (!ft_iswall(row[i++]))
+			msg("map is not closed\n");
+	}
+	// 	printf("%c", row[i]);
+}
+
+void	check_above_wall(char **rows, int i, int j)
+{
+	if (i == 0)
+		return ;
+	if (!ft_iswall(rows[--i][j]))
+		msg("map is not closed\n");
+	return ;
+}
+
+void	check_vertical_walls(t_map	*map)
+{
+	int	i;
+	int	j;
+	char	**rows;
+
+	j = 0;
+	rows = map->map_layout;
+	printf("map width: %i\n", map->map_width);
+	printf("map height: %i\n", map->map_height);
+	while (j < map->map_width)
+	{
+		i = 0;
+		while (i < map->map_height)
+		{
+			printf("%c", rows[i][j]);
+			if (ft_isspace(rows[i][j]))
+			{
+				printf("checking space\n");
+				check_above_wall(rows, i, j);
+				while (ft_isspace(rows[i][j]))
+					i++;
+				if (!ft_iswall(rows[i++][j]))
+					msg("map not closed\n");
+			}
+			while (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j]))
+			{
+				printf("%c", rows[i][j]);
+				i++;
+			}
+			if (!ft_iswall(rows[i][j]))
+				msg("map not closed\n");
+			i++;
+		}
+		printf("\nline done\n");
+		j++;
+	}
+}
+
+void	check_valid_map(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	//i first look at a string
+	//i skip all spaces
+	//if i dont find a one
+	//its error
+	//imagine the spaces are squares
+	// i only need to check the 1 and 0 if its the last row of the space square
+	//also the first row
+	while (i < map->map_height)
+	{
+		check_horizontal_walls(map->map_layout[i]);
 		i++;
-	map_layout[i] = line;
-	map_layout[i] = new_layout;
+	}
+	// we can run a backwards check in horizontal to make sure that it ends with a 1
+	//also after that we can check if the 0 behind the 1 has a 1 surrounding it
+	check_vertical_walls(map);
 }
 
 t_map	*parse_map(int fd, char *line, t_game *game)
@@ -159,16 +306,26 @@ t_map	*parse_map(int fd, char *line, t_game *game)
 	t_map	*map;
 	int		map_height;
 	int		map_width;
-	
-	map_height = 1;
+
+	map_height = 0;
 	map = ft_calloc(1, sizeof(t_map));
 	while (line != NULL)
 	{
-		store_map(line, map->map_layout, map_height);
-		free(line);
+		store_map(line, map, map_height);
+		map_height++;
 		line = get_next_row(fd);
 	}
+	// int i;
+	// i = 0;
+	// while (map->map_layout[i] != NULL)
+	// {
+	// 	printf("%s\n", map->map_layout[i]);
+	// 	i++;
+	// }
 	map->map_height = map_height;
+	// printf("%i\n", map->map_height);
+	// printf("%i\n", map->map_width);
+	check_valid_map(map);
 	return (map);
 }
 
