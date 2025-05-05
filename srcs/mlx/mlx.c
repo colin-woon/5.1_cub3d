@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 20:49:23 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 20:54:21 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,14 @@ int	key_hook(int keysym, t_game *game)
 		printf("w\n");
 	}
 	else if (keysym == XK_a)
+	{
+		// Move left (perpendicular to direction, using plane vector)
+		if(game->map[(int)(game->player->pos_x - game->player->plane_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
+			game->player->pos_x -= game->player->plane_x * MOVE_SPEED;
+		if(game->map[(int)game->player->pos_x][(int)(game->player->pos_y - game->player->plane_y * MOVE_SPEED)] == false)
+			game->player->pos_y -= game->player->plane_y * MOVE_SPEED;
 		printf("a\n");
+	}
 	else if (keysym == XK_s)
 	{
 		if(game->map[(int)(game->player->pos_x - game->player->dir_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
@@ -68,7 +75,14 @@ int	key_hook(int keysym, t_game *game)
 		printf("s\n");
 	}
 	else if (keysym == XK_d)
+	{
+		// Move right (perpendicular to direction, using plane vector)
+		if(game->map[(int)(game->player->pos_x + game->player->plane_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
+			game->player->pos_x += game->player->plane_x * MOVE_SPEED;
+		if(game->map[(int)game->player->pos_x][(int)(game->player->pos_y + game->player->plane_y * MOVE_SPEED)] == false)
+			game->player->pos_y += game->player->plane_y * MOVE_SPEED;
 		printf("d\n");
+	}
 	run_raycasting(game->ray, game->player, game->mlx_data, game);
 	return (0);
 }
