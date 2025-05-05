@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 19:53:21 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 20:26:44 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,17 @@ typedef struct	s_raycasting {
 	int		draw_end;
 }	t_ray;
 
+// DEBUG: TEMPORARY HARDCODED
+#define MAP_WIDTH 24
+#define MAP_HEIGHT 24
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
 	t_texture	*textures;
 	t_player	*player;
 	t_ray		*ray;
-	char		**map;
+	// int		**map;
+	int			map[MAP_HEIGHT][MAP_WIDTH];
 }	t_game;
 
 
@@ -113,7 +117,7 @@ void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
 void init_floor_and_ceiling(t_mlx *mlx, int color);
 
-void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx);
+void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 
 
 // mlx_colour_utils.c

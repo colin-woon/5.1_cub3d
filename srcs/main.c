@@ -6,54 +6,19 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/05 20:10:59 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 20:33:21 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void init_player(t_player **player);
-void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx);
+void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 
 int main(int ac, char *av[])
 {
 	t_game	game;
 
-	// if (ac != 2)
-	// {
-	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
-	// 	return (0);
-	// }
-	// parse(av[1], &game);
-	start_mlx(&game);
-	init_player(&game.player);
-	run_raycasting(game.ray, game.player, game.mlx_data);
-	// mlx_loop_hook(game.mlx_data, render_movement, &game);
-	mlx_hook(game.mlx_data->window, KeyPress, 1, key_hook, &game);
-	mlx_loop(game.mlx_data->ptr);
-	return (0);
-}
-
-void init_player(t_player **player)
-{
-	*player = malloc(sizeof(t_player));
-	(*player)->pos_x = 22;
-	(*player)->pos_y = 12;
-	(*player)->dir_x = -1;
-	(*player)->dir_y = 0;
-	(*player)->plane_x = 0;
-	(*player)->plane_y = 0.66;
-
-	printf("\n--- Player Initial Values ---\n");
-    printf("Position: (x: %.2f, y: %.2f)\n", (*player)->pos_x, (*player)->pos_y);
-    printf("Direction: (x: %.2f, y: %.2f)\n", (*player)->dir_x, (*player)->dir_y);
-    printf("Camera Plane: (x: %.2f, y: %.2f)\n", (*player)->plane_x, (*player)->plane_y);
-    printf("---------------------------\n\n");
-}
-
-void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx)
-{
-	ray = malloc(sizeof(t_ray));
 	int		debug_map[24][24] =
 	{
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -81,18 +46,56 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx)
 		{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
+	memcpy(game.map, debug_map, sizeof(debug_map));
+
+	// if (ac != 2)
+	// {
+	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
+	// 	return (0);
+	// }
+	// parse(av[1], &game);
+	start_mlx(&game);
+	init_player(&game.player);
+	run_raycasting(game.ray, game.player, game.mlx_data, &game);
+	// mlx_loop_hook(game.mlx_data, render_movement, &game);
+	mlx_hook(game.mlx_data->window, KeyPress, 1, key_hook, &game);
+	mlx_loop(game.mlx_data->ptr);
+	return (0);
+}
+
+void init_player(t_player **player)
+{
+	*player = malloc(sizeof(t_player));
+	(*player)->pos_x = 22;
+	(*player)->pos_y = 12;
+	(*player)->dir_x = -1;
+	(*player)->dir_y = 0;
+	(*player)->plane_x = 0;
+	(*player)->plane_y = 0.66;
+
+	printf("\n--- Player Initial Values ---\n");
+    printf("Position: (x: %.2f, y: %.2f)\n", (*player)->pos_x, (*player)->pos_y);
+    printf("Direction: (x: %.2f, y: %.2f)\n", (*player)->dir_x, (*player)->dir_y);
+    printf("Camera Plane: (x: %.2f, y: %.2f)\n", (*player)->plane_x, (*player)->plane_y);
+    printf("---------------------------\n\n");
+}
+
+void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
+{
+	ray = malloc(sizeof(t_ray));
 
 	int x = 0;
-	printf("\n--- Player Initial Values ---\n");
-    printf("Position: (x: %.2f, y: %.2f)\n", player->pos_x, player->pos_y);
-    printf("Direction: (x: %.2f, y: %.2f)\n", player->dir_x, player->dir_y);
-    printf("Camera Plane: (x: %.2f, y: %.2f)\n", player->plane_x, player->plane_y);
-    printf("---------------------------\n\n");
+	// printf("\n--- Player Initial Values ---\n");
+    // printf("Position: (x: %.2f, y: %.2f)\n", player->pos_x, player->pos_y);
+    // printf("Direction: (x: %.2f, y: %.2f)\n", player->dir_x, player->dir_y);
+    // printf("Camera Plane: (x: %.2f, y: %.2f)\n", player->plane_x, player->plane_y);
+    // printf("---------------------------\n\n");
 
+	init_floor_and_ceiling(mlx, 0);
 
 	while (x < WIDTH)
 	{
-		printf("test\n");
+		// printf("DEBUG: test\n");
 		ray->camera_x = 2 * x / (double)WIDTH - 1;
 		ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
 		ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
@@ -149,7 +152,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx)
 				ray->wall_hit_side = 1;
 			}
 
-			if (debug_map[map_x][map_y] > 0)
+			if (game->map[map_x][map_y] > 0)
 				ray->is_wall_hit = 1;
 		}
 
@@ -171,7 +174,6 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx)
 		x++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
-	// mlx_destroy_image(mlx->ptr, mlx->img->ptr);
 }
 
 // int render(t_game *game)

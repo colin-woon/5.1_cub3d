@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 19:57:34 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 20:32:27 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	key_hook(int keysym, t_game *game)
 		printf("s\n");
 	else if (keysym == XK_d)
 		printf("d\n");
-	run_raycasting(game->ray, game->player, game->mlx_data);
+	run_raycasting(game->ray, game->player, game->mlx_data, game);
 	return (0);
 }
 
@@ -65,7 +65,6 @@ int	close_window(int keycode, t_mlx *mlx)
 {
 	printf("DEBUG: closing window\n");
 	exit(0);
-	// mlx_destroy_window(mlx->mlx, mlx->window);
 	return (0);
 }
 
@@ -85,9 +84,6 @@ void init_mlx_img(t_mlx *mlx)
 
 	mlx->img->address = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bits_per_pixel, &mlx->img->line_length,
 								&mlx->img->endian);
-	init_floor_and_ceiling(mlx, 0);
-	// draw_vertical_line(mlx, 100, 500, 0);
-	// mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
 // DEBUG: create_trgb should change to color/texture
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color)
