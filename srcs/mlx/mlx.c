@@ -6,21 +6,21 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 18:06:29 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 19:57:34 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 int	close_window(int keycode, t_mlx *mlx);
-int	key_hook(int keysym, t_mlx *mlx);
+int	key_hook(int keysym, t_game *game);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
 void init_floor_and_ceiling(t_mlx *mlx, int color);
 
-int	key_hook(int keysym, t_mlx *mlx)
+int	key_hook(int keysym, t_game *game)
 {
 	// printf("DEBUG: sym INT is %d\n", keysym);
 	printf("DEBUG: sym HEXA is %x\n", keysym);
@@ -30,21 +30,34 @@ int	key_hook(int keysym, t_mlx *mlx)
 		close_window(0, NULL);
 	}
 	else if (keysym == XK_Left)
+	{
+		double old_dirX = game->player->dir_x;
+		game->player->dir_x = game->player->dir_x * cos(ROTATION_SPEED) - game->player->dir_y * sin(ROTATION_SPEED);
+		game->player->dir_y = old_dirX * sin(ROTATION_SPEED) + game->player->dir_y * cos(ROTATION_SPEED);
+		double oldPlaneX = game->player->plane_x;
+		game->player->plane_x = game->player->plane_x * cos(ROTATION_SPEED) - game->player->plane_y * sin(ROTATION_SPEED);
+		game->player->plane_y = oldPlaneX * sin(ROTATION_SPEED) + game->player->plane_y * cos(ROTATION_SPEED);
 		printf("Left\n");
+	}
 	else if (keysym == XK_Right)
+	{
+		double oldDirX = game->player->dir_x;
+		game->player->dir_x = game->player->dir_x * cos(-ROTATION_SPEED) - game->player->dir_y * sin(-ROTATION_SPEED);
+		game->player->dir_y = oldDirX * sin(-ROTATION_SPEED) + game->player->dir_y * cos(-ROTATION_SPEED);
+		double oldPlaneX = game->player->plane_x;
+		game->player->plane_x = game->player->plane_x * cos(-ROTATION_SPEED) - game->player->plane_y * sin(-ROTATION_SPEED);
+		game->player->plane_y = oldPlaneX * sin(-ROTATION_SPEED) + game->player->plane_y * cos(-ROTATION_SPEED);
 		printf("Right\n");
-	else if (keysym == XK_Up)
-		printf("Up\n");
-	else if (keysym == XK_Down)
-		printf("Down\n");
+	}
 	else if (keysym == XK_w)
-	printf("w\n");
+		printf("w\n");
 	else if (keysym == XK_a)
-	printf("a\n");
+		printf("a\n");
 	else if (keysym == XK_s)
-	printf("s\n");
+		printf("s\n");
 	else if (keysym == XK_d)
-	printf("d\n");
+		printf("d\n");
+	run_raycasting(game->ray, game->player, game->mlx_data);
 	return (0);
 }
 
@@ -132,7 +145,6 @@ void start_mlx(t_game *game)
 	game->mlx_data->ptr = mlx_init();
 	game->mlx_data->window = mlx_new_window(game->mlx_data->ptr, WIDTH, HEIGHT, "Cub3d");
 	mlx_hook(game->mlx_data->window, DestroyNotify, 0, close_window, &game->mlx_data);
-	mlx_hook(game->mlx_data->window, KeyPress, 1, key_hook, &game->mlx_data);
 	init_mlx_img(game->mlx_data);
 	// draw_pixels(game->mlx_data);
 	// img = mlx_xpm_file_to_image(game->mlx_data->ptr, relative_path, &img_width, &img_height);

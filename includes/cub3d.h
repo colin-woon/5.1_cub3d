@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 18:06:41 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 19:53:21 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define MOVE_SPEED 0.2
+# define ROTATION_SPEED 0.05
 
 typedef struct s_texture
 {
@@ -104,12 +106,14 @@ int debug_event(int keycode, t_mlx *mlx);
 
 // mlx.c
 int	close_window(int keycode, t_mlx *mlx);
-int	key_hook(int keysym, t_mlx *mlx);
+int	key_hook(int keysym, t_game *game);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
 void init_floor_and_ceiling(t_mlx *mlx, int color);
+
+void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx);
 
 
 // mlx_colour_utils.c

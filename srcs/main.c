@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/05 18:06:57 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 20:10:59 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int main(int ac, char *av[])
 	start_mlx(&game);
 	init_player(&game.player);
 	run_raycasting(game.ray, game.player, game.mlx_data);
-	mlx_put_image_to_window(game.mlx_data->ptr, game.mlx_data->window, game.mlx_data->img->ptr, 0, 0);
+	// mlx_loop_hook(game.mlx_data, render_movement, &game);
+	mlx_hook(game.mlx_data->window, KeyPress, 1, key_hook, &game);
 	mlx_loop(game.mlx_data->ptr);
 	return (0);
 }
@@ -169,4 +170,12 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx)
 		draw_vertical_line(mlx, x, ray->draw_start, ray->draw_end, create_trgb(0, 220, 0, 0));
 		x++;
 	}
+	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
+	// mlx_destroy_image(mlx->ptr, mlx->img->ptr);
 }
+
+// int render(t_game *game)
+// {
+// 	render_movement()
+// 	run_raycasting(game->ray, game->player, game->mlx_data);
+// }
