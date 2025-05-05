@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 20:26:44 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/05 20:50:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define MOVE_SPEED 0.2
+# define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.05
 
 typedef struct s_texture
