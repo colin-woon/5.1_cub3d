@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/06 16:07:39 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/06 16:25:33 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@
 # define WIDTH 1200
 # define HEIGHT 800
 # define MOVE_SPEED 0.15
-# define ROTATION_SPEED 0.05
+# define ROTATION_SPEED 0.08
+
+// DEBUG: TEMPORARY HARDCODED
+#define DEBUG_MAP_WIDTH 5
+#define DEBUG_MAP_HEIGHT 5
+# define DEBUG_PLAYER_POS_X 3
+# define DEBUG_PLAYER_POS_Y 3
 
 typedef struct s_texture
 {
@@ -82,9 +88,6 @@ typedef struct	s_raycasting {
 	int		draw_end;
 }	t_ray;
 
-// DEBUG: TEMPORARY HARDCODED
-#define MAP_WIDTH 24
-#define MAP_HEIGHT 24
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
@@ -92,7 +95,7 @@ typedef struct s_game
 	t_player	*player;
 	t_ray		*ray;
 	// int		**map;
-	int			map[MAP_HEIGHT][MAP_WIDTH];
+	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
 }	t_game;
 
 
