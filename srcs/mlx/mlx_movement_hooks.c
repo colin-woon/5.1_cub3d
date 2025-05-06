@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:43:47 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/06 16:00:49 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/06 17:00:35 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,5 @@ int	movement_keys(int keysym, t_game *game)
 			game->player->pos_y += game->player->plane_y * MOVE_SPEED;
 		printf("d\n");
 	}
-	run_raycasting(game->ray, game->player, game->mlx_data, game);
 	return (0);
 }

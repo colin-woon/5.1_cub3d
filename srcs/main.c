@@ -6,13 +6,15 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/06 16:34:38 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/06 16:58:55 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
+int	game_loop(t_game *game);
+
 void	run_mlx(t_game *game);
 
 int main(int ac, char *av[])
@@ -73,7 +75,14 @@ int main(int ac, char *av[])
 void	run_mlx(t_game *game)
 {
 	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
+	mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
 	mlx_loop(game->mlx_data->ptr);
+}
+
+int	game_loop(t_game *game)
+{
+	run_raycasting(game->ray, game->player, game->mlx_data, game);
+	return (0);
 }
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
