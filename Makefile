@@ -16,7 +16,7 @@ CFLAGS		=	$(INCLUDES) $(DEBUG) $(FSAN)
 WFLAGS		=	-Wall -Werror -Wextra
 INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
 DEBUG		=	-g3
-FSAN		=	-fsanitize=address,leak -g3
+FSAN		=	-fsanitize=address,leak
 RM			=	rm -rf
 
 # Output file name
@@ -41,8 +41,11 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/main.c \
 					srcs/parse.c \
 					srcs/utils.c \
+					srcs/utils_cleanup.c \
+					srcs/init.c \
 					srcs/mlx/mlx_colour_utils.c \
-					srcs/mlx/mlx.c
+					srcs/mlx/mlx.c \
+					srcs/mlx/mlx_movement_hooks.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 

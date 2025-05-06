@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/05 20:50:28 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/06 16:07:39 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,22 @@ void	msg(char *err);
 // debug.c
 int debug_event(int keycode, t_mlx *mlx);
 
+// mlx_movement_hooks.c
+int	movement_keys(int keysym, t_game *game);
+
 // mlx.c
-int	close_window(int keycode, t_mlx *mlx);
-int	key_hook(int keysym, t_game *game);
+int	close_window(int keycode, t_game *game);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
 void init_floor_and_ceiling(t_mlx *mlx, int color);
+
+// init.c
+void init_player(t_player **player);
+
+// utils_cleanup.c
+void	cleanup(t_game *game);
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 

@@ -6,14 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/05 20:33:21 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/06 15:58:03 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void init_player(t_player **player);
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
+void	run_mlx(t_game *game);
 
 int main(int ac, char *av[])
 {
@@ -56,34 +56,20 @@ int main(int ac, char *av[])
 	// parse(av[1], &game);
 	start_mlx(&game);
 	init_player(&game.player);
+	game.ray = malloc(sizeof(t_ray));
 	run_raycasting(game.ray, game.player, game.mlx_data, &game);
-	// mlx_loop_hook(game.mlx_data, render_movement, &game);
-	mlx_hook(game.mlx_data->window, KeyPress, 1, key_hook, &game);
-	mlx_loop(game.mlx_data->ptr);
+	run_mlx(&game);
 	return (0);
 }
 
-void init_player(t_player **player)
+void	run_mlx(t_game *game)
 {
-	*player = malloc(sizeof(t_player));
-	(*player)->pos_x = 22;
-	(*player)->pos_y = 12;
-	(*player)->dir_x = -1;
-	(*player)->dir_y = 0;
-	(*player)->plane_x = 0;
-	(*player)->plane_y = 0.66;
-
-	printf("\n--- Player Initial Values ---\n");
-    printf("Position: (x: %.2f, y: %.2f)\n", (*player)->pos_x, (*player)->pos_y);
-    printf("Direction: (x: %.2f, y: %.2f)\n", (*player)->dir_x, (*player)->dir_y);
-    printf("Camera Plane: (x: %.2f, y: %.2f)\n", (*player)->plane_x, (*player)->plane_y);
-    printf("---------------------------\n\n");
+	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
+	mlx_loop(game->mlx_data->ptr);
 }
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 {
-	ray = malloc(sizeof(t_ray));
-
 	int x = 0;
 	// printf("\n--- Player Initial Values ---\n");
     // printf("Position: (x: %.2f, y: %.2f)\n", player->pos_x, player->pos_y);
