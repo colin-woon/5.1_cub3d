@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/30 21:58:35 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/07 09:38:20 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <fcntl.h> //for the open
 
 typedef struct s_texture
-{	
+{
 	void	*no_img_ptr; //no_img_ptr
 	void	*we_img_ptr;
 	void	*ea_img_ptr;
@@ -35,10 +35,10 @@ typedef	struct s_map
 {
 	int	map_height;
 	int	map_width;
-	
+
 	char	**map_layout;
 
-	
+
 }	t_map;
 
 
@@ -50,11 +50,14 @@ typedef struct s_game
 	t_map		*map;
 } t_game;
 
-char		*get_next_row(int fd);
-bool		ft_strend(char *s, char *suffix);
-int			open_file(char *path_to_file);
-void		parse(char *path_to_cub, t_game *game);
-void		parse_texture(char *line, t_game *game);
+t_map	*parse_map(int fd, char *line, t_game *game);
+
+char	*get_next_row(int fd);
+bool	ft_strend(char *s, char *suffix);
+int		open_file(char *path_to_file);
+void	parse(char *path_to_cub, t_game *game);
+void	parse_texture(char *line, t_game *game);
+
 
 
 void	error_msg(char *err);

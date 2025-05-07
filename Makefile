@@ -40,6 +40,11 @@ SRCS_FILES		=	srcs/main.c \
 					srcs/error.c \
 					srcs/utils.c \
 					srcs/parse.c \
+					srcs/parse_map.c \
+					srcs/parse_map_utils.c \
+					srcs/check_valid_map.c \
+					srcs/parse_texture.c \
+					srcs/parse_texture_utils.c \
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 
