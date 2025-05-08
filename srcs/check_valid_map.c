@@ -135,8 +135,35 @@ void	make_map_square(t_map *map)
 	}
 }
 
+static void	check_invalid_char(t_map *map)
+{
+	int		i;
+	int		j;
+	char	**rows;
+	char	*line;
+
+
+	rows = map->map_layout;
+	j = 0;
+	while (rows[j])
+	{
+		line = rows[j];
+		i = 0;
+		while (line[i])
+		{
+			while (ft_isspace(line[i]))
+				i++;
+			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
+				msg("Invalid char in map\n");
+			i++;
+		}
+		j++;
+	}
+}
+
 void	check_valid_map(t_map *map)
 {
+	check_invalid_char(map);
 	make_map_square(map);
 	check_horizontal_walls(map);
 	check_vertical_walls(map);
