@@ -39,14 +39,16 @@ void	check_horizontal_walls(t_map *map)
 				check_wall_behind(row, i);
 				while (ft_isspace(row[i]))
 					i++;
-				if (!ft_iswall(row[i]) && row[i] != '\0')
-					msg("map is not closed\n");
+				if (row[i] == '\0')
+					return ;
+				if (!ft_iswall(row[i]))
+					msg("hor: map is not closed\n");
 				i++;
 			}
 			while (ft_iszero(row[i]) || ft_isplayer(row[i]))
 				i++;
 			if (!ft_iswall(row[i++]) && row[i] != '\0')
-				msg("map is not closed\n");
+				msg("hor : map is not closed\n");
 		}
 		j++;
 	}
@@ -73,13 +75,13 @@ void	check_vertical_walls(t_map	*map)
 					i++;
 				if (i + 1 >= map->map_height)
 					break ;
-				if (!ft_iswall(rows[i][j]) )
-					msg("map not closed\n");
+				if (!ft_iswall(rows[i][j]))
+					msg("ver: map not closed\n");
 			}
 			while (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j]))
 				i++;
 			if (!ft_iswall(rows[i][j]) && i < map->map_height)
-				msg("map not closed\n");
+				msg("ver ; map not closed\n");
 			i++;
 		}
 		j++;
@@ -104,7 +106,7 @@ char	*fill_str_sp(char *row, int row_width, int max_width)
 		new_row[row_width] = ' ';
 		row_width++;
 	}
-	new_row[max_width + 1] = '\0';
+	new_row[max_width] = '\0';
 	return new_row;
 }
 
