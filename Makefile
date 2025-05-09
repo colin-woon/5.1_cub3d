@@ -14,7 +14,7 @@
 CC			=	clang
 CFLAGS		=	$(INCLUDES) $(DEBUG)
 WFLAGS		=	-Wall -Werror -Wextra
-INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
+INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR) $(FSAN)
 DEBUG		=	-g3
 FSAN		=	-fsanitize=address,leak
 RM			=	rm -rf

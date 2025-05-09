@@ -23,8 +23,6 @@ void	store_map(char *line, t_map *map, int map_height)
 	rows = malloc(sizeof(*rows) * (map_height + 2));
 	if (!rows)
 		error_msg("malloc error\n");
-	if (ft_strlen(line) > map->map_width)
-		map->map_width = ft_strlen(line);
 	while (i < map_height)
 	{
 		rows[i] = map->map_layout[i];

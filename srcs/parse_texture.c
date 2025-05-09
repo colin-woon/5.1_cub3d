@@ -30,7 +30,7 @@ void	check_texture_complete(t_texture *textures)
 		|| textures->we_img_ptr == NULL
 		|| textures->so_img_ptr == NULL)
 	{
-		msg("texture not complete");
+		msg("texture not complete\n");
 	}
 }
 

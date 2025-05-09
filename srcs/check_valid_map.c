@@ -135,14 +135,25 @@ void	make_map_square(t_map *map)
 	}
 }
 
+int		ft_strlen_pro(char *line)
+{
+	int	str_len;
+
+	str_len = ft_strlen(line) - 1;
+	while (!ft_iswall(line[str_len]))
+		str_len--;
+	return (str_len);
+}
+
 static void	check_invalid_char(t_map *map)
 {
 	int		i;
 	int		j;
 	char	**rows;
 	char	*line;
+	int		true_len;
 
-
+	true_len = 0;
 	rows = map->map_layout;
 	j = 0;
 	while (rows[j])
@@ -153,10 +164,18 @@ static void	check_invalid_char(t_map *map)
 		{
 			while (ft_isspace(line[i]))
 				i++;
+			if (line[i] == '\0')
+				break ;
 			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
+			{
+				printf("%c\n", line[i]);
 				msg("Invalid char in map\n");
+			}
 			i++;
 		}
+		true_len = ft_strlen_pro(line);
+		if (true_len > map->map_width)
+			map->map_width = true_len;
 		j++;
 	}
 }

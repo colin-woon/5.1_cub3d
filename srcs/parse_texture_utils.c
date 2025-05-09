@@ -16,16 +16,19 @@ int *init_rgb(char *rgb_c)
 {
 	int i = 0;
 	int j = 0;
-	int color_val = 0;
+	int color_val;
 	int len;
 	char *tmp;
 	int *res_rgb;
 
+	color_val = 0;
 	res_rgb = ft_calloc(3, (sizeof(int)));
 	while (rgb_c[i])
 	{
-		while (!ft_isdigit(rgb_c[i]))
+		while (!ft_isdigit(rgb_c[i]) && rgb_c[i] != '\0')
 			i++;
+		if (rgb_c[i] == '\0')
+			break ;
 		j = i;
 		while (ft_isdigit(rgb_c[j]))
 			j++;
@@ -39,6 +42,8 @@ int *init_rgb(char *rgb_c)
 		color_val++;
 		free(tmp);
 	}
+	if (color_val != 2)
+		msg("RGB incomplete\n");
 	return (res_rgb);
 }
 
