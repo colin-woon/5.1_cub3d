@@ -45,6 +45,17 @@ typedef struct s_texture
 	int		*ceiling_rgb;
 }	t_texture;
 
+
+typedef	struct s_map
+{
+	int	map_height;
+	int	map_width;
+
+	char	**map_layout;
+
+
+}	t_map;
+
 typedef struct s_img {
 	void	*ptr;
 	char	*address;
@@ -98,12 +109,14 @@ typedef struct s_game
 	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
 }	t_game;
 
+t_map	*parse_map(int fd, char *line, t_game *game);
 
-char		*get_next_row(int fd);
-bool		ft_strend(char *s, char *suffix);
-int			open_file(char *path_to_file);
-void		parse(char *path_to_cub, t_game *game);
-t_texture	*parse_texture(int fd, t_game *game);
+char	*get_next_row(int fd);
+bool	ft_strend(char *s, char *suffix);
+int		open_file(char *path_to_file);
+void	parse(char *path_to_cub, t_game *game);
+void	parse_texture(char *line, t_game *game);
+
 
 void	error_msg(char *err);
 void	msg(char *err);

@@ -12,9 +12,9 @@
 # add back WFLAGS later to CFLAGS, removed cause it doesnt work for testing
 # Compiler and flags
 CC			=	clang
-CFLAGS		=	$(INCLUDES) $(DEBUG) $(FSAN)
+CFLAGS		=	$(INCLUDES) $(DEBUG)
 WFLAGS		=	-Wall -Werror -Wextra
-INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
+INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR) $(FSAN)
 DEBUG		=	-g3
 FSAN		=	-fsanitize=address,leak
 RM			=	rm -rf
@@ -33,13 +33,17 @@ SRCS_DIR		=	srcs/
 OBJS_DIR		=	bin/
 
 
-LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz $(FSAN)
-
+LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
 SRCS_FILES		=	srcs/debug.c \
 					srcs/error.c \
 					srcs/main.c \
 					srcs/parse.c \
+					srcs/parse_map.c \
+					srcs/parse_map_utils.c \
+					srcs/check_valid_map.c \
+					srcs/parse_texture.c \
+					srcs/parse_texture_utils.c \
 					srcs/utils.c \
 					srcs/utils_cleanup.c \
 					srcs/init.c \
