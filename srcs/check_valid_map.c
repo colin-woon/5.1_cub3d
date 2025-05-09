@@ -175,7 +175,7 @@ static void	check_invalid_char(t_map *map)
 		}
 		true_len = ft_strlen_pro(line);
 		if (true_len > map->map_width)
-			map->map_width = true_len;
+			map->map_width = true_len + 1;
 		j++;
 	}
 }

@@ -42,7 +42,7 @@ int *init_rgb(char *rgb_c)
 		color_val++;
 		free(tmp);
 	}
-	if (color_val != 2)
+	if (color_val != 3)
 		msg("RGB incomplete\n");
 	return (res_rgb);
 }
@@ -56,5 +56,7 @@ void *make_img(char *str, t_game *game)
 
 	path_to_file = ft_strchr(str, '.'); // not./ maybe
 	img_ptr = mlx_xpm_file_to_image(game->mlx, path_to_file, &img_height, &img_width);
+	if (!img_ptr)
+		msg("texture file given cannot be read or found\n");
 	return (img_ptr);
 }
