@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
 /*   Updated: 2025/05/07 09:52:17 by rteoh            ###   ########.fr       */
@@ -23,8 +23,6 @@ static bool start_of_map(char *line)
 		return true;
 	return false;
 }
-
-// check if texture is complete
 
 void	check_texture_complete(t_texture *textures);
 

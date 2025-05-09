@@ -35,16 +35,18 @@ OBJS_DIR		=	bin/
 
 LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
-
-SRCS_FILES		=	srcs/main.c \
+SRCS_FILES		=	srcs/debug.c \
 					srcs/error.c \
-					srcs/utils.c \
+					srcs/main.c \
 					srcs/parse.c \
 					srcs/parse_map.c \
 					srcs/parse_map_utils.c \
 					srcs/check_valid_map.c \
 					srcs/parse_texture.c \
 					srcs/parse_texture_utils.c \
+					srcs/utils.c \
+					srcs/mlx/mlx_colour_utils.c \
+					srcs/mlx/mlx.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 

@@ -58,3 +58,42 @@ C 225,30,0
 ## Breakdown
 - how to read from a file and display texture
 - how to display colour
+
+
+## Execution
+- render raycast first
+	- init pixels texture?
+	- init player variables
+	- init raycasting variables
+	- run raycasting (will loop window width)
+		- calculate the rays from the player position
+		- setup DDA
+		- perform DDA
+		- calculate the line height
+		- update pixel textures
+	- render frame
+		- sets the image frame pixels
+
+player start position
+posX
+posY
+
+player direction vector (defines the camera direction)
+dirX = -1
+dirY = 1
+
+camera (should always be perpendicular to the direction)
+planeX = 0
+planeY = 0.66
+FOV depends on ratio between (length of direction:camera plane)
+
+when rotating around with input keys, the values of
+dir
+plane
+will change, but they always remain perpendicular to each other and keep the same length
+
+time and old time, used for FPS, difference between them can determine how much the rays should move when a key is pressed
+
+EVERYTHING IN A LOOP
+- use DDA to determine whether hit to a wall or not
+- once hit a wall, only calculate its line height
