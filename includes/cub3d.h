@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/28 19:16:08 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/06 16:25:33 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,18 @@
 # include <fcntl.h> //for the open
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <math.h>
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define MOVE_SPEED 0.15
+# define ROTATION_SPEED 0.08
+
+// DEBUG: TEMPORARY HARDCODED
+#define DEBUG_MAP_WIDTH 5
+#define DEBUG_MAP_HEIGHT 5
+# define DEBUG_PLAYER_POS_X 3
+# define DEBUG_PLAYER_POS_Y 3
 
 typedef struct s_texture
 {
@@ -61,12 +70,44 @@ typedef struct	s_mlx {
 	t_img	*img;
 }	t_mlx;
 
+typedef struct	s_player {
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_player;
+
+typedef struct	s_raycasting {
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	prep_wall_dist;
+	int		step_x;
+	int		step_y;
+	int		is_wall_hit;
+	int		wall_hit_side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_ray;
+
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
 	t_texture	*textures;
-	t_map		*map;
-} t_game;
+	t_player	*player;
+	t_ray		*ray;
+	// int		**map;
+	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+}	t_game;
 
 t_map	*parse_map(int fd, char *line, t_game *game);
 
@@ -83,10 +124,25 @@ void	msg(char *err);
 // debug.c
 int debug_event(int keycode, t_mlx *mlx);
 
+// mlx_movement_hooks.c
+int	movement_keys(int keysym, t_game *game);
+
 // mlx.c
-int	close_window(int keycode, t_mlx *mlx);
-int	key_hook(int keysym, t_mlx *mlx);
+int	close_window(int keycode, t_game *game);
 void	start_mlx(t_game *game);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void init_mlx_img(t_mlx *mlx);
+void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int color);
+
+// init.c
+void init_player(t_player **player);
+
+// utils_cleanup.c
+void	cleanup(t_game *game);
+
+void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
+
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);
