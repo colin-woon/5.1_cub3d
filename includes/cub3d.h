@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/06 16:25:33 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:21:09 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # define ROTATION_SPEED 0.08
 
 // DEBUG: TEMPORARY HARDCODED
-#define DEBUG_MAP_WIDTH 5
-#define DEBUG_MAP_HEIGHT 5
+#define DEBUG_MAP_WIDTH 24
+#define DEBUG_MAP_HEIGHT 24
 # define DEBUG_PLAYER_POS_X 3
 # define DEBUG_PLAYER_POS_Y 3
 
@@ -62,6 +62,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }	t_img;
 
 typedef struct	s_mlx {

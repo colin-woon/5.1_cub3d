@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/06 16:58:55 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:35:26 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 int	game_loop(t_game *game);
+int get_pixel(t_img *texture, int x, int y);
 
 void	run_mlx(t_game *game);
 
@@ -21,41 +22,41 @@ int main(int ac, char *av[])
 {
 	t_game	game;
 
-	// int		debug_map[24][24] =
-	// {
-	// 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-	// 	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-	// 	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	// 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	// };
-	int		debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH] =
+	int		debug_map[24][24] =
 	{
-		{1,1,1,1,1},
-		{1,0,1,0,1},
-		{1,0,0,0,1},
-		{1,0,0,0,1},
-		{1,1,1,1,1},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+		{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+		{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
+	// int		debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH] =
+	// {
+	// 	{1,1,1,1,1},
+	// 	{1,0,1,0,1},
+	// 	{1,0,0,0,1},
+	// 	{1,0,0,0,1},
+	// 	{1,1,1,1,1},
+	// };
 	memcpy(game.map, debug_map, sizeof(debug_map));
 
 	// if (ac != 2)
@@ -88,6 +89,8 @@ int	game_loop(t_game *game)
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 {
 	int x = 0;
+	static bool is_already_init_texture = false;
+	static t_img texture;
 	// printf("\n--- Player Initial Values ---\n");
     // printf("Position: (x: %.2f, y: %.2f)\n", player->pos_x, player->pos_y);
     // printf("Direction: (x: %.2f, y: %.2f)\n", player->dir_x, player->dir_y);
@@ -99,6 +102,11 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 	while (x < WIDTH)
 	{
 		// printf("DEBUG: test\n");
+		// EXPLANATION:	max value after 2 * x/WIDTH is 2, and min value is 0,
+		// using those values, subtract 1, can effectively represent:
+		//		-1 (left side of screen)
+		//		0 (center of screen)
+		//		1 (right side of screen)
 		ray->camera_x = 2 * x / (double)WIDTH - 1;
 		ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
 		ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
@@ -173,8 +181,53 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		if (ray->draw_end >= HEIGHT)
 			ray->draw_end = HEIGHT - 1;
 
-		draw_vertical_line(mlx, x, ray->draw_start, ray->draw_end, create_trgb(0, 220, 0, 0));
+		if (!is_already_init_texture)
+		{
+			texture.ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, "texture/water.xpm", &texture.height, &texture.width);
+			if (!texture.ptr)
+			{
+				printf("error loading texture\n");
+				exit(EXIT_FAILURE);
+			}
+			texture.address = mlx_get_data_addr(texture.ptr,
+				&texture.bits_per_pixel,
+				&texture.line_length,
+				&texture.endian);
+			is_already_init_texture = true;
+		}
+
+		double wall_x;
+		if (ray->wall_hit_side == 0)
+			wall_x = player->pos_y + ray->prep_wall_dist * ray->dir_y;
+		else
+			wall_x = player->pos_x + ray->prep_wall_dist * ray->dir_x;
+
+		wall_x -= floor(wall_x);
+
+		int tex_x = (int)(wall_x * texture.width);
+		if ((ray->wall_hit_side == 0 && ray->dir_x > 0) || (ray->wall_hit_side == 1 && ray->dir_y < 0))
+			tex_x = texture.width - tex_x - 1;
+
+		double step = (double)texture.height / ray->line_height;
+		double tex_pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2) * step;
+
+		for (int y = ray->draw_start; y <= ray->draw_end; y++) {
+			int tex_y = (int)tex_pos & (texture.height - 1);
+			tex_pos += step;
+			int color = get_pixel(&texture, tex_x, tex_y);
+			if (ray->wall_hit_side == 1)
+				color = ((color >> 1) & 0x7F7F7F);
+			my_mlx_pixel_put(mlx->img, x, y, color);
+		}
+		// draw_vertical_line(mlx, x, ray->draw_start, ray->draw_end, create_trgb(0, 220, 0, 0));
 		x++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
+}
+
+int get_pixel(t_img *texture, int x, int y)
+{
+    char *dst;
+    dst = texture->address + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
+    return *(int*)dst;
 }
