@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/12 15:35:26 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/12 18:49:09 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,23 +107,38 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		//		-1 (left side of screen)
 		//		0 (center of screen)
 		//		1 (right side of screen)
+		// camera_x represents a like a percentage of where it is on the plane (-1 < 0 < 1) (Left Centre Right)
 		ray->camera_x = 2 * x / (double)WIDTH - 1;
 		ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
 		ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
 
+		// Needed because when moving or rotating, the player position changes, and it usually is a floating point
 		int map_x = (int)player->pos_x;
 		int map_y = (int)player->pos_y;
 
+
+		//length of ray from one x to next x
 		if (ray->dir_x == 0)
 			ray->delta_dist_x = 1e30;
 		else
 			ray->delta_dist_x = fabs(1 / ray->dir_x);
+
+		//length of ray from one y-side to next y-side
 		if (ray->dir_y == 0)
 			ray->delta_dist_y = 1e30;
 		else
 			ray->delta_dist_y = fabs(1 / ray->dir_y);
 
 		ray->is_wall_hit = 0;
+
+		// used for side_dist_x/y, will multiply the delta to get the actual length,
+		// side_dist is like a ratio, could start from anywhere in the middle between x1/y1 to another x2/y2
+		// If it has to go in the negative or positive x-direction,
+		// and the negative or positive y-direction will depend on the direction of the ray,
+		// and this fact will be stored in stepX and stepY.
+		// Those variables are always either -1 or +1.
+		// posx and y might look the same here, but because of the movement hooks, theyre actually different,
+		// will be calculated to floating point numbers
 
 		if (ray->dir_x < 0)
 		{
