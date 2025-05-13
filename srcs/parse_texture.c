@@ -53,8 +53,6 @@ static void compare_texture(char *line, t_texture *textures, t_game *game)
 		return ;
 	while (*line == '\t' || *line == ' ')
 		line++;
-	if (!textures->no_img_ptr)
-		msg("MALLOC erorr\n");
 	if (ft_strncmp(line, "NO", 2) == 0)
 		textures->no_img_ptr = make_img(line, game);
 	else if (ft_strncmp(line, "SO", 2) == 0)
@@ -74,7 +72,6 @@ void	parse_texture(char *line, t_game *game)
 {
 	if (!game->textures)
 		game->textures = init_textures();
-	printf("%s\n", line);
 	compare_texture(line, game->textures, game);
 	return ;
 }
