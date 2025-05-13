@@ -69,7 +69,7 @@ char	*conv_tab(char *line)
 				res_line[i + j++] = ' ';
 			tab_track++;
 		}
-		res_line[i + (4 * tab_track)] = line[i];
+		res_line[i + (4 * tab_track)] = line[i + tab_track];
 		i++;
 	}
 	res_line[i + (4 * tab_track)] = '\0';
