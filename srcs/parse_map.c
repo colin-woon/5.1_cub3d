@@ -52,7 +52,6 @@ char	*conv_tab(char *line)
 			tab_count++;
 		i++;
 	}
-	// printf("tab count: %i", tab_count);
 	if (tab_count == 0)
 		return (line);
 	res_line = malloc(sizeof(char) * ((tab_count * 4) + ft_strlen(line)) + 1);

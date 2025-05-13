@@ -58,7 +58,8 @@ void *make_img(char *str, t_game *game)
 	if (!path_to_file)
 		return ("texture file given cannot be read or found\n");
 	img_ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img_height, &img_width);
-	if (!img_ptr)
+	if (img_ptr == NULL)
 		msg("texture file given cannot be read or found\n");
+	printf("img made\n");
 	return (img_ptr);
 }

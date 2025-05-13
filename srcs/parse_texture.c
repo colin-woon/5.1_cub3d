@@ -50,9 +50,11 @@ void *make_img(char *str, t_game *game);
 static void compare_texture(char *line, t_texture *textures, t_game *game)
 {
 	if (is_empty_line(line))
-		return;
+		return ;
 	while (*line == '\t' || *line == ' ')
 		line++;
+	if (!textures->no_img_ptr)
+		msg("MALLOC erorr\n");
 	if (ft_strncmp(line, "NO", 2) == 0)
 		textures->no_img_ptr = make_img(line, game);
 	else if (ft_strncmp(line, "SO", 2) == 0)
@@ -65,13 +67,14 @@ static void compare_texture(char *line, t_texture *textures, t_game *game)
 		textures->floor_rgb = init_rgb(line);
 	else if (ft_strncmp(line, "C", 1) == 0)
 		textures->ceiling_rgb = init_rgb(line);
-	return;
+	return ;
 }
 
 void	parse_texture(char *line, t_game *game)
 {
 	if (!game->textures)
 		game->textures = init_textures();
+	printf("%s\n", line);
 	compare_texture(line, game->textures, game);
 	return ;
 }

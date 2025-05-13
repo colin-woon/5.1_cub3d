@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/13 10:31:56 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/13 11:20:20 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void parse(char *path_to_cub, t_game *game)
 	{
 		if (start_of_map(line))
 			break;
-		// parse_texture(line, game);
+		parse_texture(line, game);
+		printf("%s\n", line);
 		free(line);
 		line = get_next_row(fd);
 	}
