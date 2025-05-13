@@ -167,10 +167,7 @@ static void	check_invalid_char(t_map *map)
 			if (line[i] == '\0')
 				break ;
 			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
-			{
-				printf("%c\n", line[i]);
 				msg("Invalid char in map\n");
-			}
 			i++;
 		}
 		true_len = ft_strlen_pro(line);
