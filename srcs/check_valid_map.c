@@ -139,6 +139,8 @@ int		ft_strlen_pro(char *line)
 {
 	int	str_len;
 
+	if (ft_strlen(line) == 0)
+		return 0;
 	str_len = ft_strlen(line) - 1;
 	while (!ft_iswall(line[str_len]))
 		str_len--;

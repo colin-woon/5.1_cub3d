@@ -58,20 +58,22 @@ char	*conv_tab(char *line)
 	if (!res_line)
 		error_msg("Malloc error\n");
 	i = 0;
-	int	tab_track = 0;
+	int	tab_track;
 	while (line[i])
 	{
-		if (line[i] == '\t')
+		while (line[i] == '\t')
 		{
-			j = 0;
-			while (j < 4)
-				res_line[i + j++] = ' ';
-			tab_track++;
+			tab_track = 0;
+			while (tab_track < 4)
+			{
+				res_line[j++] = ' ';
+				tab_track++;
+			}
+			i++;
 		}
-		res_line[i + (4 * tab_track)] = line[i + tab_track];
-		i++;
+		res_line[j++] = line[i++];
 	}
-	res_line[i + (4 * tab_track)] = '\0';
+	res_line[j] = '\0';
 	free(line);
 	return (res_line);
 }
