@@ -67,7 +67,7 @@ $(NAME): $(OBJS_FILES)
 	$(CC) $(CFLAGS) $(OBJS_FILES) -o $(NAME) $(LIB_FLAGS)
 
 # Rule to compile the object files
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR)
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INC_DIR)cub3d.h | $(OBJS_DIR)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/12 18:49:09 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/15 17:59:53 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,31 +163,36 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		}
 
 		// DDA
+		// Decides whether to move x or y
+		// https://youtu.be/NbSee-XM7WA?si=km_sroyTrmMaxw0_&t=668
 		while (!ray->is_wall_hit)
 		{
+			// Hits a vertical wall first
 			if (ray->side_dist_x < ray->side_dist_y)
 			{
 				ray->side_dist_x += ray->delta_dist_x;
 				map_x += ray->step_x;
-				ray->wall_hit_side = 0;
+				ray->wall_hit_side = VERTICAL;
 			}
 			else
+			// Hits a horizontal wall first
 			{
 				ray->side_dist_y += ray->delta_dist_y;
 				map_y += ray->step_y;
-				ray->wall_hit_side = 1;
+				ray->wall_hit_side = HORIZONTAL;
 			}
 
 			if (game->map[map_x][map_y] > 0)
 				ray->is_wall_hit = 1;
 		}
 
-		if (ray->wall_hit_side == 0)
-			ray->prep_wall_dist = (ray->side_dist_x - ray->delta_dist_x);
-		else
-			ray->prep_wall_dist = (ray->side_dist_y - ray->delta_dist_y);
 
-		ray->line_height = (int)(HEIGHT / ray->prep_wall_dist);
+		if (ray->wall_hit_side == VERTICAL)
+			ray->prependicular_wall_distance = (ray->side_dist_x - ray->delta_dist_x);
+		else
+			ray->prependicular_wall_distance = (ray->side_dist_y - ray->delta_dist_y);
+
+		ray->line_height = (int)(WALL_HEIGHT_SCALE * HEIGHT / ray->prependicular_wall_distance);
 
 		ray->draw_start = -ray->line_height / 2 + HEIGHT / 2;
 		if (ray->draw_start < 0)
@@ -212,15 +217,15 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		}
 
 		double wall_x;
-		if (ray->wall_hit_side == 0)
-			wall_x = player->pos_y + ray->prep_wall_dist * ray->dir_y;
+		if (ray->wall_hit_side == VERTICAL)
+			wall_x = player->pos_y + ray->prependicular_wall_distance * ray->dir_y;
 		else
-			wall_x = player->pos_x + ray->prep_wall_dist * ray->dir_x;
+			wall_x = player->pos_x + ray->prependicular_wall_distance * ray->dir_x;
 
 		wall_x -= floor(wall_x);
 
 		int tex_x = (int)(wall_x * texture.width);
-		if ((ray->wall_hit_side == 0 && ray->dir_x > 0) || (ray->wall_hit_side == 1 && ray->dir_y < 0))
+		if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) || (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
 			tex_x = texture.width - tex_x - 1;
 
 		double step = (double)texture.height / ray->line_height;
@@ -230,7 +235,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 			int tex_y = (int)tex_pos & (texture.height - 1);
 			tex_pos += step;
 			int color = get_pixel(&texture, tex_x, tex_y);
-			if (ray->wall_hit_side == 1)
+			if (ray->wall_hit_side == HORIZONTAL)
 				color = ((color >> 1) & 0x7F7F7F);
 			my_mlx_pixel_put(mlx->img, x, y, color);
 		}

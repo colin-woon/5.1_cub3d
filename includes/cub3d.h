@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/12 15:21:09 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/15 17:51:42 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define HEIGHT 800
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
+# define WALL_HEIGHT_SCALE 1
 
 // DEBUG: TEMPORARY HARDCODED
 #define DEBUG_MAP_WIDTH 24
@@ -34,6 +35,10 @@
 # define DEBUG_PLAYER_POS_X 3
 # define DEBUG_PLAYER_POS_Y 3
 
+enum wall_hit_side {
+	VERTICAL,
+	HORIZONTAL
+};
 typedef struct s_texture
 {
 	void	*no_img_ptr; //no_img_ptr
@@ -91,7 +96,7 @@ typedef struct	s_raycasting {
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
-	double	prep_wall_dist;
+	double	prependicular_wall_distance;
 	int		step_x;
 	int		step_y;
 	int		is_wall_hit;
