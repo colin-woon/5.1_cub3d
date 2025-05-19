@@ -12,13 +12,13 @@
 
 #include "cub3d.h"
 
-void	check_above_wall(char **rows, int i, int j);
-void	check_wall_behind(char *row, int i);
+bool	check_above_wall(char **rows, int i, int j);
+bool	check_wall_behind(char *row, int i);
 bool	ft_iszero(char c);
 bool	ft_isplayer(char c);
 bool	ft_iswall(int c);
 
-void	check_horizontal_walls(t_map *map)
+bool	check_horizontal_walls(t_map *map)
 {
 	int	i;
 	int	j;
@@ -36,25 +36,32 @@ void	check_horizontal_walls(t_map *map)
 		{
 			if (ft_isspace(row[i]))
 			{
-				check_wall_behind(row, i);
+				if (check_wall_behind(row, i) == false)
+					return (false);
 				while (ft_isspace(row[i]))
 					i++;
 				if (row[i] == '\0')
-					return ;
+					return (true);
 				if (!ft_iswall(row[i]))
+				{
 					msg("hor: map is not closed\n");
+					return (false);
+				}
 				i++;
 			}
 			while (ft_iszero(row[i]) || ft_isplayer(row[i]))
 				i++;
 			if (!ft_iswall(row[i++]) && row[i] != '\0')
+			{
 				msg("hor : map is not closed\n");
+				return (false);
+			}
 		}
 		j++;
 	}
 }
 
-void	check_vertical_walls(t_map	*map)
+bool	check_vertical_walls(t_map	*map)
 {
 	int	i;
 	int	j;
@@ -76,12 +83,18 @@ void	check_vertical_walls(t_map	*map)
 				if (i + 1 >= map->map_height)
 					break ;
 				if (!ft_iswall(rows[i][j]))
-					msg("ver: map not closed\n");
+				{
+					msg("ver ; map not closed\n");
+					return (false);
+				}
 			}
 			while (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j]))
 				i++;
 			if (!ft_iswall(rows[i][j]) && i < map->map_height)
+			{
 				msg("ver ; map not closed\n");
+				return (false);
+			}
 			i++;
 		}
 		j++;
@@ -147,7 +160,7 @@ int		ft_strlen_pro(char *line)
 	return (str_len);
 }
 
-static void	check_invalid_char(t_map *map)
+static bool	check_invalid_char(t_map *map)
 {
 	int		i;
 	int		j;
@@ -169,7 +182,10 @@ static void	check_invalid_char(t_map *map)
 			if (line[i] == '\0')
 				break ;
 			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
+			{
 				msg("Invalid char in map\n");
+				return (true);
+			}
 			i++;
 		}
 		true_len = ft_strlen_pro(line);
@@ -179,10 +195,12 @@ static void	check_invalid_char(t_map *map)
 	}
 }
 
-void	check_valid_map(t_map *map)
+bool	check_valid_map(t_map *map)
 {
-	check_invalid_char(map);
+	if (check_invalid_char(map) == true)
+		return (false);
 	make_map_square(map);
-	check_horizontal_walls(map);
-	check_vertical_walls(map);
+	if (check_horizontal_walls(map) == false || check_vertical_walls(map) == false)
+		return (false);
+	return (true);
 }

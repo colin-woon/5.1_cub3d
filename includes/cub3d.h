@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/19 14:40:21 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/19 16:46:14 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_game
 	t_map		*map;
 } t_game;
 
-t_map	*parse_map(int fd, char *line, t_game *game);
+bool	*parse_map(int fd, char *line, t_game *game);
 
 char	*get_next_row(int fd);
 bool	ft_strend(char *s, char *suffix);
