@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/13 18:23:50 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/19 14:40:21 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ t_map	*parse_map(int fd, char *line, t_game *game);
 char	*get_next_row(int fd);
 bool	ft_strend(char *s, char *suffix);
 int		open_file(char *path_to_file);
-void	parse(char *path_to_cub, t_game *game);
-void	parse_texture(char *line, t_game *game);
+bool	parse(char *path_to_cub, t_game *game);
+bool	parse_texture(char *line, t_game *game);
 
 
-void	error_msg(char *err);
+bool	error_msg(char *err);
 void	msg(char *err);
 
 // debug.c

@@ -78,7 +78,7 @@ char	*conv_tab(char *line)
 	return (res_line);
 }
 
-t_map	*parse_map(int fd, char *line, t_game *game)
+bool	*parse_map(int fd, char *line, t_game *game)
 {
 	t_map	*map;
 	int		map_height;
@@ -94,6 +94,6 @@ t_map	*parse_map(int fd, char *line, t_game *game)
 		line = get_next_row(fd);
 	}
 	map->map_height = map_height;
-	check_valid_map(map);
-	return (map);
+	if (check_valid_map(map) == false)
+	return (true);
 }

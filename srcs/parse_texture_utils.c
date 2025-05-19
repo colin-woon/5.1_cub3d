@@ -25,12 +25,12 @@ int *init_rgb(char *rgb_c)
 	res_rgb = ft_calloc(3, (sizeof(int)));
 	while (rgb_c[i])
 	{
-		while (!ft_isdigit(rgb_c[i]) && rgb_c[i] != '\0')
+		while (!ft_isdigit(rgb_c[i]) && rgb_c[i] != '\0' && rgb_c[i] != '-' && rgb_c[i] != '+')
 			i++;
 		if (rgb_c[i] == '\0')
 			break ;
 		j = i;
-		while (ft_isdigit(rgb_c[j]))
+		while (ft_isdigit(rgb_c[j]) || rgb_c[j] == '-' || rgb_c[j] == '+')
 			j++;
 		len = j - i;
 		tmp = malloc(len + 1);
@@ -39,6 +39,8 @@ int *init_rgb(char *rgb_c)
 		while (len-- > 0)
 			tmp[len] = rgb_c[--j];
 		res_rgb[color_val] = ft_atoi(tmp);
+		if (res_rgb[color_val] > 255 || res_rgb[color_val] < 0)
+			msg("Invalid RGB\n");
 		color_val++;
 		free(tmp);
 	}
@@ -56,10 +58,12 @@ void *make_img(char *str, t_game *game)
 
 	path_to_file = ft_strchr(str, '.'); // not./ maybe
 	if (!path_to_file)
-		return ("texture file given cannot be read or found\n");
+	{
+		msg("texture file given cannot be read or found\n");
+		return (NULL);
+	}
 	img_ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img_height, &img_width);
 	if (img_ptr == NULL)
 		msg("texture file given cannot be read or found\n");
-	printf("img made\n");
 	return (img_ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/13 18:25:59 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/19 14:13:10 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int main(int ac, char *av[])
 	}
 	game = (t_game){0};
 	start_mlx(&game);
-	parse(av[1], &game);
+	if (parse(av[1], &game) == false)
+		exit(EXIT_FAILURE);
 	// free_texture(&game);
 	mlx_loop(game.mlx_data->ptr);
 	return (0);
