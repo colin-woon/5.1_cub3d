@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/19 19:28:55 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/20 17:28:38 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct	s_raycasting {
 	double	prependicular_wall_distance;
 	int		step_x;
 	int		step_y;
-	int		is_wall_hit;
 	int		wall_hit_side;
 	int		line_height;
 	int		draw_start;
