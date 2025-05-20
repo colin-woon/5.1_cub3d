@@ -53,12 +53,13 @@ bool	check_horizontal_walls(t_map *map)
 				i++;
 			if (!ft_iswall(row[i++]) && row[i] != '\0')
 			{
-				msg("hor : map is not closed\n");
+				msg("Hor: map is not closed\n");
 				return (false);
 			}
 		}
 		j++;
 	}
+	return (true);
 }
 
 bool	check_vertical_walls(t_map	*map)
@@ -84,7 +85,7 @@ bool	check_vertical_walls(t_map	*map)
 					break ;
 				if (!ft_iswall(rows[i][j]))
 				{
-					msg("ver ; map not closed\n");
+					msg("ver: map not closed\n");
 					return (false);
 				}
 			}
@@ -92,13 +93,14 @@ bool	check_vertical_walls(t_map	*map)
 				i++;
 			if (!ft_iswall(rows[i][j]) && i < map->map_height)
 			{
-				msg("ver ; map not closed\n");
+				msg("ver: map not closed\n");
 				return (false);
 			}
 			i++;
 		}
 		j++;
 	}
+	return (true);
 }
 
 char	*fill_str_sp(char *row, int row_width, int max_width)
@@ -107,7 +109,7 @@ char	*fill_str_sp(char *row, int row_width, int max_width)
 
 	new_row = malloc(sizeof(char ) * max_width + 1);
 	if (!new_row)
-		error_msg("Malloc error\n");
+		error_msg_exit("Malloc Error filling space\n");
 	int i = 0;
 	while (i < row_width)
 	{
@@ -193,6 +195,7 @@ static bool	check_invalid_char(t_map *map)
 			map->map_width = true_len + 1;
 		j++;
 	}
+	return (false);
 }
 
 bool	check_valid_map(t_map *map)

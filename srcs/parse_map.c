@@ -22,7 +22,7 @@ void	store_map(char *line, t_map *map, int map_height)
 	i = 0;
 	rows = malloc(sizeof(*rows) * (map_height + 2));
 	if (!rows)
-		error_msg("malloc error\n");
+		error_msg_exit("Malloc Error:store map\n");
 	while (i < map_height)
 	{
 		rows[i] = map->map_layout[i];
@@ -56,7 +56,7 @@ char	*conv_tab(char *line)
 		return (line);
 	res_line = malloc(sizeof(char) * ((tab_count * 4) + ft_strlen(line)) + 1);
 	if (!res_line)
-		error_msg("Malloc error\n");
+		error_msg_exit("Malloc Error:conv tab\n");
 	i = 0;
 	int	tab_track;
 	while (line[i])
@@ -95,5 +95,6 @@ bool	*parse_map(int fd, char *line, t_game *game)
 	}
 	game->map->map_height = map_height;
 	if (check_valid_map(game->map) == false)
+		return (false);
 	return (true);
 }

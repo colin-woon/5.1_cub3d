@@ -42,7 +42,7 @@ t_texture	*init_textures(void)
 
 	textures = ft_calloc(1, sizeof(t_texture));
 	if (textures == NULL)
-		error_msg("CALLOC ERROR\n");
+		error_msg_exit("Calloc Error:texture init\n");
 	return (textures);
 }
 

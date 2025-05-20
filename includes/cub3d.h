@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/19 16:46:14 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 13:23:21 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ bool	parse_texture(char *line, t_game *game);
 
 bool	error_msg(char *err);
 void	msg(char *err);
+void	error_msg_exit(char *err);
 
 // debug.c
 int debug_event(int keycode, t_mlx *mlx);

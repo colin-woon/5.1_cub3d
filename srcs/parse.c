@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/19 15:53:33 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 13:26:05 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool parse(char *path_to_cub, t_game *game)
 		return(error_msg("input given is not a .cub file"));
 	fd = open_file(path_to_cub);
 	if (fd < 0)
-		return false;
+		return (false);
 	line = get_next_row(fd);
 	while (line != NULL)
 	{
@@ -54,8 +54,7 @@ bool parse(char *path_to_cub, t_game *game)
 		free(line);
 		return (false);
 	}
-	if(parse_map(fd, line, game) == false)
-		return (false); // change to return bool, and just set map using game pointer
-	free(line);
+	if (parse_map(fd, line, game) == false)
+		return (false);
 	return (true);
 }
