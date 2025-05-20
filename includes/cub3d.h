@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 13:23:21 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 16:46:51 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,6 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-
-typedef struct s_texture
-{
-	void	*no_img_ptr; //no_img_ptr
-	void	*we_img_ptr;
-	void	*ea_img_ptr;
-	void	*so_img_ptr;
-
-	int		*floor_rgb;
-	int		*ceiling_rgb;
-}	t_texture;
 
 
 typedef	struct s_map
@@ -55,6 +44,23 @@ typedef struct s_img {
 	int		endian;
 }	t_img;
 
+
+typedef struct s_texture
+{
+	void	*no_img_ptr; //no_img_ptr
+	void	*we_img_ptr;
+	void	*ea_img_ptr;
+	void	*so_img_ptr;
+
+	t_img	*no_img_info;
+	t_img	*we_img_info;
+	t_img	*ea_img_info;
+	t_img	*so_img_info;
+
+	int		*floor_rgb;
+	int		*ceiling_rgb;
+}	t_texture;
+
 typedef struct	s_mlx {
 	void	*ptr;
 	void	*window;
@@ -68,7 +74,7 @@ typedef struct s_game
 	t_map		*map;
 } t_game;
 
-bool	*parse_map(int fd, char *line, t_game *game);
+bool	parse_map(int fd, char *line, t_game *game);
 
 char	*get_next_row(int fd);
 bool	ft_strend(char *s, char *suffix);
@@ -95,4 +101,5 @@ int	get_transparency(int trgb);
 int	get_red(int trgb);
 int	get_green(int trgb);
 int	get_blue(int trgb);
+
 #endif

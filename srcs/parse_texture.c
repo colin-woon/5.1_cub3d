@@ -49,6 +49,21 @@ t_texture	*init_textures(void)
 int *init_rgb(char *rgb_c);
 void *make_img(char *str, t_game *game);
 
+t_img	*get_addr(void *img_ptr)
+{
+	t_img	*img_info;
+
+	img_info = ft_calloc(1, sizeof(t_img));
+	if (img_info == NULL)
+		error_msg_exit("Calloc Error:get_addr\n");
+	img_info->address = mlx_get_data_addr(img_ptr,
+					&img_info->bits_per_pixel,
+					&img_info->line_length,
+					&img_info->endian);
+	return (img_info);
+
+}
+
 static bool compare_texture(char *line, t_texture *textures, t_game *game)
 {
 	if (is_empty_line(line))
@@ -58,34 +73,30 @@ static bool compare_texture(char *line, t_texture *textures, t_game *game)
 	if (ft_strncmp(line, "NO", 2) == 0)
 	{
 		textures->no_img_ptr = make_img(line, game);
-		return (true);
+		textures->no_img_info = get_addr(textures->no_img_ptr);
 	}
 	else if (ft_strncmp(line, "SO", 2) == 0)
 	{
 		textures->so_img_ptr = make_img(line, game);
-		return (true);
+		textures->so_img_info = get_addr(textures->so_img_ptr);
 	}
 	else if (ft_strncmp(line, "WE", 2) == 0)
 	{
 		textures->we_img_ptr = make_img(line, game);
-		return (true);
+		textures->we_img_info = get_addr(textures->we_img_ptr);
 	}
 	else if (ft_strncmp(line, "EA", 2) == 0)
 	{
 		textures->ea_img_ptr = make_img(line, game);
-		return (true);
+		textures->ea_img_info = get_addr(textures->ea_img_ptr);
 	}
 	else if (ft_strncmp(line, "F", 1) == 0)
-	{
 		textures->floor_rgb = init_rgb(line);
-		return (true);
-	}
 	else if (ft_strncmp(line, "C", 1) == 0)
-	{
 		textures->ceiling_rgb = init_rgb(line);
-		return (true);
-	}
-	return (false);
+	else
+		return (false);
+	return (true);
 }
 
 bool	parse_texture(char *line, t_game *game)
