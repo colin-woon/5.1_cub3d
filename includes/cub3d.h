@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/15 17:51:42 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/19 19:28:55 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,18 @@
 # define DEBUG_PLAYER_POS_X 3
 # define DEBUG_PLAYER_POS_Y 3
 
-enum wall_hit_side {
+typedef enum {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
+} e_wall_direction;
+
+typedef enum {
 	VERTICAL,
 	HORIZONTAL
-};
+} e_wall_hit_side;
+
 typedef struct s_texture
 {
 	void	*no_img_ptr; //no_img_ptr

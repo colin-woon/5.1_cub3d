@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/15 17:59:53 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:33:11 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 int	game_loop(t_game *game);
-int get_pixel(t_img *texture, int x, int y);
+int get_texture_pixel(t_img *texture, int x, int y);
 
 void	run_mlx(t_game *game);
 
@@ -90,13 +90,13 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 {
 	int x = 0;
 	static bool is_already_init_texture = false;
-	static t_img texture;
 	// printf("\n--- Player Initial Values ---\n");
-    // printf("Position: (x: %.2f, y: %.2f)\n", player->pos_x, player->pos_y);
-    // printf("Direction: (x: %.2f, y: %.2f)\n", player->dir_x, player->dir_y);
-    // printf("Camera Plane: (x: %.2f, y: %.2f)\n", player->plane_x, player->plane_y);
-    // printf("---------------------------\n\n");
+	// printf("Position: (x: %.2f, y: %.2f)\n", player->pos_x, player->pos_y);
+	// printf("Direction: (x: %.2f, y: %.2f)\n", player->dir_x, player->dir_y);
+	// printf("Camera Plane: (x: %.2f, y: %.2f)\n", player->plane_x, player->plane_y);
+	// printf("---------------------------\n\n");
 
+	// need to modify to accept the ceiling and floor colour
 	init_floor_and_ceiling(mlx, 0);
 
 	while (x < WIDTH)
@@ -117,6 +117,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		int map_y = (int)player->pos_y;
 
 
+		// calculate box gap
 		//length of ray from one x to next x
 		if (ray->dir_x == 0)
 			ray->delta_dist_x = 1e30;
@@ -129,8 +130,6 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		else
 			ray->delta_dist_y = fabs(1 / ray->dir_y);
 
-		ray->is_wall_hit = 0;
-
 		// used for side_dist_x/y, will multiply the delta to get the actual length,
 		// side_dist is like a ratio, could start from anywhere in the middle between x1/y1 to another x2/y2
 		// If it has to go in the negative or positive x-direction,
@@ -140,6 +139,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		// posx and y might look the same here, but because of the movement hooks, theyre actually different,
 		// will be calculated to floating point numbers
 
+		// calculate step and init starting point
 		if (ray->dir_x < 0)
 		{
 			ray->step_x = -1;
@@ -162,9 +162,12 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 			ray->side_dist_y = (map_y + 1.0 - player->pos_y) * ray->delta_dist_y;
 		}
 
-		// DDA
+		// run_DDA
 		// Decides whether to move x or y
 		// https://youtu.be/NbSee-XM7WA?si=km_sroyTrmMaxw0_&t=668
+
+		ray->is_wall_hit = 0;
+
 		while (!ray->is_wall_hit)
 		{
 			// Hits a vertical wall first
@@ -186,7 +189,9 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 				ray->is_wall_hit = 1;
 		}
 
-
+		// calculate line height, prependicular distance needed to avoid fisheye effect
+		// https://chat.qwen.ai/s/4eaf1fda-5ae9-4f03-b0c1-c08374235e65?fev=0.0.95
+		// derived from this formula, its mathematical proof, although not obviously related, using substitution
 		if (ray->wall_hit_side == VERTICAL)
 			ray->prependicular_wall_distance = (ray->side_dist_x - ray->delta_dist_x);
 		else
@@ -200,6 +205,9 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 			ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
 		if (ray->draw_end >= HEIGHT)
 			ray->draw_end = HEIGHT - 1;
+
+		// DEBUG: temporary hardcoded 1 texture
+		static t_img texture;
 
 		if (!is_already_init_texture)
 		{
@@ -216,7 +224,11 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 			is_already_init_texture = true;
 		}
 
+		// prepare_texture_scaling
 		double wall_x;
+
+		// player_postition + the wall distance * ray_direction will determine exactly where the ray stopped
+		// then subtract the int value of the wall to get the ratio/fractional position of texel
 		if (ray->wall_hit_side == VERTICAL)
 			wall_x = player->pos_y + ray->prependicular_wall_distance * ray->dir_y;
 		else
@@ -224,6 +236,8 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 
 		wall_x -= floor(wall_x);
 
+		// choose texture direction (get_wall_direction)
+		// draw_wall_texture
 		int tex_x = (int)(wall_x * texture.width);
 		if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) || (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
 			tex_x = texture.width - tex_x - 1;
@@ -234,7 +248,8 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		for (int y = ray->draw_start; y <= ray->draw_end; y++) {
 			int tex_y = (int)tex_pos & (texture.height - 1);
 			tex_pos += step;
-			int color = get_pixel(&texture, tex_x, tex_y);
+			int color = get_texture_pixel(&texture, tex_x, tex_y);
+			// shading effect
 			if (ray->wall_hit_side == HORIZONTAL)
 				color = ((color >> 1) & 0x7F7F7F);
 			my_mlx_pixel_put(mlx->img, x, y, color);
@@ -245,9 +260,19 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
 
-int get_pixel(t_img *texture, int x, int y)
+int get_texture_pixel(t_img *texture, int x, int y)
 {
-    char *dst;
-    dst = texture->address + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
-    return *(int*)dst;
+	char *dst;
+	dst = texture->address + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
+	return *(int*)dst;
+}
+
+e_wall_direction	get_wall_direction(t_ray *ray) {
+	if (ray->wall_hit_side == VERTICAL) {
+		if (ray->dir_x > 0) return EAST;  // Ray moving right hits EAST wall
+		else return WEST;                  // Ray moving left hits WEST wall
+	} else { // HORIZONTAL
+		if (ray->dir_y > 0) return SOUTH; // Ray moving down hits SOUTH wall
+		else return NORTH;                // Ray moving up hits NORTH wall
+	}
 }
