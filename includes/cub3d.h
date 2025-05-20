@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 16:49:43 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 19:43:03 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,16 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		img_width;
+	int		img_height;
 }	t_img;
 
-
-typedef struct s_texture
+typedef struct	s_textures
 {
-	void	*no_img_ptr; //no_img_ptr
-	void	*we_img_ptr;
-	void	*ea_img_ptr;
-	void	*so_img_ptr;
-
-	t_img	*no_img_info;
-	t_img	*we_img_info;
-	t_img	*ea_img_info;
-	t_img	*so_img_info;
-
-	int		*floor_rgb;
-	int		*ceiling_rgb;
-}	t_texture;
+	t_img		*imgs[4];
+	int			*floor_rgb;
+	int			*ceiling_rgb;
+}	t_textures;
 
 typedef struct	s_mlx {
 	void	*ptr;
@@ -77,7 +69,7 @@ typedef struct	s_mlx {
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
-	t_texture	*textures;
+	t_textures	*textures;
 	t_map		*map;
 } t_game;
 
