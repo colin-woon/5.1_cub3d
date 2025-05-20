@@ -76,7 +76,7 @@ t_img *make_img(char *str, t_game *game)
 	img = ft_calloc(1, sizeof(t_img));
 	if (!img)
 		error_msg_exit("Calloc Error: make img");
-	img->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img->img_height, &img->img_width);
+	img->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img->height, &img->width);
 	if (img->ptr == NULL)
 		msg("texture file given cannot be read or found\n");
 	fill_img_info(img->ptr, img);

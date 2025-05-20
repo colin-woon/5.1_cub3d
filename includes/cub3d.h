@@ -21,9 +21,31 @@
 # include <fcntl.h> //for the open
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <math.h>
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define MOVE_SPEED 0.15
+# define ROTATION_SPEED 0.08
+# define WALL_HEIGHT_SCALE 1
+
+// DEBUG: TEMPORARY HARDCODED
+#define DEBUG_MAP_WIDTH 24
+#define DEBUG_MAP_HEIGHT 24
+# define DEBUG_PLAYER_POS_X 3
+# define DEBUG_PLAYER_POS_Y 3
+
+typedef enum {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
+} e_wall_direction;
+
+typedef enum {
+	VERTICAL,
+	HORIZONTAL
+} e_wall_hit_side;
 
 typedef	enum {
 	NORTH,
@@ -37,10 +59,7 @@ typedef	struct s_map
 {
 	int	map_height;
 	int	map_width;
-
 	char	**map_layout;
-
-
 }	t_map;
 
 typedef struct s_img {
@@ -49,8 +68,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		img_width;
-	int		img_height;
+	int		width;
+	int		height;
 }	t_img;
 
 typedef struct	s_textures
@@ -66,12 +85,44 @@ typedef struct	s_mlx {
 	t_img	*img;
 }	t_mlx;
 
+typedef struct	s_player {
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_player;
+
+typedef struct	s_raycasting {
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	prependicular_wall_distance;
+	int		step_x;
+	int		step_y;
+	int		wall_hit_side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_ray;
+
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
 	t_textures	*textures;
 	t_map		*map;
-} t_game;
+	t_player	*player;
+	t_ray		*ray;
+	// int		**map;
+	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+}	t_game;
 
 bool	parse_map(int fd, char *line, t_game *game);
 
@@ -89,10 +140,33 @@ void	error_msg_exit(char *err);
 // debug.c
 int debug_event(int keycode, t_mlx *mlx);
 
+// mlx_movement_hooks.c
+int	movement_keys(int keysym, t_game *game);
+
 // mlx.c
-int	close_window(int keycode, t_mlx *mlx);
-int	key_hook(int keysym, t_mlx *mlx);
+int	close_window(int keycode, t_game *game);
 void	start_mlx(t_game *game);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void init_mlx_img(t_mlx *mlx);
+void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int color);
+
+// init.c
+void init_player(t_player **player);
+
+// utils_cleanup.c
+void	cleanup(t_game *game);
+
+// raycasting.c
+void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
+int		get_texture_pixel(t_img *texture, int x, int y);
+void	draw_wall_texture(t_img *texture, double wall_x, t_ray *ray, t_mlx *mlx, int *x);
+double	get_fractional_texture_position_x(t_ray *ray, t_player *player);
+void	calculate_line_height(t_ray *ray);
+void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
+void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
+void	calculate_point_gap(t_ray *ray);
+void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);
