@@ -49,7 +49,8 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/init.c \
 					srcs/mlx/mlx_colour_utils.c \
 					srcs/mlx/mlx.c \
-					srcs/mlx/mlx_movement_hooks.c
+					srcs/mlx/mlx_movement_hooks.c \
+					srcs/raycasting.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 
