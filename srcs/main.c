@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/20 17:30:00 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/20 17:52:15 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int main(int ac, char *av[])
 	// 	{1,1,1,1,1},
 	// };
 	memcpy(game.map, debug_map, sizeof(debug_map));
+	game.is_render = false;
 
 	// if (ac != 2)
 	// {
@@ -79,6 +80,10 @@ void	run_mlx(t_game *game)
 
 int	game_loop(t_game *game)
 {
-	run_raycasting(game->ray, game->player, game->mlx_data, game);
+	if (game->is_render)
+	{
+		run_raycasting(game->ray, game->player, game->mlx_data, game);
+		game->is_render = false;
+	}
 	return (0);
 }

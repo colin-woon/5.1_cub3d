@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 17:30:26 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/20 17:52:49 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		get_texture_pixel(t_img *texture, int x, int y);
 void	draw_wall_texture(t_img *texture, double wall_x, t_ray *ray, t_mlx *mlx, int *x);
 double	get_fractional_texture_position_x(t_ray *ray, t_player *player);
 void	calculate_line_height(t_ray *ray);
+e_wall_direction	get_wall_direction(t_ray *ray);
 void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
 void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
 void	calculate_point_gap(t_ray *ray);
@@ -73,7 +74,8 @@ int get_texture_pixel(t_img *texture, int x, int y)
 	return *(int*)dst;
 }
 
-e_wall_direction	get_wall_direction(t_ray *ray) {
+e_wall_direction	get_wall_direction(t_ray *ray)
+{
 	if (ray->wall_hit_side == VERTICAL) {
 		if (ray->dir_x > 0) return EAST;  // Ray moving right hits EAST wall
 		else return WEST;                  // Ray moving left hits WEST wall

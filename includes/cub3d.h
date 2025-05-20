@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 17:30:45 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/20 17:43:35 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct s_game
 	t_ray		*ray;
 	// int		**map;
 	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+	bool		is_render;
 }	t_game;
 
 t_map	*parse_map(int fd, char *line, t_game *game);
@@ -165,6 +166,7 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
 void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
+e_wall_direction	get_wall_direction(t_ray *ray);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);
