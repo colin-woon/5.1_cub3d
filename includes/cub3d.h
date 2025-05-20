@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 16:46:51 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 16:49:43 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+
+typedef	enum {
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+}	e_wall_direction;
 
 
 typedef	struct s_map
