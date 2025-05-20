@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 19:43:03 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 20:58:12 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,6 @@ typedef enum {
 	VERTICAL,
 	HORIZONTAL
 } e_wall_hit_side;
-
-typedef	enum {
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-}	e_wall_direction;
-
 
 typedef	struct s_map
 {
@@ -117,11 +109,11 @@ typedef struct s_game
 {
 	t_mlx		*mlx_data;
 	t_textures	*textures;
-	t_map		*map;
+	t_map		*map; // here, you can comment my parsing out if not using
 	t_player	*player;
 	t_ray		*ray;
 	// int		**map;
-	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH]; //doesnt work with both 
 }	t_game;
 
 bool	parse_map(int fd, char *line, t_game *game);
