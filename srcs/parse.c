@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/07 09:52:17 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/12 16:41:39 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ void parse(char *path_to_cub, t_game *game)
 		line = get_next_row(fd);
 	}
 	check_texture_complete(game->textures);
-	game->map = parse_map(fd, line, game);
+	// game->map = parse_map(fd, line, game);
 }

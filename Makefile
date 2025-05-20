@@ -49,7 +49,8 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/init.c \
 					srcs/mlx/mlx_colour_utils.c \
 					srcs/mlx/mlx.c \
-					srcs/mlx/mlx_movement_hooks.c
+					srcs/mlx/mlx_movement_hooks.c \
+					srcs/raycasting.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 
@@ -67,7 +68,7 @@ $(NAME): $(OBJS_FILES)
 	$(CC) $(CFLAGS) $(OBJS_FILES) -o $(NAME) $(LIB_FLAGS)
 
 # Rule to compile the object files
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR)
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INC_DIR)cub3d.h | $(OBJS_DIR)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
