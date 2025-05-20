@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
 /*   Updated: 2025/05/06 16:07:50 by cwoon            ###   ########.fr       */
@@ -94,7 +94,6 @@ void start_mlx(t_game *game)
 	// char	*relative_path = "imgs/Tung_tung_tung_tung_tung_sahur.xpm";
 	int		img_width;
 	int		img_height;
-
 
 	game->mlx_data = malloc(sizeof(t_mlx));
 	game->mlx_data->ptr = mlx_init();

@@ -25,12 +25,12 @@ int *init_rgb(char *rgb_c)
 	res_rgb = ft_calloc(3, (sizeof(int)));
 	while (rgb_c[i])
 	{
-		while (!ft_isdigit(rgb_c[i]) && rgb_c[i] != '\0')
+		while (!ft_isdigit(rgb_c[i]) && rgb_c[i] != '\0' && rgb_c[i] != '-' && rgb_c[i] != '+')
 			i++;
 		if (rgb_c[i] == '\0')
 			break ;
 		j = i;
-		while (ft_isdigit(rgb_c[j]))
+		while (ft_isdigit(rgb_c[j]) || rgb_c[j] == '-' || rgb_c[j] == '+')
 			j++;
 		len = j - i;
 		tmp = malloc(len + 1);
@@ -39,6 +39,8 @@ int *init_rgb(char *rgb_c)
 		while (len-- > 0)
 			tmp[len] = rgb_c[--j];
 		res_rgb[color_val] = ft_atoi(tmp);
+		if (res_rgb[color_val] > 255 || res_rgb[color_val] < 0)
+			msg("Invalid RGB\n");
 		color_val++;
 		free(tmp);
 	}
@@ -47,16 +49,36 @@ int *init_rgb(char *rgb_c)
 	return (res_rgb);
 }
 
-void *make_img(char *str, t_game *game)
+void	fill_img_info(void *img_ptr, t_img *img)
 {
-	char *path_to_file;
-	void *img_ptr;
-	int img_width;
-	int img_height;
+	if (!img_ptr || img == NULL)
+	{
+		msg("img_ptr doesnt exist or t_img struct doesn't exist");
+		return ;
+	}
+	img->address = mlx_get_data_addr(img_ptr,
+					&img->bits_per_pixel,
+					&img->line_length,
+					&img->endian);
+}
+
+t_img *make_img(char *str, t_game *game)
+{
+	char 	*path_to_file;
+	t_img	*img;
 
 	path_to_file = ft_strchr(str, '.'); // not./ maybe
-	img_ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img_height, &img_width);
-	if (!img_ptr)
+	if (!path_to_file)
+	{
 		msg("texture file given cannot be read or found\n");
-	return (img_ptr);
+		return (NULL);
+	}
+	img = ft_calloc(1, sizeof(t_img));
+	if (!img)
+		error_msg_exit("Calloc Error: make img");
+	img->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &img->height, &img->width);
+	if (img->ptr == NULL)
+		msg("texture file given cannot be read or found\n");
+	fill_img_info(img->ptr, img);
+	return (img);
 }

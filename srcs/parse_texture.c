@@ -23,55 +23,58 @@ static bool is_empty_line(char *line)
 	return true;
 }
 
-void	check_texture_complete(t_texture *textures)
+bool	check_texture_complete(t_textures *textures)
 {
-	if (textures->no_img_ptr == NULL
-		|| textures->ea_img_ptr == NULL
-		|| textures->we_img_ptr == NULL
-		|| textures->so_img_ptr == NULL)
+	if (textures->imgs[NORTH] == NULL
+		|| textures->imgs[SOUTH] == NULL
+		|| textures->imgs[EAST] == NULL
+		|| textures->imgs[WEST] == NULL)
 	{
 		msg("texture not complete\n");
+		return (false);
 	}
+	return (true);
 }
 
-t_texture	*init_textures(void)
+t_textures	*init_textures(void)
 {
-	t_texture	*textures;
+	t_textures	*textures;
 
-	textures = ft_calloc(1, sizeof(t_texture));
+	textures = ft_calloc(1, sizeof(t_textures));
 	if (textures == NULL)
-		error_msg("CALLOC ERROR\n");
+		error_msg_exit("Calloc Error:texture init\n");
 	return (textures);
 }
 
 int *init_rgb(char *rgb_c);
 void *make_img(char *str, t_game *game);
 
-static void compare_texture(char *line, t_texture *textures, t_game *game)
+static bool compare_texture(char *line, t_textures *textures, t_game *game)
 {
 	if (is_empty_line(line))
-		return;
+		return (true);
 	while (*line == '\t' || *line == ' ')
 		line++;
 	if (ft_strncmp(line, "NO", 2) == 0)
-		textures->no_img_ptr = make_img(line, game);
+		textures->imgs[NORTH] = make_img(line, game);
 	else if (ft_strncmp(line, "SO", 2) == 0)
-		textures->so_img_ptr = make_img(line, game);
+		textures->imgs[SOUTH] = make_img(line, game);
 	else if (ft_strncmp(line, "WE", 2) == 0)
-		textures->we_img_ptr = make_img(line, game);
+		textures->imgs[WEST] = make_img(line, game);
 	else if (ft_strncmp(line, "EA", 2) == 0)
-		textures->ea_img_ptr = make_img(line, game);
+		textures->imgs[EAST] = make_img(line, game);
 	else if (ft_strncmp(line, "F", 1) == 0)
 		textures->floor_rgb = init_rgb(line);
 	else if (ft_strncmp(line, "C", 1) == 0)
 		textures->ceiling_rgb = init_rgb(line);
-	return;
+	else
+		return (false);
+	return (true);
 }
 
-void	parse_texture(char *line, t_game *game)
+bool	parse_texture(char *line, t_game *game)
 {
 	if (!game->textures)
 		game->textures = init_textures();
-	compare_texture(line, game->textures, game);
-	return ;
+	return (compare_texture(line, game->textures, game));
 }
