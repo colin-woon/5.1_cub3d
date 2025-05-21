@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/19 14:13:10 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/21 16:40:40 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int main(int ac, char *av[])
 	if (parse(av[1], &game) == false)
 		exit(EXIT_FAILURE);
 	// free_texture(&game);
-	init_player(&game.player);
+	// init_player(&game.player);
 	game.ray = malloc(sizeof(t_ray));
 	run_raycasting(game.ray, game.player, game.mlx_data, &game);
 	run_mlx(&game);

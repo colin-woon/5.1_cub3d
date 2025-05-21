@@ -162,7 +162,7 @@ int		ft_strlen_pro(char *line)
 	return (str_len);
 }
 
-static bool	check_invalid_char(t_map *map)
+static bool	check_invalid_char(t_map *map, t_game *game)
 {
 	int		i;
 	int		j;
@@ -188,6 +188,8 @@ static bool	check_invalid_char(t_map *map)
 				msg("Invalid char in map\n");
 				return (true);
 			}
+			if (ft_isplayer(line[i]))
+				game->player = init_player(line[i], i, j);
 			i++;
 		}
 		true_len = ft_strlen_pro(line);
@@ -198,9 +200,9 @@ static bool	check_invalid_char(t_map *map)
 	return (false);
 }
 
-bool	check_valid_map(t_map *map)
+bool	check_valid_map(t_map *map, t_game *game)
 {
-	if (check_invalid_char(map) == true)
+	if (check_invalid_char(map, game) == true)
 		return (false);
 	make_map_square(map);
 	if (check_horizontal_walls(map) == false || check_vertical_walls(map) == false)

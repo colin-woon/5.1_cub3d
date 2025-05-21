@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 20:58:12 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/21 16:40:17 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_game
 	t_player	*player;
 	t_ray		*ray;
 	// int		**map;
-	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH]; //doesnt work with both 
+	int			map_debug[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH]; //doesnt work with both 
 }	t_game;
 
 bool	parse_map(int fd, char *line, t_game *game);
@@ -144,7 +144,8 @@ void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
 void init_floor_and_ceiling(t_mlx *mlx, int color);
 
 // init.c
-void init_player(t_player **player);
+// void init_player(t_player **player);
+t_player	*init_player(char p, int x, int y);
 
 // utils_cleanup.c
 void	cleanup(t_game *game);
