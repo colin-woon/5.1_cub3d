@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
 /*   Updated: 2025/05/20 17:52:15 by cwoon            ###   ########.fr       */
@@ -57,13 +57,16 @@ int main(int ac, char *av[])
 	memcpy(game.map, debug_map, sizeof(debug_map));
 	game.is_render = false;
 
-	// if (ac != 2)
-	// {
-	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
-	// 	return (0);
-	// }
-	// parse(av[1], &game);
+	if (ac != 2)
+	{
+		msg("Bad Input\nExample: ./cub3D .cub\n");
+		return (0);
+	}
+	game = (t_game){0};
 	start_mlx(&game);
+	if (parse(av[1], &game) == false)
+		exit(EXIT_FAILURE);
+	// free_texture(&game);
 	init_player(&game.player);
 	game.ray = malloc(sizeof(t_ray));
 	run_raycasting(game.ray, game.player, game.mlx_data, &game);

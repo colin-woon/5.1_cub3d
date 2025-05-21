@@ -12,13 +12,13 @@
 
 #include "cub3d.h"
 
-void	check_above_wall(char **rows, int i, int j);
-void	check_wall_behind(char *row, int i);
+bool	check_above_wall(char **rows, int i, int j);
+bool	check_wall_behind(char *row, int i);
 bool	ft_iszero(char c);
 bool	ft_isplayer(char c);
 bool	ft_iswall(int c);
 
-void	check_horizontal_walls(t_map *map)
+bool	check_horizontal_walls(t_map *map)
 {
 	int	i;
 	int	j;
@@ -36,25 +36,33 @@ void	check_horizontal_walls(t_map *map)
 		{
 			if (ft_isspace(row[i]))
 			{
-				check_wall_behind(row, i);
+				if (check_wall_behind(row, i) == false)
+					return (false);
 				while (ft_isspace(row[i]))
 					i++;
 				if (row[i] == '\0')
-					return ;
+					return (true);
 				if (!ft_iswall(row[i]))
+				{
 					msg("hor: map is not closed\n");
+					return (false);
+				}
 				i++;
 			}
 			while (ft_iszero(row[i]) || ft_isplayer(row[i]))
 				i++;
 			if (!ft_iswall(row[i++]) && row[i] != '\0')
-				msg("hor : map is not closed\n");
+			{
+				msg("Hor: map is not closed\n");
+				return (false);
+			}
 		}
 		j++;
 	}
+	return (true);
 }
 
-void	check_vertical_walls(t_map	*map)
+bool	check_vertical_walls(t_map	*map)
 {
 	int	i;
 	int	j;
@@ -76,16 +84,23 @@ void	check_vertical_walls(t_map	*map)
 				if (i + 1 >= map->map_height)
 					break ;
 				if (!ft_iswall(rows[i][j]))
+				{
 					msg("ver: map not closed\n");
+					return (false);
+				}
 			}
 			while (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j]))
 				i++;
 			if (!ft_iswall(rows[i][j]) && i < map->map_height)
-				msg("ver ; map not closed\n");
+			{
+				msg("ver: map not closed\n");
+				return (false);
+			}
 			i++;
 		}
 		j++;
 	}
+	return (true);
 }
 
 char	*fill_str_sp(char *row, int row_width, int max_width)
@@ -94,7 +109,7 @@ char	*fill_str_sp(char *row, int row_width, int max_width)
 
 	new_row = malloc(sizeof(char ) * max_width + 1);
 	if (!new_row)
-		error_msg("Malloc error\n");
+		error_msg_exit("Malloc Error filling space\n");
 	int i = 0;
 	while (i < row_width)
 	{
@@ -139,13 +154,15 @@ int		ft_strlen_pro(char *line)
 {
 	int	str_len;
 
+	if (ft_strlen(line) == 0)
+		return 0;
 	str_len = ft_strlen(line) - 1;
 	while (!ft_iswall(line[str_len]))
 		str_len--;
 	return (str_len);
 }
 
-static void	check_invalid_char(t_map *map)
+static bool	check_invalid_char(t_map *map)
 {
 	int		i;
 	int		j;
@@ -168,8 +185,8 @@ static void	check_invalid_char(t_map *map)
 				break ;
 			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
 			{
-				printf("%c\n", line[i]);
 				msg("Invalid char in map\n");
+				return (true);
 			}
 			i++;
 		}
@@ -178,12 +195,15 @@ static void	check_invalid_char(t_map *map)
 			map->map_width = true_len + 1;
 		j++;
 	}
+	return (false);
 }
 
-void	check_valid_map(t_map *map)
+bool	check_valid_map(t_map *map)
 {
-	check_invalid_char(map);
+	if (check_invalid_char(map) == true)
+		return (false);
 	make_map_square(map);
-	check_horizontal_walls(map);
-	check_vertical_walls(map);
+	if (check_horizontal_walls(map) == false || check_vertical_walls(map) == false)
+		return (false);
+	return (true);
 }

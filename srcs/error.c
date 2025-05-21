@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <ryan42cmp@gmail.com>                +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:51:45 by rteoh             #+#    #+#             */
-/*   Updated: 2025/04/28 15:58:55 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/20 13:22:32 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ void	msg(char *err)
 {
 	write(1, "ERROR:\n", 7);
 	ft_putstr_fd(err, 1);
-	exit(EXIT_SUCCESS);
 }
 
-void	error_msg(char *err)
+bool	error_msg(char *err)
+{
+	perror(err);
+	return false;
+}
+
+void	error_msg_exit(char *err)
 {
 	perror(err);
 	exit(EXIT_FAILURE);
