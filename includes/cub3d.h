@@ -113,7 +113,8 @@ typedef struct s_game
 	t_player	*player;
 	t_ray		*ray;
 	// int		**map;
-	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH]; //doesnt work with both 
+	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+	bool		is_render;
 }	t_game;
 
 bool	parse_map(int fd, char *line, t_game *game);
@@ -159,6 +160,7 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
 void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
+e_wall_direction	get_wall_direction(t_ray *ray);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);
