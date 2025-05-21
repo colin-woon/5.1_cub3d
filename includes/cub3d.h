@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 20:58:12 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/21 20:11:46 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,8 @@
 # define HEIGHT 800
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
+# define FOV 0.66
 # define WALL_HEIGHT_SCALE 1
-
-// DEBUG: TEMPORARY HARDCODED
-#define DEBUG_MAP_WIDTH 24
-#define DEBUG_MAP_HEIGHT 24
-# define DEBUG_PLAYER_POS_X 3
-# define DEBUG_PLAYER_POS_Y 3
 
 typedef enum {
     NORTH,
@@ -41,6 +36,13 @@ typedef enum {
     EAST,
     WEST
 } e_wall_direction;
+
+// DEBUG: TEMPORARY HARDCODED
+#define DEBUG_RENDER_DIRECTION EAST
+#define DEBUG_MAP_WIDTH 24
+#define DEBUG_MAP_HEIGHT 24
+#define DEBUG_PLAYER_POS_X 3
+#define DEBUG_PLAYER_POS_Y 3
 
 typedef enum {
 	VERTICAL,
@@ -109,11 +111,10 @@ typedef struct s_game
 {
 	t_mlx		*mlx_data;
 	t_textures	*textures;
-	t_map		*map; // here, you can comment my parsing out if not using
+	t_map		*map;// here, you can comment my parsing out if not using
 	t_player	*player;
 	t_ray		*ray;
-	// int		**map;
-	int			map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+	int			debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
 	bool		is_render;
 }	t_game;
 
