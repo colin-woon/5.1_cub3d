@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/22 19:51:04 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 20:08:45 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 
 		// choose texture direction (get_wall_direction)
 		// REFACTOR: to use texture[get_wall_direction(ray)]
-		draw_wall_texture(&texture, get_fractional_texture_position_x(ray, player), ray, mlx, &x);
+		draw_wall_texture(game->assets->textures[get_wall_direction(ray)], get_fractional_texture_position_x(ray, player), ray, mlx, &x);
 		x++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
@@ -79,11 +79,11 @@ int get_texture_pixel(t_img *texture, int x, int y)
 e_wall_direction	get_wall_direction(t_ray *ray)
 {
 	if (ray->wall_hit_side == VERTICAL) {
-		if (ray->dir_x > 0) return EAST;  // Ray moving right hits EAST wall
-		else return WEST;                  // Ray moving left hits WEST wall
+		if (ray->dir_x > 0) return SOUTH;  // Ray moving right hits EAST wall
+		else return NORTH;                  // Ray moving left hits WEST wall
 	} else { // HORIZONTAL
-		if (ray->dir_y > 0) return SOUTH; // Ray moving down hits SOUTH wall
-		else return NORTH;                // Ray moving up hits NORTH wall
+		if (ray->dir_y > 0) return EAST; // Ray moving down hits SOUTH wall
+		else return WEST;                // Ray moving up hits NORTH wall
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/22 19:50:18 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 20:06:14 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum {
 } e_wall_direction;
 
 // DEBUG: TEMPORARY HARDCODED
-#define DEBUG_RENDER_DIRECTION EAST
+#define DEBUG_RENDER_DIRECTION NORTH
 #define DEBUG_MAP_WIDTH 24
 #define DEBUG_MAP_HEIGHT 24
 #define DEBUG_PLAYER_POS_X 3

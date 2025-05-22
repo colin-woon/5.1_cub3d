@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/22 19:42:45 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 20:04:13 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,26 @@ void DEBUG_print_map_assets(t_game *game)
     printf("\n--- Debug Floor and Ceiling Colors (from game->assets) ---\n");
     if (game->assets)
     {
+		for (int i = 0; i < 4; i++) // Assuming 4 textures for N, S, E, W
+        {
+            printf("Texture [%d]:\n", i);
+            if (game->assets->textures[i])
+            {
+                printf("  Address: %p\n", (void *)game->assets->textures[i]);
+                printf("  Width:   %d\n", game->assets->textures[i]->width);
+                printf("  Height:  %d\n", game->assets->textures[i]->height);
+                // You could also print other t_img members if needed, e.g.:
+                // printf("  Bits per pixel: %d\n", game->assets->textures[i]->bits_per_pixel);
+                // printf("  Line length:    %d\n", game->assets->textures[i]->line_length);
+                // printf("  Endian:         %d\n", game->assets->textures[i]->endian);
+                // printf("  Image Ptr:      %p\n", game->assets->textures[i]->ptr);
+                // printf("  Data Address:   %p\n", (void *)game->assets->textures[i]->address);
+            }
+            else
+            {
+                printf("  game->assets->textures[%d] pointer is NULL.\n", i);
+            }
+        }
         if (game->assets->floor_rgb)
         {
             // Assuming floor_rgb points to an array of 3 ints [R, G, B]
