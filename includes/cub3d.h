@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/22 18:08:27 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 20:06:14 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum {
 } e_wall_direction;
 
 // DEBUG: TEMPORARY HARDCODED
-#define DEBUG_RENDER_DIRECTION EAST
+#define DEBUG_RENDER_DIRECTION NORTH
 #define DEBUG_MAP_WIDTH 24
 #define DEBUG_MAP_HEIGHT 24
 #define DEBUG_PLAYER_POS_X 3
@@ -143,7 +143,7 @@ void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
-void init_floor_and_ceiling(t_mlx *mlx, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 
 // init.c
 void init_player(t_player **player);
@@ -162,6 +162,8 @@ void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, in
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
 e_wall_direction	get_wall_direction(t_ray *ray);
+int	get_ceiling_colour(t_game *game);
+int	get_floor_colour(t_game *game);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);

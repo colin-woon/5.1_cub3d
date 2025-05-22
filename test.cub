@@ -1,7 +1,7 @@
-NO ./imgs/tung_sahur.xpm
-SO ./imgs/tung_sahur.xpm
-WE ./imgs/tung_sahur.xpm
-EA ./imgs/tung_sahur.xpm
+NO ./texture/water.xpm
+SO ./texture/lavafull.xpm
+WE ./texture/liquid_green.xpm
+EA ./texture/roof_gray.xpm
 
 F 20,20,20
 C 200,200,200
