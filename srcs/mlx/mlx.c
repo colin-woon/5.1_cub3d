@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/06 16:07:50 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 19:47:53 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
-void init_floor_and_ceiling(t_mlx *mlx, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 
 int	close_window(int keycode, t_game *game)
 {
@@ -58,19 +58,18 @@ void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color)
 }
 
 // DEBUG: should add ceiling texture, floor texture
-void init_floor_and_ceiling(t_mlx *mlx, int color)
+void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour)
 {
 	int x;
 	int y;
 
-	(void)color;
 	x = 0;
 	while (x < HEIGHT/2)
 	{
 		y = 0;
 		while (y < WIDTH)
 		{
-			my_mlx_pixel_put(mlx->img, y, x, create_trgb(0, 0, 0, 220));
+			my_mlx_pixel_put(mlx->img, y, x, ceiling_colour);
 			y++;
 		}
 		x++;
@@ -80,7 +79,7 @@ void init_floor_and_ceiling(t_mlx *mlx, int color)
 		y = 0;
 		while (y < WIDTH)
 		{
-			my_mlx_pixel_put(mlx->img, y, x, create_trgb(0, 0, 220, 0));
+			my_mlx_pixel_put(mlx->img, y, x, floor_colour);
 			y++;
 		}
 		x++;

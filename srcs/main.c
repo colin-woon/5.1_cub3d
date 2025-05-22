@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/21 18:21:03 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 19:42:45 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,52 @@
 
 int		game_loop(t_game *game);
 void	run_mlx(t_game *game);
+void	DEBUG_init_map(t_game *game);
+void	DEBUG_print_map_assets(t_game *game);
 
 int main(int ac, char *av[])
 {
 	t_game	game;
 
+	game.is_render = false;
+	DEBUG_init_map(&game);
+	// if (ac != 2)
+	// {
+	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
+	// 	return (0);
+	// }
+	// game = (t_game){0};
+	start_mlx(&game);
+	if (parse(av[1], &game) == false)
+		exit(EXIT_FAILURE);
+	// free_texture(&game);
+	init_player(&game.player);
+	game.ray = malloc(sizeof(t_ray));
+	// DEBUG_print_map_assets(&game);
+	run_raycasting(game.ray, game.player, game.mlx_data, &game);
+	run_mlx(&game);
+	return (0);
+}
+
+void	run_mlx(t_game *game)
+{
+	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
+	mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
+	mlx_loop(game->mlx_data->ptr);
+}
+
+int	game_loop(t_game *game)
+{
+	if (game->is_render)
+	{
+		run_raycasting(game->ray, game->player, game->mlx_data, game);
+		game->is_render = false;
+	}
+	return (0);
+}
+
+void	DEBUG_init_map(t_game *game)
+{
 	int		debug_map[24][24] =
 	{
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -46,6 +87,7 @@ int main(int ac, char *av[])
 		{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
+
 	// int		debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH] =
 	// {
 	// 	{1,1,1,1,1},
@@ -54,39 +96,71 @@ int main(int ac, char *av[])
 	// 	{1,0,0,0,1},
 	// 	{1,1,1,1,1},
 	// };
-	memcpy(game.debug_map, debug_map, sizeof(debug_map));
-	game.is_render = false;
-
-	// if (ac != 2)
-	// {
-	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
-	// 	return (0);
-	// }
-	// game = (t_game){0};
-	start_mlx(&game);
-	// if (parse(av[1], &game) == false)
-	// 	exit(EXIT_FAILURE);
-	// free_texture(&game);
-	init_player(&game.player);
-	game.ray = malloc(sizeof(t_ray));
-	run_raycasting(game.ray, game.player, game.mlx_data, &game);
-	run_mlx(&game);
-	return (0);
+	memcpy(game->debug_map, debug_map, sizeof(debug_map));
 }
 
-void	run_mlx(t_game *game)
+void DEBUG_print_map_assets(t_game *game)
 {
-	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
-	mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
-	mlx_loop(game->mlx_data->ptr);
-}
+    if (!game)
+    {
+        printf("DEBUG: Game pointer is NULL.\n");
+        return;
+    }
 
-int	game_loop(t_game *game)
-{
-	if (game->is_render)
-	{
-		run_raycasting(game->ray, game->player, game->mlx_data, game);
-		game->is_render = false;
-	}
-	return (0);
+    printf("\n--- Debug Map Layout (from game->map->layout) ---\n");
+    if (game->map && game->map->layout && game->map->height > 0)
+    {
+        printf("Map Dimensions: Width=%d, Height=%d\n", game->map->width, game->map->height);
+        for (int i = 0; i < game->map->height; i++)
+        {
+            if (game->map->layout[i])
+            {
+                printf("[%2d]: %s\n", i, game->map->layout[i]);
+            }
+            else
+            {
+                printf("[%2d]: (NULL row)\n", i);
+            }
+        }
+    }
+    else if (game->map && game->map->height <= 0)
+    {
+         printf("Map height is %d. No layout to print from game->map->layout.\n", game->map->height);
+    }
+    else
+    {
+        printf("game->map or game->map->layout is NULL. Cannot print map layout.\n");
+    }
+
+    printf("\n--- Debug Floor and Ceiling Colors (from game->assets) ---\n");
+    if (game->assets)
+    {
+        if (game->assets->floor_rgb)
+        {
+            // Assuming floor_rgb points to an array of 3 ints [R, G, B]
+            printf("Floor RGB: [%d, %d, %d]\n", game->assets->floor_rgb[0], game->assets->floor_rgb[1], game->assets->floor_rgb[2]);
+            // You can also print the combined hex if you have a function to create it
+            // For example: printf("Floor Color (combined hex): 0x%08X\n", create_trgb(0, game->assets->floor_rgb[0], game->assets->floor_rgb[1], game->assets->floor_rgb[2]));
+        }
+        else
+        {
+            printf("game->assets->floor_rgb pointer is NULL.\n");
+        }
+
+        if (game->assets->ceiling_rgb)
+        {
+            // Assuming ceiling_rgb points to an array of 3 ints [R, G, B]
+            printf("Ceiling RGB: [%d, %d, %d]\n", game->assets->ceiling_rgb[0], game->assets->ceiling_rgb[1], game->assets->ceiling_rgb[2]);
+            // For example: printf("Ceiling Color (combined hex): 0x%08X\n", create_trgb(0, game->assets->ceiling_rgb[0], game->assets->ceiling_rgb[1], game->assets->ceiling_rgb[2]));
+        }
+        else
+        {
+            printf("game->assets->ceiling_rgb pointer is NULL.\n");
+        }
+    }
+    else
+    {
+        printf("game->assets pointer is NULL. Cannot print colors.\n");
+    }
+    printf("--- End Debug Print ---\n\n");
 }
