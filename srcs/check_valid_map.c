@@ -27,8 +27,8 @@ bool	check_horizontal_walls(t_map *map)
 
 
 	j = 0;
-	rows = map->map_layout;
-	while (j < map->map_height)
+	rows = map->layout;
+	while (j < map->height)
 	{
 		row = rows[j];
 		i = 0;
@@ -70,18 +70,18 @@ bool	check_vertical_walls(t_map	*map)
 	int		len_col;
 
 	j = 0;
-	rows = map->map_layout;
-	while (j < map->map_width)
+	rows = map->layout;
+	while (j < map->width)
 	{
 		i = 0;
-		while (i < map->map_height)
+		while (i < map->height)
 		{
 			if (ft_isspace(rows[i][j]))
 			{
 				check_above_wall(rows, i, j);
-				while (ft_isspace(rows[i][j]) && i + 1 != map->map_height)
+				while (ft_isspace(rows[i][j]) && i + 1 != map->height)
 					i++;
-				if (i + 1 >= map->map_height)
+				if (i + 1 >= map->height)
 					break ;
 				if (!ft_iswall(rows[i][j]))
 				{
@@ -91,7 +91,7 @@ bool	check_vertical_walls(t_map	*map)
 			}
 			while (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j]))
 				i++;
-			if (!ft_iswall(rows[i][j]) && i < map->map_height)
+			if (!ft_iswall(rows[i][j]) && i < map->height)
 			{
 				msg("ver: map not closed\n");
 				return (false);
@@ -134,8 +134,8 @@ void	make_map_square(t_map *map)
 	char **rows;
 
 	i = 0;
-	rows = map->map_layout;
-	max_width = map->map_width;
+	rows = map->layout;
+	max_width = map->width;
 	char *new_row;
 	while (rows[i])
 	{
@@ -171,7 +171,7 @@ static bool	check_invalid_char(t_map *map)
 	int		true_len;
 
 	true_len = 0;
-	rows = map->map_layout;
+	rows = map->layout;
 	j = 0;
 	while (rows[j])
 	{
@@ -191,8 +191,8 @@ static bool	check_invalid_char(t_map *map)
 			i++;
 		}
 		true_len = ft_strlen_pro(line);
-		if (true_len > map->map_width)
-			map->map_width = true_len + 1;
+		if (true_len > map->width)
+			map->width= true_len + 1;
 		j++;
 	}
 	return (false);

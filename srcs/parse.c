@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/20 19:34:21 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/22 19:10:04 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool start_of_map(char *line)
 	return false;
 }
 
-bool	check_texture_complete(t_textures *textures);
+bool	check_texture_complete(t_assets *assets);
 
 bool parse(char *path_to_cub, t_game *game)
 {
@@ -49,7 +49,7 @@ bool parse(char *path_to_cub, t_game *game)
 		free(line);
 		line = get_next_row(fd);
 	}
-	if (check_texture_complete(game->textures) == false) //change here
+	if (check_texture_complete(game->assets) == false) //change here
 	{
 		free(line);
 		return (false);
