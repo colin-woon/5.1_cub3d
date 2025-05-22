@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/21 20:11:46 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/22 18:08:27 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ typedef enum {
 
 typedef	struct s_map
 {
-	int	map_height;
-	int	map_width;
-	char	**map_layout;
+	int	height;
+	int	width;
+	char	**layout;
 }	t_map;
 
 typedef struct s_img {
@@ -66,12 +66,12 @@ typedef struct s_img {
 	int		height;
 }	t_img;
 
-typedef struct	s_textures
+typedef struct	s_assets
 {
-	t_img		*imgs[4];
+	t_img		*textures[4];
 	int			*floor_rgb;
 	int			*ceiling_rgb;
-}	t_textures;
+}	t_assets;
 
 typedef struct	s_mlx {
 	void	*ptr;
@@ -110,7 +110,7 @@ typedef struct	s_raycasting {
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
-	t_textures	*textures;
+	t_assets	*assets;
 	t_map		*map;// here, you can comment my parsing out if not using
 	t_player	*player;
 	t_ray		*ray;

@@ -23,12 +23,12 @@ static bool is_empty_line(char *line)
 	return true;
 }
 
-bool	check_texture_complete(t_textures *textures)
+bool	check_texture_complete(t_assets *assets)
 {
-	if (textures->imgs[NORTH] == NULL
-		|| textures->imgs[SOUTH] == NULL
-		|| textures->imgs[EAST] == NULL
-		|| textures->imgs[WEST] == NULL)
+	if (assets->textures[NORTH] == NULL
+		|| assets->textures[SOUTH] == NULL
+		|| assets->textures[EAST] == NULL
+		|| assets->textures[WEST] == NULL)
 	{
 		msg("texture not complete\n");
 		return (false);
@@ -36,37 +36,37 @@ bool	check_texture_complete(t_textures *textures)
 	return (true);
 }
 
-t_textures	*init_textures(void)
+t_assets	*init_assets(void)
 {
-	t_textures	*textures;
+	t_assets	*assets;
 
-	textures = ft_calloc(1, sizeof(t_textures));
-	if (textures == NULL)
+	assets = ft_calloc(1, sizeof(t_assets));
+	if (assets == NULL)
 		error_msg_exit("Calloc Error:texture init\n");
-	return (textures);
+	return (assets);
 }
 
 int *init_rgb(char *rgb_c);
 void *make_img(char *str, t_game *game);
 
-static bool compare_texture(char *line, t_textures *textures, t_game *game)
+static bool compare_texture(char *line, t_assets *assets, t_game *game)
 {
 	if (is_empty_line(line))
 		return (true);
 	while (*line == '\t' || *line == ' ')
 		line++;
 	if (ft_strncmp(line, "NO", 2) == 0)
-		textures->imgs[NORTH] = make_img(line, game);
+		assets->textures[NORTH] = make_img(line, game);
 	else if (ft_strncmp(line, "SO", 2) == 0)
-		textures->imgs[SOUTH] = make_img(line, game);
+		assets->textures[SOUTH] = make_img(line, game);
 	else if (ft_strncmp(line, "WE", 2) == 0)
-		textures->imgs[WEST] = make_img(line, game);
+		assets->textures[WEST] = make_img(line, game);
 	else if (ft_strncmp(line, "EA", 2) == 0)
-		textures->imgs[EAST] = make_img(line, game);
+		assets->textures[EAST] = make_img(line, game);
 	else if (ft_strncmp(line, "F", 1) == 0)
-		textures->floor_rgb = init_rgb(line);
+		assets->floor_rgb = init_rgb(line);
 	else if (ft_strncmp(line, "C", 1) == 0)
-		textures->ceiling_rgb = init_rgb(line);
+		assets->ceiling_rgb = init_rgb(line);
 	else
 		return (false);
 	return (true);
@@ -74,7 +74,7 @@ static bool compare_texture(char *line, t_textures *textures, t_game *game)
 
 bool	parse_texture(char *line, t_game *game)
 {
-	if (!game->textures)
-		game->textures = init_textures();
-	return (compare_texture(line, game->textures, game));
+	if (!game->assets)
+		game->assets = init_assets();
+	return (compare_texture(line, game->assets, game));
 }

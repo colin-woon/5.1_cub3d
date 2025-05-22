@@ -25,13 +25,13 @@ void	store_map(char *line, t_map *map, int map_height)
 		error_msg_exit("Malloc Error:store map\n");
 	while (i < map_height)
 	{
-		rows[i] = map->map_layout[i];
+		rows[i] = map->layout[i];
 		i++;
 	}
 	rows[i] = line;
 	rows[i + 1] = NULL;
-	free(map->map_layout);
-	map->map_layout = rows;
+	free(map->layout);
+	map->layout = rows;
 }
 
 
@@ -93,7 +93,7 @@ bool	parse_map(int fd, char *line, t_game *game)
 		map_height++;
 		line = get_next_row(fd);
 	}
-	game->map->map_height = map_height;
+	game->map->height = map_height;
 	if (check_valid_map(game->map) == false)
 		return (false);
 	return (true);
