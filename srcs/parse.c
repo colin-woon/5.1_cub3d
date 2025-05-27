@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/22 19:10:04 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 22:04:03 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ bool parse(char *path_to_cub, t_game *game)
 	fd = open_file(path_to_cub);
 	if (fd < 0)
 		return (false);
+	game->assets = init_assets();
 	line = get_next_row(fd);
 	while (line != NULL)
 	{

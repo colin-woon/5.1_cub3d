@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 20:10:32 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 22:20:15 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 
 		// choose texture direction (get_wall_direction)
 		// REFACTOR: to use texture[get_wall_direction(ray)]
-		draw_wall_texture(game->assets->textures[get_wall_direction(ray)], get_fractional_texture_position_x(ray, player), ray, mlx, &x);
+		draw_wall_texture(&game->assets->textures[get_wall_direction(ray)], get_fractional_texture_position_x(ray, player), ray, mlx, &x);
 		x++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
