@@ -6,12 +6,11 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:48:53 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 15:36:02 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 20:21:03 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 void init_player(t_player **player, t_map *map);
 void init_render_direction(t_player **player, e_wall_direction player_dir);
