@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/23 12:38:24 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/27 13:57:39 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int main(int ac, char *av[])
 
 	if (ac != 2)
 	{
-		msg("Bad Input\nExample: ./cub3D .cub\n");
+		msg("Bad Input\nExample: ./cub3D <input_file>.cub\n");
 		return (0);
 	}
 	game = (t_game){0};

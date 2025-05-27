@@ -55,20 +55,23 @@ static bool compare_texture(char *line, t_textures *textures, t_game *game)
 		return (true);
 	while (*line == '\t' || *line == ' ')
 		line++;
-	if (ft_strncmp(line, "NO", 2) == 0)
+	if (ft_strncmp(line, "NO", 2) == 0 && textures->imgs[NORTH] == NULL)
 		textures->imgs[NORTH] = make_img(line, game);
-	else if (ft_strncmp(line, "SO", 2) == 0)
+	else if (ft_strncmp(line, "SO", 2) == 0 && textures->imgs[SOUTH] == NULL)
 		textures->imgs[SOUTH] = make_img(line, game);
-	else if (ft_strncmp(line, "WE", 2) == 0)
+	else if (ft_strncmp(line, "WE", 2) == 0 && textures->imgs[WEST] == NULL)
 		textures->imgs[WEST] = make_img(line, game);
-	else if (ft_strncmp(line, "EA", 2) == 0)
+	else if (ft_strncmp(line, "EA", 2) == 0 && textures->imgs[EAST] == NULL)
 		textures->imgs[EAST] = make_img(line, game);
-	else if (ft_strncmp(line, "F", 1) == 0)
+	else if (ft_strncmp(line, "F", 1) == 0 && textures->floor_rgb == NULL)
 		textures->floor_rgb = init_rgb(line);
-	else if (ft_strncmp(line, "C", 1) == 0)
+	else if (ft_strncmp(line, "C", 1) == 0 && textures->ceiling_rgb == NULL)
 		textures->ceiling_rgb = init_rgb(line);
 	else
+	{
+		msg("texture given incorrect\n");
 		return (false);
+	}
 	return (true);
 }
 
