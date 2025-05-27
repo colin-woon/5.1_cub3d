@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_movement_hooks.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:43:47 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/21 18:21:41 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 20:11:29 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	movement_keys(int keysym, t_game *game)
 		// REFACTOR: move forward
 		else if (keysym == XK_w)
 		{
-			if(game->debug_map[(int)(game->player->pos_x + game->player->dir_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
+			if(game->map->grid[(int)(game->player->pos_x + game->player->dir_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
 				game->player->pos_x += game->player->dir_x * MOVE_SPEED;
-			if(game->debug_map[(int)game->player->pos_x][(int)(game->player->pos_y + game->player->dir_y * MOVE_SPEED)] == false)
+			if(game->map->grid[(int)game->player->pos_x][(int)(game->player->pos_y + game->player->dir_y * MOVE_SPEED)] == false)
 				game->player->pos_y += game->player->dir_y * MOVE_SPEED;
 			printf("w\n");
 		}
@@ -69,18 +69,18 @@ int	movement_keys(int keysym, t_game *game)
 		else if (keysym == XK_a)
 		{
 			// Move left (perpendicular to direction, using plane vector)
-			if(game->debug_map[(int)(game->player->pos_x - game->player->plane_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
+			if(game->map->grid[(int)(game->player->pos_x - game->player->plane_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
 				game->player->pos_x -= game->player->plane_x * MOVE_SPEED;
-			if(game->debug_map[(int)game->player->pos_x][(int)(game->player->pos_y - game->player->plane_y * MOVE_SPEED)] == false)
+			if(game->map->grid[(int)game->player->pos_x][(int)(game->player->pos_y - game->player->plane_y * MOVE_SPEED)] == false)
 				game->player->pos_y -= game->player->plane_y * MOVE_SPEED;
 			printf("a\n");
 		}
 		// REFACTOR: move backward
 		else if (keysym == XK_s)
 		{
-			if(game->debug_map[(int)(game->player->pos_x - game->player->dir_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
+			if(game->map->grid[(int)(game->player->pos_x - game->player->dir_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
 				game->player->pos_x -= game->player->dir_x * MOVE_SPEED;
-			if(game->debug_map[(int)(game->player->pos_x)][(int)(game->player->pos_y - game->player->dir_y * MOVE_SPEED)] == false)
+			if(game->map->grid[(int)(game->player->pos_x)][(int)(game->player->pos_y - game->player->dir_y * MOVE_SPEED)] == false)
 				game->player->pos_y -= game->player->dir_y * MOVE_SPEED;
 			printf("s\n");
 		}
@@ -88,9 +88,9 @@ int	movement_keys(int keysym, t_game *game)
 		else if (keysym == XK_d)
 		{
 			// Move right (perpendicular to direction, using plane vector)
-			if(game->debug_map[(int)(game->player->pos_x + game->player->plane_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
+			if(game->map->grid[(int)(game->player->pos_x + game->player->plane_x * MOVE_SPEED)][(int)game->player->pos_y] == false)
 				game->player->pos_x += game->player->plane_x * MOVE_SPEED;
-			if(game->debug_map[(int)game->player->pos_x][(int)(game->player->pos_y + game->player->plane_y * MOVE_SPEED)] == false)
+			if(game->map->grid[(int)game->player->pos_x][(int)(game->player->pos_y + game->player->plane_y * MOVE_SPEED)] == false)
 				game->player->pos_y += game->player->plane_y * MOVE_SPEED;
 			printf("d\n");
 		}

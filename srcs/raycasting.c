@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/22 20:08:45 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 20:10:32 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 	init_floor_and_ceiling(mlx, get_floor_colour(game), get_ceiling_colour(game));
 
 	x = 0;
-	while (x < WIDTH)
+	while (x < SCREEN_WIDTH)
 	{
 		init_ray_dir_n_map_pos(game, x, &map_x, &map_y);
 		calculate_point_gap(ray);
@@ -102,7 +102,7 @@ void	draw_wall_texture(t_img *texture, double wall_x, t_ray *ray, t_mlx *mlx, in
 		|| (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
 	tex_x = texture->width - tex_x - 1;
 	step = (double)texture->height / ray->line_height;
-	tex_pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2) * step;
+	tex_pos = (ray->draw_start - SCREEN_HEIGHT / 2 + ray->line_height / 2) * step;
 	y = ray->draw_start;
 	while (y <= ray->draw_end)
 	{
@@ -145,14 +145,14 @@ void	calculate_line_height(t_ray *ray)
 			= (ray->side_dist_y - ray->delta_dist_y);
 
 		ray->line_height \
-		= (int)(WALL_HEIGHT_SCALE * HEIGHT / ray->prependicular_wall_distance);
+		= (int)(WALL_HEIGHT_SCALE * SCREEN_HEIGHT / ray->prependicular_wall_distance);
 
-		ray->draw_start = -ray->line_height / 2 + HEIGHT / 2;
+		ray->draw_start = -ray->line_height / 2 + SCREEN_HEIGHT / 2;
 		if (ray->draw_start < 0)
 			ray->draw_start = 0;
-			ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
-		if (ray->draw_end >= HEIGHT)
-			ray->draw_end = HEIGHT - 1;
+			ray->draw_end = ray->line_height / 2 + SCREEN_HEIGHT / 2;
+		if (ray->draw_end >= SCREEN_HEIGHT)
+			ray->draw_end = SCREEN_HEIGHT - 1;
 }
 
 // run_DDA
@@ -179,7 +179,9 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y)
 			*map_y += ray->step_y;
 			ray->wall_hit_side = HORIZONTAL;
 		}
-		if (game->debug_map[*map_x][*map_y] > 0)
+		// printf("height is %d\n", game->map->height);
+		// printf("x is %d, y is %d\n", *map_x, *map_y);
+		if (game->map->grid[*map_x][*map_y] > 0)
 			is_wall_hit = 1;
 	}
 }
@@ -233,7 +235,7 @@ void	calculate_point_gap(t_ray *ray)
 }
 
 // Needed because when moving or rotating, the player position changes, and it usually is a floating point
-// EXPLANATION:	max value after 2 * x/WIDTH is 2, and min value is 0,
+// EXPLANATION:	max value after 2 * x/SCREEN_WIDTH is 2, and min value is 0,
 // using those values, subtract 1, can effectively represent:
 //		-1 (left side of screen)
 //		0 (center of screen)
@@ -241,7 +243,7 @@ void	calculate_point_gap(t_ray *ray)
 // camera_x represents a like a percentage of where it is on the plane (-1 < 0 < 1) (Left Centre Right)
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y)
 {
-	game->ray->camera_x = 2 * x / (double)WIDTH - 1;
+	game->ray->camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
 	game->ray->dir_x \
 	= game->player->dir_x + game->player->plane_x * game->ray->camera_x;
 	game->ray->dir_y \

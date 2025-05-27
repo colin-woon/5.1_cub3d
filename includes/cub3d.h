@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 15:01:15 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/27 20:13:02 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# define WIDTH 1200
-# define HEIGHT 800
+# define SCREEN_WIDTH 1200
+# define SCREEN_HEIGHT 800
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
@@ -51,11 +51,12 @@ typedef enum {
 
 typedef	struct s_map
 {
-  char	**layout;
-	int	height;
-	int	width;
-  int		player_x;
-	int		player_y;
+	char				**layout;
+	int					**grid;
+	int					height;
+	int					width;
+	int					player_x;
+	int					player_y;
 	e_wall_direction	player_dir;
 }	t_map;
 
@@ -129,12 +130,13 @@ int		open_file(char *path_to_file);
 bool	parse(char *path_to_cub, t_game *game);
 bool	parse_texture(char *line, t_game *game);
 
-
 bool	error_msg(char *err);
 void	msg(char *err);
 void	error_msg_exit(char *err);
 
 // debug.c
+void	DEBUG_init_map(t_game *game);
+void	DEBUG_print_map_assets(t_game *game);
 int debug_event(int keycode, t_mlx *mlx);
 
 // mlx_movement_hooks.c
