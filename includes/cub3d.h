@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
 /*   Updated: 2025/05/27 15:01:15 by rteoh            ###   ########.fr       */
@@ -27,13 +27,8 @@
 # define HEIGHT 800
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
+# define FOV 0.66
 # define WALL_HEIGHT_SCALE 1
-
-// DEBUG: TEMPORARY HARDCODED
-#define DEBUG_MAP_WIDTH 24
-#define DEBUG_MAP_HEIGHT 24
-# define DEBUG_PLAYER_POS_X 3
-# define DEBUG_PLAYER_POS_Y 3
 
 typedef enum {
     NORTH,
@@ -42,6 +37,13 @@ typedef enum {
     WEST
 } e_wall_direction;
 
+// DEBUG: TEMPORARY HARDCODED
+#define DEBUG_RENDER_DIRECTION NORTH
+#define DEBUG_MAP_WIDTH 24
+#define DEBUG_MAP_HEIGHT 24
+#define DEBUG_PLAYER_POS_X 3
+#define DEBUG_PLAYER_POS_Y 3
+
 typedef enum {
 	VERTICAL,
 	HORIZONTAL
@@ -49,12 +51,12 @@ typedef enum {
 
 typedef	struct s_map
 {
-	int	map_height;
-	int	map_width;
-	char	**map_layout;
-	int		player_x;
+  char	**layout;
+	int	height;
+	int	width;
+  int		player_x;
 	int		player_y;
-	e_wall_direction	player_dir;	
+	e_wall_direction	player_dir;
 }	t_map;
 
 typedef struct s_img {
@@ -67,12 +69,12 @@ typedef struct s_img {
 	int		height;
 }	t_img;
 
-typedef struct	s_textures
+typedef struct	s_assets
 {
-	t_img		*imgs[4];
+	t_img		*textures[4];
 	int			*floor_rgb;
 	int			*ceiling_rgb;
-}	t_textures;
+}	t_assets;
 
 typedef struct	s_mlx {
 	void	*ptr;
@@ -111,12 +113,12 @@ typedef struct	s_raycasting {
 typedef struct s_game
 {
 	t_mlx		*mlx_data;
-	t_textures	*textures;
-	t_map		*map; // here, you can comment my parsing out if not using
+	t_assets	*assets;
+	t_map		*map;// here, you can comment my parsing out if not using
 	t_player	*player;
 	t_ray		*ray;
-	// int		**map;
-	int			map_debug[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH]; //doesnt work with both 
+	int			debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
+	bool		is_render;
 }	t_game;
 
 bool	parse_map(int fd, char *line, t_game *game);
@@ -144,7 +146,7 @@ void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void init_mlx_img(t_mlx *mlx);
 void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
-void init_floor_and_ceiling(t_mlx *mlx, int color);
+void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 
 // init.c
 void init_player(t_player **player, t_map *map);
@@ -162,6 +164,9 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
 void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
+e_wall_direction	get_wall_direction(t_ray *ray);
+int	get_ceiling_colour(t_game *game);
+int	get_floor_colour(t_game *game);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);

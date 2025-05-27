@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/23 12:34:33 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/22 20:08:45 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ int		get_texture_pixel(t_img *texture, int x, int y);
 void	draw_wall_texture(t_img *texture, double wall_x, t_ray *ray, t_mlx *mlx, int *x);
 double	get_fractional_texture_position_x(t_ray *ray, t_player *player);
 void	calculate_line_height(t_ray *ray);
+e_wall_direction	get_wall_direction(t_ray *ray);
 void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
 void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
+int	get_ceiling_colour(t_game *game);
+int	get_floor_colour(t_game *game);
 
 void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 {
@@ -30,7 +33,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 	static bool is_already_init_texture = false;
 
 	// need to modify to accept the ceiling and floor colour
-	init_floor_and_ceiling(mlx, 0);
+	init_floor_and_ceiling(mlx, get_floor_colour(game), get_ceiling_colour(game));
 
 	x = 0;
 	while (x < WIDTH)
@@ -60,7 +63,7 @@ void run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 
 		// choose texture direction (get_wall_direction)
 		// REFACTOR: to use texture[get_wall_direction(ray)]
-		draw_wall_texture(&texture, get_fractional_texture_position_x(ray, player), ray, mlx, &x);
+		draw_wall_texture(game->assets->textures[get_wall_direction(ray)], get_fractional_texture_position_x(ray, player), ray, mlx, &x);
 		x++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
@@ -73,13 +76,14 @@ int get_texture_pixel(t_img *texture, int x, int y)
 	return *(int*)dst;
 }
 
-e_wall_direction	get_wall_direction(t_ray *ray) {
+e_wall_direction	get_wall_direction(t_ray *ray)
+{
 	if (ray->wall_hit_side == VERTICAL) {
-		if (ray->dir_x > 0) return EAST;  // Ray moving right hits EAST wall
-		else return WEST;                  // Ray moving left hits WEST wall
+		if (ray->dir_x > 0) return SOUTH;  // Ray moving right hits EAST wall
+		else return NORTH;                  // Ray moving left hits WEST wall
 	} else { // HORIZONTAL
-		if (ray->dir_y > 0) return SOUTH; // Ray moving down hits SOUTH wall
-		else return NORTH;                // Ray moving up hits NORTH wall
+		if (ray->dir_y > 0) return EAST; // Ray moving down hits SOUTH wall
+		else return WEST;                // Ray moving up hits NORTH wall
 	}
 }
 
@@ -175,7 +179,7 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y)
 			*map_y += ray->step_y;
 			ray->wall_hit_side = HORIZONTAL;
 		}
-		if (game->map_debug[*map_x][*map_y] > 0)
+		if (game->debug_map[*map_x][*map_y] > 0)
 			is_wall_hit = 1;
 	}
 }
@@ -244,4 +248,20 @@ void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y)
 	= game->player->dir_y + game->player->plane_y * game->ray->camera_x;
 	*map_x = (int)game->player->pos_x;
 	*map_y = (int)game->player->pos_y;
+}
+
+int	get_floor_colour(t_game *game)
+{
+	return(create_trgb(0, \
+		game->assets->floor_rgb[0], \
+		game->assets->floor_rgb[1], \
+		game->assets->floor_rgb[2]));
+}
+
+int	get_ceiling_colour(t_game *game)
+{
+	return(create_trgb(0, \
+		game->assets->ceiling_rgb[0], \
+		game->assets->ceiling_rgb[1], \
+		game->assets->ceiling_rgb[2]));
 }

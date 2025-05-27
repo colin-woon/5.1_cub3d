@@ -12,25 +12,47 @@
 
 #include "cub3d.h"
 
+
 void init_player(t_player **player, t_map *map);
+void init_render_direction(t_player **player);
+
 
 void init_player(t_player **player, t_map *map)
 {
+
 	*player = ft_calloc(1, sizeof(t_player));
 	if (!player)
 		error_msg_exit("Calloc Error: init player\n");
 	(*player)->pos_x = map->player_x;
 	(*player)->pos_y = map->player_y;
-	(*player)->dir_x = -1;
-	(*player)->dir_y = 0;
-	(*player)->plane_x = 0;
-	(*player)->plane_y = 0.66;
+// 	(*player)->pos_x = DEBUG_PLAYER_POS_X;
+// 	(*player)->pos_y = DEBUG_PLAYER_POS_Y;
+	init_render_direction(player);
+}
 
 
-	// DEBUG
-	// printf("\n--- Player Initial Values ---\n");
-    // printf("Position: (x: %.2f, y: %.2f)\n", (*player)->pos_x, (*player)->pos_y);
-    // printf("Direction: (x: %.2f, y: %.2f)\n", (*player)->dir_x, (*player)->dir_y);
-    // printf("Camera Plane: (x: %.2f, y: %.2f)\n", (*player)->plane_x, (*player)->plane_y);
-    // printf("---------------------------\n\n");
+void init_render_direction(t_player **player)
+{
+	int	debug_direction = DEBUG_RENDER_DIRECTION;
+
+	if (debug_direction == NORTH)
+	{
+		(*player)->dir_x = -1;
+		(*player)->plane_y = FOV;
+	}
+	else if (debug_direction == SOUTH)
+	{
+		(*player)->dir_x = 1;
+		(*player)->plane_y = -FOV;
+	}
+	else if (debug_direction == WEST)
+	{
+		(*player)->dir_y = -1;
+		(*player)->plane_x = -FOV;
+	}
+	else if (debug_direction == EAST)
+	{
+		(*player)->dir_y = 1;
+		(*player)->plane_x = FOV;
+	}
 }
