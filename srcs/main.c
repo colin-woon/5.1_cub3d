@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/22 20:04:13 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 13:57:39 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void DEBUG_print_map_assets(t_game *game)
         printf("DEBUG: Game pointer is NULL.\n");
         return;
     }
-
     printf("\n--- Debug Map Layout (from game->map->layout) ---\n");
     if (game->map && game->map->layout && game->map->height > 0)
     {

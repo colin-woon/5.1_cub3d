@@ -44,7 +44,7 @@ bool	check_horizontal_walls(t_map *map)
 					return (true);
 				if (!ft_iswall(row[i]))
 				{
-					msg("hor: map is not closed\n");
+					msg("Hor: map is not closed\n");
 					return (false);
 				}
 				i++;
@@ -162,15 +162,31 @@ int		ft_strlen_pro(char *line)
 	return (str_len);
 }
 
-static bool	check_invalid_char(t_map *map)
+void	save_player_dir(t_map *map, int x, int y, char dir)
+{
+	map->player_x = x;
+	map->player_y = y;
+	if (ft_strncmp(dir, "N", 1) == 0)
+		map->player_dir = NORTH;
+	else if (ft_strncmp(dir, "S", 1) == 0)
+		map->player_dir = SOUTH;
+	else if (ft_strncmp(dir, "W", 1) == 0)
+		map->player_dir = WEST;
+	else if (ft_strncmp(dir, "E", 1) == 0)
+		map->player_dir = EAST;
+}
+
+static bool	check_invalid_char(t_map *map, t_game *game)
 {
 	int		i;
 	int		j;
 	char	**rows;
 	char	*line;
 	int		true_len;
+	bool	player_found;
 
 	true_len = 0;
+	player_found = false;
 	rows = map->layout;
 	j = 0;
 	while (rows[j])
@@ -188,6 +204,16 @@ static bool	check_invalid_char(t_map *map)
 				msg("Invalid char in map\n");
 				return (true);
 			}
+			if (ft_isplayer(line[i]))
+			{
+				if (player_found == true)
+				{
+					msg("Multiple players found\n");
+					return (true);
+				}
+				save_player(map, i, j, line[i]);
+				player_found = true;
+			}
 			i++;
 		}
 		true_len = ft_strlen_pro(line);
@@ -198,9 +224,9 @@ static bool	check_invalid_char(t_map *map)
 	return (false);
 }
 
-bool	check_valid_map(t_map *map)
+bool	check_valid_map(t_map *map, t_game *game)
 {
-	if (check_invalid_char(map) == true)
+	if (check_invalid_char(map, game) == true)
 		return (false);
 	make_map_square(map);
 	if (check_horizontal_walls(map) == false || check_vertical_walls(map) == false)

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/22 20:06:14 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 15:01:15 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ typedef enum {
 
 typedef	struct s_map
 {
+  char	**layout;
 	int	height;
 	int	width;
-	char	**layout;
+  int		player_x;
+	int		player_y;
+	e_wall_direction	player_dir;
 }	t_map;
 
 typedef struct s_img {
@@ -146,7 +149,7 @@ void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
 void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 
 // init.c
-void init_player(t_player **player);
+void init_player(t_player **player, t_map *map);
 
 // utils_cleanup.c
 void	cleanup(t_game *game);

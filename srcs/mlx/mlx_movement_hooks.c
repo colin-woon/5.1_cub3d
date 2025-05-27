@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_movement_hooks.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:43:47 by cwoon             #+#    #+#             */
 /*   Updated: 2025/05/21 18:21:41 by cwoon            ###   ########.fr       */

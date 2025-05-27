@@ -3,9 +3,10 @@ SO ./texture/lavafull.xpm
 WE ./texture/liquid_green.xpm
 EA ./texture/roof_gray.xpm
 
+
 F 20,20,20
 C 200,200,200
 
 111111111
-1000N0001
+1000NN001
 111111111

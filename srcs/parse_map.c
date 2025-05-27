@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-bool	check_valid_map(t_map *map);
+bool	check_valid_map(t_map *map, t_game *game);
 
 void	store_map(char *line, t_map *map, int map_height)
 {
