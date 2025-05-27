@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 22:19:19 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/29 00:44:17 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,10 @@ int debug_event(int keycode, t_mlx *mlx);
 int	movement_keys(int keysym, t_game *game);
 
 // mlx.c
-int	close_window(int keycode, t_game *game);
+int		close_window(int keycode, t_game *game);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void init_mlx_img(t_mlx *mlx);
-void draw_vertical_line(t_mlx *mlx, int x, int from, int to, int color);
-void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
+void	init_mlx_img(t_mlx *mlx);
 
 // init.c
 void init_player(t_player **player, t_map *map);
@@ -169,8 +167,10 @@ void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, in
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
 e_wall_direction	get_wall_direction(t_ray *ray);
-int	get_ceiling_colour(t_game *game);
-int	get_floor_colour(t_game *game);
+
+void	draw_floor_n_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
+int		get_ceiling_colour(t_game *game);
+int		get_floor_colour(t_game *game);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);

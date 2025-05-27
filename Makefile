@@ -48,6 +48,7 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/utils_cleanup.c \
 					srcs/exec/init.c \
 					srcs/exec/raycasting.c \
+					srcs/exec/draw_floor_n_ceiling.c \
 					srcs/mlx/utils_colour.c \
 					srcs/mlx/mlx.c \
 					srcs/mlx/mlx_movement_hooks.c \
