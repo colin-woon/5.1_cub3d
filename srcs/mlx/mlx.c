@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/22 19:47:53 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 20:02:07 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 void init_mlx_img(t_mlx *mlx)
 {
 	mlx->img = malloc(sizeof(t_img));
-	mlx->img->ptr = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
+	mlx->img->ptr = mlx_new_image(mlx->ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	mlx->img->address = mlx_get_data_addr(mlx->img->ptr, &mlx->img->bits_per_pixel, &mlx->img->line_length,
 								&mlx->img->endian);
@@ -64,20 +64,20 @@ void init_floor_and_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour)
 	int y;
 
 	x = 0;
-	while (x < HEIGHT/2)
+	while (x < SCREEN_HEIGHT/2)
 	{
 		y = 0;
-		while (y < WIDTH)
+		while (y < SCREEN_WIDTH)
 		{
 			my_mlx_pixel_put(mlx->img, y, x, ceiling_colour);
 			y++;
 		}
 		x++;
 	}
-	while (x < HEIGHT)
+	while (x < SCREEN_HEIGHT)
 	{
 		y = 0;
-		while (y < WIDTH)
+		while (y < SCREEN_WIDTH)
 		{
 			my_mlx_pixel_put(mlx->img, y, x, floor_colour);
 			y++;
@@ -96,7 +96,7 @@ void start_mlx(t_game *game)
 
 	game->mlx_data = malloc(sizeof(t_mlx));
 	game->mlx_data->ptr = mlx_init();
-	game->mlx_data->window = mlx_new_window(game->mlx_data->ptr, WIDTH, HEIGHT, "Cub3d");
+	game->mlx_data->window = mlx_new_window(game->mlx_data->ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3d");
 	mlx_hook(game->mlx_data->window, DestroyNotify, 0, close_window, &game);
 	init_mlx_img(game->mlx_data);
 	// draw_pixels(game->mlx_data);

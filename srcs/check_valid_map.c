@@ -162,7 +162,7 @@ int		ft_strlen_pro(char *line)
 	return (str_len);
 }
 
-void	save_player(t_map *map, int x, int y, char dir)
+void	save_player(t_map *map, int y, int x, char dir)
 {
 	map->player_x = x;
 	map->player_y = y;
