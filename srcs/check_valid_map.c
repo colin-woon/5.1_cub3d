@@ -162,6 +162,20 @@ int		ft_strlen_pro(char *line)
 	return (str_len);
 }
 
+void	save_player_dir(t_map *map, int x, int y, char dir)
+{
+	map->player_x = x;
+	map->player_y = y;
+	if (ft_strncmp(dir, "N", 1) == 0)
+		map->player_dir = NORTH;
+	else if (ft_strncmp(dir, "S", 1) == 0)
+		map->player_dir = SOUTH;
+	else if (ft_strncmp(dir, "W", 1) == 0)
+		map->player_dir = WEST;
+	else if (ft_strncmp(dir, "E", 1) == 0)
+		map->player_dir = EAST;
+}
+
 static bool	check_invalid_char(t_map *map, t_game *game)
 {
 	int		i;
@@ -197,7 +211,7 @@ static bool	check_invalid_char(t_map *map, t_game *game)
 					msg("Multiple players found\n");
 					return (true);
 				}
-				game->player = init_player(line[i], i, j);
+				save_player(map, i, j, line[i]);
 				player_found = true;
 			}
 			i++;

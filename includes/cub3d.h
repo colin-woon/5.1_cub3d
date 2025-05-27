@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/21 16:40:17 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:27:42 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ typedef	struct s_map
 	int	map_height;
 	int	map_width;
 	char	**map_layout;
+	int		player_x;
+	int		player_y;
+	e_wall_direction	player_dir;	
 }	t_map;
 
 typedef struct s_img {
