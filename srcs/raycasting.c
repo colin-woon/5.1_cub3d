@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/20 17:30:26 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:34:33 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y)
 			*map_y += ray->step_y;
 			ray->wall_hit_side = HORIZONTAL;
 		}
-		if (game->map[*map_x][*map_y] > 0)
+		if (game->map_debug[*map_x][*map_y] > 0)
 			is_wall_hit = 1;
 	}
 }

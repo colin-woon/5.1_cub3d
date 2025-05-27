@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/21 16:40:40 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:38:24 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int main(int ac, char *av[])
 	// 	{1,0,0,0,1},
 	// 	{1,1,1,1,1},
 	// };
-	memcpy(game.map, debug_map, sizeof(debug_map));
+	// memcpy(game.map, debug_map, sizeof(debug_map));
 
 	if (ac != 2)
 	{
@@ -67,8 +67,8 @@ int main(int ac, char *av[])
 		exit(EXIT_FAILURE);
 	// free_texture(&game);
 	// init_player(&game.player);
-	game.ray = malloc(sizeof(t_ray));
-	run_raycasting(game.ray, game.player, game.mlx_data, &game);
+	// game.ray = malloc(sizeof(t_ray));
+	// run_raycasting(game.ray, game.player, game.mlx_data, &game);
 	run_mlx(&game);
 	return (0);
 }
@@ -76,7 +76,7 @@ int main(int ac, char *av[])
 void	run_mlx(t_game *game)
 {
 	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
-	mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
+	// mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
 	mlx_loop(game->mlx_data->ptr);
 }
 

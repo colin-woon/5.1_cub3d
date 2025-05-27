@@ -1,11 +1,14 @@
 NO ./imgs/tung_sahur.xpm
 SO ./imgs/tung_sahur.xpm
 WE ./imgs/tung_sahur.xpm
+WE ./imgs/tung_sahur.xpm
+
 EA ./imgs/tung_sahur.xpm
+
 
 F 20,20,20
 C 200,200,200
 
 111111111
-1000N0001
+1000NN001
 111111111

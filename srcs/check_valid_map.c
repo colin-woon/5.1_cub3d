@@ -44,7 +44,7 @@ bool	check_horizontal_walls(t_map *map)
 					return (true);
 				if (!ft_iswall(row[i]))
 				{
-					msg("hor: map is not closed\n");
+					msg("Hor: map is not closed\n");
 					return (false);
 				}
 				i++;
@@ -169,8 +169,10 @@ static bool	check_invalid_char(t_map *map, t_game *game)
 	char	**rows;
 	char	*line;
 	int		true_len;
+	bool	player_found;
 
 	true_len = 0;
+	player_found = false;
 	rows = map->map_layout;
 	j = 0;
 	while (rows[j])
@@ -189,7 +191,15 @@ static bool	check_invalid_char(t_map *map, t_game *game)
 				return (true);
 			}
 			if (ft_isplayer(line[i]))
+			{
+				if (player_found == true)
+				{
+					msg("Multiple players found\n");
+					return (true);
+				}
 				game->player = init_player(line[i], i, j);
+				player_found = true;
+			}
 			i++;
 		}
 		true_len = ft_strlen_pro(line);

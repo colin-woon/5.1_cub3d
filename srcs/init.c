@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:48:53 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/21 16:28:45 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:29:35 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ t_player	*init_player(char p, int x, int y)
 		error_msg_exit("Calloc Error: init player\n");
 	player->pos_x = x;
 	player->pos_y = y;
+	player->dir_x = -1;
+	player->dir_y = 0;
+	player->plane_x = 0;
+	player->plane_y = 0.66;
 	return (player);
-	
 }
