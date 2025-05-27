@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:48:53 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 15:00:15 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/27 15:36:02 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 
 void init_player(t_player **player, t_map *map);
-void init_render_direction(t_player **player);
-
+void init_render_direction(t_player **player, e_wall_direction player_dir);
 
 void init_player(t_player **player, t_map *map)
 {
@@ -27,30 +26,30 @@ void init_player(t_player **player, t_map *map)
 	(*player)->pos_y = map->player_y;
 // 	(*player)->pos_x = DEBUG_PLAYER_POS_X;
 // 	(*player)->pos_y = DEBUG_PLAYER_POS_Y;
-	init_render_direction(player);
+	init_render_direction(player, map->player_dir);
 }
 
 
-void init_render_direction(t_player **player)
+void init_render_direction(t_player **player, e_wall_direction player_dir)
 {
 	int	debug_direction = DEBUG_RENDER_DIRECTION;
 
-	if (debug_direction == NORTH)
+	if (player_dir == NORTH)
 	{
 		(*player)->dir_x = -1;
 		(*player)->plane_y = FOV;
 	}
-	else if (debug_direction == SOUTH)
+	else if (player_dir == SOUTH)
 	{
 		(*player)->dir_x = 1;
 		(*player)->plane_y = -FOV;
 	}
-	else if (debug_direction == WEST)
+	else if (player_dir == WEST)
 	{
 		(*player)->dir_y = -1;
 		(*player)->plane_x = -FOV;
 	}
-	else if (debug_direction == EAST)
+	else if (player_dir == EAST)
 	{
 		(*player)->dir_y = 1;
 		(*player)->plane_x = FOV;
