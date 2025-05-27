@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 20:13:02 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/27 22:19:19 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_img {
 
 typedef struct	s_assets
 {
-	t_img		*textures[4];
+	t_img		textures[4];
 	int			*floor_rgb;
 	int			*ceiling_rgb;
 }	t_assets;
@@ -122,7 +122,9 @@ typedef struct s_game
 	bool		is_render;
 }	t_game;
 
-bool	parse_map(int fd, char *line, t_game *game);
+
+t_assets	*init_assets(void);
+bool		parse_map(int fd, char *line, t_game *game);
 
 char	*get_next_row(int fd);
 bool	ft_strend(char *s, char *suffix);
