@@ -94,7 +94,7 @@ bool	parse_map(int fd, char *line, t_game *game)
 		line = get_next_row(fd);
 	}
 	game->map->height = map_height;
-	if (check_valid_map(game->map) == false)
+	if (check_valid_map(game->map, game) == false)
 		return (false);
 	return (true);
 }
