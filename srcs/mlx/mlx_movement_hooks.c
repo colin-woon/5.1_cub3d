@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:43:47 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 20:58:56 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/28 19:14:23 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 int	movement_keys(int keysym, t_game *game);
 bool	is_valid_keys(int keysym);
 void	recalculate_variables(t_game *game, t_map *map, t_player *player, int keysym);
+void	move_left_or_right(int keysym, t_player *player, t_game *game, t_map *map);
+void	move_forward_or_backward(int keysym, t_player *player, t_game *game, t_map *map);
+void	look_left_or_right(int keysym, t_player *player, t_game *game);
+
 
 int	movement_keys(int keysym, t_game *game)
 {
 	// printf("DEBUG: sym INT is %d\n", keysym);
-	printf("DEBUG: sym HEXA is %x\n", keysym);
+	// printf("DEBUG: sym HEXA is %x\n", keysym);
 	// REFACTOR: exit
 	if (keysym == XK_Escape)
 	{
-		printf("DEBUG: Escape\n");
+		// printf("DEBUG: Escape\n");
 		close_window(0, game);
 	}
 	if (is_valid_keys(keysym))
@@ -47,6 +51,16 @@ bool	is_valid_keys(int keysym)
 
 void	recalculate_variables(t_game *game, t_map *map, t_player *player, int keysym)
 {
+	if (keysym == XK_Left || keysym == XK_Right)
+		look_left_or_right(keysym, player, game);
+	else if (keysym == XK_w || keysym == XK_s)
+		move_forward_or_backward(keysym, player, game, map);
+	else if (keysym == XK_a || keysym == XK_d)
+		move_left_or_right(keysym, player, game, map);
+}
+
+void	look_left_or_right(int keysym, t_player *player, t_game *game)
+{
 	if (keysym == XK_Left)
 	{
 		double	old_dir_x;
@@ -58,9 +72,8 @@ void	recalculate_variables(t_game *game, t_map *map, t_player *player, int keysy
 		old_plane_x = player->plane_x;
 		player->plane_x = player->plane_x * cos(ROTATION_SPEED) - player->plane_y * sin(ROTATION_SPEED);
 		player->plane_y = old_plane_x * sin(ROTATION_SPEED) + player->plane_y * cos(ROTATION_SPEED);
-		printf("Left\n");
+		game->is_render = true;
 	}
-	// REFACTOR: look right
 	else if (keysym == XK_Right)
 	{
 		double	old_dir_x;
@@ -72,45 +85,46 @@ void	recalculate_variables(t_game *game, t_map *map, t_player *player, int keysy
 		old_plane_x = player->plane_x;
 		player->plane_x = player->plane_x * cos(-ROTATION_SPEED) - player->plane_y * sin(-ROTATION_SPEED);
 		player->plane_y = old_plane_x * sin(-ROTATION_SPEED) + player->plane_y * cos(-ROTATION_SPEED);
-		printf("Right\n");
+		game->is_render = true;
 	}
-	// REFACTOR: move forward
-	else if (keysym == XK_w)
+}
+
+void	move_forward_or_backward(int keysym, t_player *player, t_game *game, t_map *map)
+{
+	if (keysym == XK_w)
 	{
 		if(map->grid[(int)(player->pos_x + player->dir_x * MOVE_SPEED)][(int)player->pos_y] == NO_WALL)
 			player->pos_x += player->dir_x * MOVE_SPEED;
 		if(map->grid[(int)player->pos_x][(int)(player->pos_y + player->dir_y * MOVE_SPEED)] == NO_WALL)
 			player->pos_y += player->dir_y * MOVE_SPEED;
-		printf("w\n");
+		game->is_render = true;
 	}
-	// REFACTOR: move left
-	else if (keysym == XK_a)
-	{
-		// Move left (perpendicular to direction, using plane vector)
-		if(map->grid[(int)(player->pos_x - player->plane_x * MOVE_SPEED)][(int)player->pos_y] == NO_WALL)
-			player->pos_x -= player->plane_x * MOVE_SPEED;
-		if(map->grid[(int)player->pos_x][(int)(player->pos_y - player->plane_y * MOVE_SPEED)] == NO_WALL)
-			player->pos_y -= player->plane_y * MOVE_SPEED;
-		printf("a\n");
-	}
-	// REFACTOR: move backward
 	else if (keysym == XK_s)
 	{
 		if(map->grid[(int)(player->pos_x - player->dir_x * MOVE_SPEED)][(int)player->pos_y] == NO_WALL)
 			player->pos_x -= player->dir_x * MOVE_SPEED;
 		if(map->grid[(int)(player->pos_x)][(int)(player->pos_y - player->dir_y * MOVE_SPEED)] == NO_WALL)
 			player->pos_y -= player->dir_y * MOVE_SPEED;
-		printf("s\n");
+		game->is_render = true;
+		}
 	}
-	// REFACTOR: move right
+
+void	move_left_or_right(int keysym, t_player *player, t_game *game, t_map *map)
+{
+	if (keysym == XK_a)
+	{
+		if(map->grid[(int)(player->pos_x - player->plane_x * MOVE_SPEED)][(int)player->pos_y] == NO_WALL)
+			player->pos_x -= player->plane_x * MOVE_SPEED;
+		if(map->grid[(int)player->pos_x][(int)(player->pos_y - player->plane_y * MOVE_SPEED)] == NO_WALL)
+			player->pos_y -= player->plane_y * MOVE_SPEED;
+		game->is_render = true;
+	}
 	else if (keysym == XK_d)
 	{
-		// Move right (perpendicular to direction, using plane vector)
 		if(map->grid[(int)(player->pos_x + player->plane_x * MOVE_SPEED)][(int)player->pos_y] == NO_WALL)
 			player->pos_x += player->plane_x * MOVE_SPEED;
 		if(map->grid[(int)player->pos_x][(int)(player->pos_y + player->plane_y * MOVE_SPEED)] == NO_WALL)
 			player->pos_y += player->plane_y * MOVE_SPEED;
-		printf("d\n");
+		game->is_render = true;
 	}
-	game->is_render = true;
 }

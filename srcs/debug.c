@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:22:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/27 19:50:50 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/28 19:14:14 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int debug_event(int keycode, t_mlx *mlx);
 
 int debug_event(int keycode, t_mlx *mlx)
 {
-	printf("DEBUG: event\n");
+	// printf("DEBUG: event\n");
 	return (0);
 }
 
