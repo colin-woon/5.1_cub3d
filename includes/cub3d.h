@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 00:45:14 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 01:09:55 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,14 +146,26 @@ void	DEBUG_init_map(t_game *game);
 void	DEBUG_print_map_assets(t_game *game);
 int debug_event(int keycode, t_mlx *mlx);
 
-// mlx_movement_hooks.c
-int	movement_keys(int keysym, t_game *game);
-
 // mlx.c
 int		close_window(int keycode, t_game *game);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	init_mlx_img(t_mlx *mlx);
+
+// hooks_movement.c
+int		movement_keys(int keysym, t_game *game);
+bool	is_valid_keys(int keysym);
+void	recalculate_variables\
+(t_game *game, t_map *map, t_player *player, int keysym);
+
+// hooks_movement_calc.c
+void	move_left_or_right\
+(int keysym, t_player *player, t_game *game, t_map *map);
+void	move_forward_or_backward\
+(int keysym, t_player *player, t_game *game, t_map *map);
+void	look_left_or_right(int keysym, t_player *player, t_game *game);
+void	look_left(t_player *player, t_game *game);
+void	look_right(t_player *player, t_game *game);
 
 // init.c
 void init_player(t_player **player, t_map *map);

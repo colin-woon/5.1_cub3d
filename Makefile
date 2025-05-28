@@ -51,7 +51,8 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/exec/draw_floor_n_ceiling.c \
 					srcs/mlx/utils_colour.c \
 					srcs/mlx/mlx.c \
-					srcs/mlx/mlx_movement_hooks.c \
+					srcs/mlx/hooks_movement.c \
+					srcs/mlx/hooks_movement_calc.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 
