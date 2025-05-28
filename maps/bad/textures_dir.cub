@@ -1,6 +1,6 @@
-NO textures/test/north.xpm
-SO textures/test/south.xpm
-WE textures/test/west.xpm
+NO ./texture/water.xpm
+SO ./texture/lavafull.xpm
+WE ./texture/liquid_green.xpm
 EA textures/test/
 
 F 20,20,20
