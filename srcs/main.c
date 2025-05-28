@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/27 22:19:47 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/29 00:44:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int main(int ac, char *av[])
 	// free_texture(&game);
 	init_player(&game.player, game.map);
 	game.ray = malloc(sizeof(t_ray));
-	DEBUG_print_map_assets(&game);
+	// DEBUG_print_map_assets(&game);
 	get_map_grid(game.map);
 	run_raycasting(game.ray, game.player, game.mlx_data, &game);
 	run_mlx(&game);
@@ -84,10 +84,10 @@ void	get_map_grid(t_map *map)
 				map->grid[x][y] = 1;
 			else
 				map->grid[x][y] = 0;
-			printf("%d ", map->grid[x][y]);
+			// printf("%d ", map->grid[x][y]);
 			y++;
 		}
-		printf("\n");
+		// printf("\n");
 		x++;
 	}
 }
