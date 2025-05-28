@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_floor_n_ceiling.c                             :+:      :+:    :+:   */
+/*   draw_floor_ceiling.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,17 +12,17 @@
 
 #include "cub3d.h"
 
-void	draw_floor_n_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
+void	draw_floor_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 int		get_ceiling_colour(t_game *game);
 int		get_floor_colour(t_game *game);
 
-void	draw_floor_n_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour)
+void	draw_floor_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
-	while (x < SCREEN_HEIGHT/2)
+	while (x < SCREEN_HEIGHT / 2)
 	{
 		y = 0;
 		while (y < SCREEN_WIDTH)
@@ -46,16 +46,16 @@ void	draw_floor_n_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour)
 
 int	get_floor_colour(t_game *game)
 {
-	return(create_trgb(0, \
-		game->assets->floor_rgb[0], \
-		game->assets->floor_rgb[1], \
-		game->assets->floor_rgb[2]));
+	return (create_trgb(0, \
+game->assets->floor_rgb[0], \
+game->assets->floor_rgb[1], \
+game->assets->floor_rgb[2]));
 }
 
 int	get_ceiling_colour(t_game *game)
 {
-	return(create_trgb(0, \
-		game->assets->ceiling_rgb[0], \
-		game->assets->ceiling_rgb[1], \
-		game->assets->ceiling_rgb[2]));
+	return (create_trgb(0, \
+game->assets->ceiling_rgb[0], \
+game->assets->ceiling_rgb[1], \
+game->assets->ceiling_rgb[2]));
 }
