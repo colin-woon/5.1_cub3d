@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 01:09:55 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 01:24:32 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,19 +175,26 @@ void	cleanup(t_game *game);
 
 // raycasting.c
 void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
-int		get_texture_pixel(t_img *texture, int x, int y);
-void	draw_wall_texture(t_img *texture, double wall_x, t_ray *ray, t_mlx *mlx, int *x);
-double	get_fractional_texture_position_x(t_ray *ray, t_player *player);
 void	calculate_line_height(t_ray *ray);
-void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
-void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
-void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
-t_wall_direction	get_wall_direction(t_ray *ray);
 
-void	draw_floor_n_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
+// draw_floor_ceiling.c
+void	draw_floor_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 int		get_ceiling_colour(t_game *game);
 int		get_floor_colour(t_game *game);
+
+// dda.c
+void	run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y);
+void	calculate_step_n_init_side_dist\
+(t_ray *ray, t_player *player, int map_x, int map_y);
+void	calculate_point_gap(t_ray *ray);
+
+// textures.c
+int					get_texture_pixel(t_img *texture, int x, int y);
+void				draw_wall_texture(t_img *texture, double wall_x,\
+ t_ray *ray, t_mlx *mlx, int *x);
+double				get_fractional_texture_position_x(t_ray *ray, t_player *player);
+t_wall_direction	get_wall_direction(t_ray *ray);
 
 // mlx_colour_utils.c
 int	create_trgb(int transparency, int red, int green, int blue);
