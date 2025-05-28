@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 00:44:17 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 00:45:14 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1
 
-typedef enum {
+typedef enum e_wall_direction{
     NORTH,
     SOUTH,
     EAST,
     WEST
-} e_wall_direction;
+} t_wall_direction;
 
 // DEBUG: TEMPORARY HARDCODED
 #define DEBUG_RENDER_DIRECTION NORTH
@@ -44,10 +44,15 @@ typedef enum {
 #define DEBUG_PLAYER_POS_X 3
 #define DEBUG_PLAYER_POS_Y 3
 
-typedef enum {
+typedef enum e_wall_hit_side{
 	VERTICAL,
 	HORIZONTAL
-} e_wall_hit_side;
+} t_wall_hit_side;
+
+typedef enum e_is_wall{
+	NO_WALL,
+	WALL,
+} t_is_wall;
 
 typedef	struct s_map
 {
@@ -57,7 +62,7 @@ typedef	struct s_map
 	int					width;
 	int					player_x;
 	int					player_y;
-	e_wall_direction	player_dir;
+	t_wall_direction	player_dir;
 }	t_map;
 
 typedef struct s_img {
@@ -166,7 +171,7 @@ void	run_DDA(t_ray *ray, t_game *game, int *map_x, int *map_y);
 void	calculate_step_n_init_side_dist(t_ray *ray, t_player *player, int map_x, int map_y);
 void	calculate_point_gap(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
-e_wall_direction	get_wall_direction(t_ray *ray);
+t_wall_direction	get_wall_direction(t_ray *ray);
 
 void	draw_floor_n_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
 int		get_ceiling_colour(t_game *game);
