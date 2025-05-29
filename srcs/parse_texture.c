@@ -23,11 +23,12 @@ static bool is_empty_line(char *line)
 	return true;
 }
 
-bool check_texture_complete(t_assets *assets)
+bool check_texture_complete(t_assets *assets, char *line)
 {
 	if (assets->textures[NORTH].ptr == NULL || assets->textures[SOUTH].ptr == NULL || assets->textures[EAST].ptr == NULL || assets->textures[WEST].ptr == NULL)
 	{
 		msg("texture not complete\n");
+		free(line);
 		return (false);
 	}
 	return (true);
@@ -70,6 +71,23 @@ static bool compare_texture(char *line, t_assets *assets, t_game *game)
 	else
 	{
 		msg("texture given incorrect\n");
+		free(line);
+		return (false);
+	}
+	return (true);
+}
+
+bool	ft_isxpm(char *line)
+{
+	if (ft_strncmp(line, "NO", 2) == 0
+		|| ft_strncmp(line, "SO", 2) == 0
+		|| ft_strncmp(line, "WE", 2) == 0
+		|| ft_strncmp(line, "EA", 2) == 0)
+	{
+		if (ft_strend(line, ".xpm") == true)
+			return (true);
+		msg("texture given is not xpm\n");
+		free(line);
 		return (false);
 	}
 	return (true);
@@ -77,7 +95,7 @@ static bool compare_texture(char *line, t_assets *assets, t_game *game)
 
 bool parse_texture(char *line, t_game *game)
 {
-	// printf("hi\n");
-	// printf("%p\n", game->assets);
+	if (ft_isxpm(line) == false)
+		return (false);
 	return (compare_texture(line, game->assets, game));
 }
