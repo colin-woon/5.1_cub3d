@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/29 00:44:28 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 18:46:27 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,55 @@ int main(int ac, char *av[])
 	return (0);
 }
 
+int	mouse_hook(int x, int y, t_game *game);
+void rotate_player(t_player *player, double angle);
+
 void	run_mlx(t_game *game)
 {
+	// mlx_mouse_hide(game->mlx_data->ptr, game->mlx_data->window);
 	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
+	// mlx_mouse_move(game->mlx_data->ptr, game->mlx_data->window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	mlx_hook(game->mlx_data->window, MotionNotify, 1L << 6, mouse_hook, game);
 	mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
 	mlx_loop(game->mlx_data->ptr);
+}
+
+int	mouse_hook(int x, int y, t_game *game)
+{
+	printf("x: %d y: %d\n", x, y);
+	printf("x: %d y: %d\n", x, y);
+	(void)y;
+	double	delta_x;
+	double	rotation_angle;
+
+    if (!game->mouse_initialized) {
+        game->last_mouse_x = x;
+        game->mouse_initialized = 1;
+        return (0);
+    }
+	delta_x = (double)(x - game->last_mouse_x);
+	rotation_angle = -delta_x * MOUSE_SENSITIVITY;
+    if (fabs(delta_x) > 1.0) {
+        rotation_angle = -delta_x * MOUSE_SENSITIVITY;
+        rotate_player(game->player, rotation_angle);
+        game->is_render = true;
+    }
+
+    game->last_mouse_x = x;
+    return (0);
+}
+
+void rotate_player(t_player *player, double angle)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = player->dir_x;
+	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
+	player->dir_y = old_dir_x * sin(angle) + player->dir_y * cos(angle);
+	old_plane_x = player->plane_x;
+	player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
+	player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
 }
 
 int	game_loop(t_game *game)
