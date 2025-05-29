@@ -32,6 +32,11 @@ bool	check_horizontal_walls(t_map *map)
 	{
 		row = rows[j];
 		i = 0;
+		if (row[i] == '0')
+		{
+			msg("Hor: map is not closed\n");
+			return (false);
+		}
 		while (row[i])
 		{
 			if (ft_isspace(row[i]))
@@ -51,9 +56,9 @@ bool	check_horizontal_walls(t_map *map)
 			}
 			while (ft_iszero(row[i]) || ft_isplayer(row[i]))
 				i++;
-			if (!ft_iswall(row[i++]) && row[i] != '\0')
+			if (!ft_iswall(row[i++]))
 			{
-				msg("Hor: map is not closed\n");
+				msg("Hor: map is not closed what the\n");
 				return (false);
 			}
 		}
@@ -74,6 +79,11 @@ bool	check_vertical_walls(t_map	*map)
 	while (j < map->width)
 	{
 		i = 0;
+		if (rows[i][j] == '0')
+		{
+			msg("Ver: map is not closed\n");
+			return (false);
+		}
 		while (i < map->height)
 		{
 			if (ft_isspace(rows[i][j]))
@@ -89,7 +99,7 @@ bool	check_vertical_walls(t_map	*map)
 					return (false);
 				}
 			}
-			while (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j]))
+			while (i + 1 < map->height && (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j])))
 				i++;
 			if (!ft_iswall(rows[i][j]) && i < map->height)
 			{
@@ -157,7 +167,7 @@ int		ft_strlen_pro(char *line)
 	if (ft_strlen(line) == 0)
 		return 0;
 	str_len = ft_strlen(line) - 1;
-	while (!ft_iswall(line[str_len]))
+	while (str_len != 0 && !ft_iswall(line[str_len]))
 		str_len--;
 	return (str_len);
 }

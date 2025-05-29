@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int *init_rgb(char *rgb_c)
+bool init_rgb(char *rgb_c, int *rgb_ptr)
 {
 	int i = 0;
 	int j = 0;
@@ -40,13 +40,20 @@ int *init_rgb(char *rgb_c)
 			tmp[len] = rgb_c[--j];
 		res_rgb[color_val] = ft_atoi(tmp);
 		if (res_rgb[color_val] > 255 || res_rgb[color_val] < 0)
+		{
 			msg("Invalid RGB\n");
+			return (false);
+		}
 		color_val++;
 		free(tmp);
 	}
 	if (color_val != 3)
+	{
 		msg("RGB incomplete\n");
-	return (res_rgb);
+		return (false);
+	}
+	rgb_ptr = res_rgb;
+	return (true);
 }
 
 void fill_img_info(void *img_ptr, t_img *img)
