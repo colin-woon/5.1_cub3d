@@ -31,12 +31,12 @@ bool check_texture_complete(t_assets *assets, char *line)
 		free(line);
 		return (false);
 	}
-	// if (assets->ceiling_rgb == NULL || assets->floor_rgb == NULL)
-	// {
-	// 	msg("texture not complete\n");
-	// 	free(line);
-	// 	return (false);
-	// }
+	if (assets->ceiling_rgb == NULL || assets->floor_rgb == NULL)
+	{
+		msg("RGB not complete\n");
+		free(line);
+		return (false);
+	}
 	return (true);
 }
 
@@ -55,7 +55,7 @@ t_assets *init_assets(void)
 	return (assets);
 }
 
-bool *init_rgb(char *rgb_c, int *res_rgb);
+bool *init_rgb(char *rgb_c, int **res_rgb);
 void make_img(char *str, t_game *game, t_img *texture);
 
 static bool compare_texture(char *line, t_assets *assets, t_game *game)
@@ -73,11 +73,12 @@ static bool compare_texture(char *line, t_assets *assets, t_game *game)
 	else if (ft_strncmp(line, "EA", 2) == 0 && assets->textures[EAST].ptr == NULL)
 		make_img(line, game, &assets->textures[EAST]);
 	else if (ft_strncmp(line, "F", 1) == 0 && assets->floor_rgb == NULL)
-		return(init_rgb(line, assets->ceiling_rgb));
+		return(init_rgb(line, &assets->floor_rgb));
 	else if (ft_strncmp(line, "C", 1) == 0 && assets->ceiling_rgb == NULL)
-		return(init_rgb(line, assets->ceiling_rgb));
+		return(init_rgb(line, &assets->ceiling_rgb));
 	else
 	{
+		printf("line: %s\n", line);
 		msg("texture given incorrect\n");
 		free(line);
 		return (false);
