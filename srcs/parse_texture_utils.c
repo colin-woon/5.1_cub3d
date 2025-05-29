@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-bool init_rgb(char *rgb_c, int *rgb_ptr)
+bool init_rgb(char *rgb_c, int **rgb_ptr)
 {
 	int i = 0;
 	int j = 0;
@@ -52,7 +52,7 @@ bool init_rgb(char *rgb_c, int *rgb_ptr)
 		msg("RGB incomplete\n");
 		return (false);
 	}
-	rgb_ptr = res_rgb;
+	*rgb_ptr = res_rgb;
 	return (true);
 }
 
