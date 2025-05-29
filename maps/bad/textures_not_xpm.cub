@@ -1,7 +1,7 @@
-NO ./texture/water
-SO ./texture/lavafull.xpm
-WE ./texture/liquid_green.xpm
-EA ./texture/roof_gray.xpm
+NO textures/test/north
+SO textures/test/south.xpm
+WE textures/test/west.xpm
+EA textures/test/east.xpm
 
 F 20,20,20
 C 200,200,200

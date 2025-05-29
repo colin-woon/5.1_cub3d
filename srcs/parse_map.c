@@ -86,7 +86,6 @@ bool	parse_map(int fd, char *line, t_game *game)
 
 	map_height = 0;
 	game->map = ft_calloc(1, sizeof(t_map));
-	// printf("parsing_map\n");
 	while (line != NULL)
 	{
 		line = conv_tab(line);
@@ -94,7 +93,6 @@ bool	parse_map(int fd, char *line, t_game *game)
 		map_height++;
 		line = get_next_row(fd);
 	}
-	free(line);
 	game->map->height = map_height;
 	if (check_valid_map(game->map, game) == false)
 		return (false);
