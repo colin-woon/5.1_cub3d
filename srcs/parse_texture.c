@@ -30,12 +30,12 @@ bool check_texture_complete(t_assets *assets)
 		msg("texture not complete\n");
 		return (false);
 	}
-	if (assets->ceiling_rgb == NULL || assets->floor_rgb == NULL)
-	{
-		msg("texture not complete\n");
-		free(line);
-		return (false);
-	}
+	// if (assets->ceiling_rgb == NULL || assets->floor_rgb == NULL)
+	// {
+	// 	msg("texture not complete\n");
+	// 	free(line);
+	// 	return (false);
+	// }
 	return (true);
 }
 
