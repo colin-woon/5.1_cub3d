@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 01:29:29 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 14:48:07 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 void	calculate_line_height(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
+void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x);
 
 void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 {
@@ -32,7 +33,7 @@ void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		run_dda(ray, game, &map_x, &map_y);
 		calculate_line_height(ray);
 		draw_wall_texture(&game->assets->textures[get_wall_direction(ray)], \
-get_fractional_texture_position_x(ray, player), ray, mlx, &x);
+get_fractional_texture_position_x(ray, player), game, &x);
 		x++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
@@ -78,4 +79,12 @@ void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y)
 = game->player->dir_y + game->player->plane_y * game->ray->camera_x;
 	*map_x = (int)game->player->pos_x;
 	*map_y = (int)game->player->pos_y;
+}
+
+void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x)
+{
+	t_texture_vars	tex;
+
+	prep_texture_vars(&tex, wall_x, texture, game->ray);
+	put_texture_pixels(&tex, texture, game, x);
 }
