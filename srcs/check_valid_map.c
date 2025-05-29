@@ -27,12 +27,20 @@ bool check_horizontal_walls(t_map *map)
 
 	j = 0;
 	rows = map->layout;
+	//redo here also
 	while (j < map->height)
 	{
 		row = rows[j];
 		i = 0;
 		while (row[i])
 		{
+			while (ft_isspace(row[i]))
+				i++;
+			if (row[i] != '\0' && !ft_iswall(row[i++]))
+			{
+				msg("Hor: map is not closed\n");
+				return (false);
+			}
 			if (ft_isspace(row[i]))
 			{
 				if (check_wall_behind(row, i) == false)
@@ -70,11 +78,19 @@ bool check_vertical_walls(t_map *map)
 
 	j = 0;
 	rows = map->layout;
+	//redo logic here, very messy
 	while (j < map->width)
 	{
 		i = 0;
 		while (i < map->height)
 		{
+			while (ft_isspace(rows[i][j]))
+				i++;
+			if (i >= map->height || !ft_iswall(rows[i][j]))
+			{
+				msg("ver: map not closed\n");
+				return (false);
+			}
 			if (ft_isspace(rows[i][j]))
 			{
 				check_above_wall(rows, i, j);
@@ -88,7 +104,7 @@ bool check_vertical_walls(t_map *map)
 					return (false);
 				}
 			}
-			while (i + 1 <= map->height && (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j])))
+			while (i < map->height && (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j])))
 				i++;
 			if (i >= map->height || !ft_iswall(rows[i][j]))
 			{
@@ -156,7 +172,7 @@ int ft_strlen_pro(char *line)
 	if (ft_strlen(line) == 0)
 		return 0;
 	str_len = ft_strlen(line) - 1;
-	while (!ft_iswall(line[str_len]))
+	while (str_len > 0 && !ft_iswall(line[str_len]))
 		str_len--;
 	return (str_len);
 }
@@ -225,6 +241,11 @@ static bool check_invalid_char(t_map *map, t_game *game)
 		msg("No player found\n");
 		return (true);
 	}
+	if (true_len == 0)
+	{
+		msg("map is not closed\n");
+		return (true);
+	}
 	return (false);
 }
 
@@ -235,10 +256,11 @@ bool check_valid_player_pos(t_map *map)
 
 	x = map->player_x;
 	y = map->player_y;
-	if (x - 1 < 0 || x + 1 >= map->height)
+	if ((x - 1 < 0 || x + 1 >= map->height) || (y + 1 >= map->width || y - 1 < 0))
+	{
+		msg("Inavlid player position\n");
 		return (false);
-	else if (y + 1 >= map->width || y - 1 < 0)
-		return (false);
+	}
 	return (true);
 }
 
