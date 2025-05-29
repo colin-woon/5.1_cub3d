@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/29 15:29:28 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 15:53:24 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int main(int ac, char *av[])
 
 	game.is_render = false;
 	// DEBUG_init_map(&game);
-	if (ac != 2)
-	{
-		msg("Bad Input\nExample: ./cub3D .cub\n");
-		return (0);
-	}
-	game = (t_game){0};
+	// if (ac != 2)
+	// {
+	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
+	// 	return (0);
+	// }
+	// game = (t_game){0};
 	start_mlx(&game);
 	if (parse(av[1], &game) == false)
 		exit(EXIT_FAILURE);

@@ -53,8 +53,8 @@ void fill_img_info(void *img_ptr, t_img *img)
 {
 	if (!img_ptr || img == NULL)
 	{
-		msg("img_ptr doesnt exist or t_img struct doesn't exist\n");
-		return ;
+		msg("img_ptr doesnt exist or t_img struct doesn't exist");
+		return;
 	}
 	img->address = mlx_get_data_addr(img_ptr,
 									 &img->bits_per_pixel,
@@ -73,8 +73,12 @@ void make_img(char *str, t_game *game, t_img *texture)
 		msg("texture file given cannot be read or found\n");
 		return 	;
 	}
+	// img = ft_calloc(1, sizeof(t_img));
+	// if (!img)
+	// 	error_msg_exit("Calloc Error: make img");
 	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &texture->height, &texture->width);
 	if (texture->ptr == NULL)
 		msg("texture file given cannot be read or found\n");
 	fill_img_info(texture->ptr, texture);
+	// return (texture);
 }

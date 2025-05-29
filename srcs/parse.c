@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/28 21:18:49 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/27 22:04:03 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool start_of_map(char *line)
 	return false;
 }
 
-bool	check_texture_complete(t_assets *assets, char *line);
+bool	check_texture_complete(t_assets *assets);
 
 bool parse(char *path_to_cub, t_game *game)
 {
@@ -32,7 +32,7 @@ bool parse(char *path_to_cub, t_game *game)
 	char	*line;
 
 	if (ft_strend(path_to_cub, ".cub") == false)
-		error_msg_exit("input given is not a .cub file");
+		return(error_msg("input given is not a .cub file"));
 	fd = open_file(path_to_cub);
 	if (fd < 0)
 		return (false);
@@ -41,23 +41,21 @@ bool parse(char *path_to_cub, t_game *game)
 	while (line != NULL)
 	{
 		if (start_of_map(line))
+			break;
+		if (parse_texture(line, game) == false) //change here
 		{
-			if (check_texture_complete(game->assets, line) == false) //change here
-				return (false);
-			if (parse_map(fd, line, game) == false)
-				return (false);
-			return (true);
-		}
-		if (parse_texture(line, game) == false)
+			free(line);
 			return (false);
+		}
 		free(line);
 		line = get_next_row(fd);
 	}
-	if (game->map == NULL)
+	if (check_texture_complete(game->assets) == false) //change here
 	{
-		msg("map is missing\n");
 		free(line);
 		return (false);
 	}
+	if (parse_map(fd, line, game) == false)
+		return (false);
 	return (true);
 }
