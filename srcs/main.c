@@ -28,12 +28,6 @@ int main(int ac, char *av[])
 	// 	return (0);
 	// }
 	// game = (t_game){0};
-	// if (ac != 2)
-	// {
-	// 	msg("Bad Input\nExample: ./cub3D .cub\n");
-	// 	return (0);
-	// }
-	// game = (t_game){0};
 	start_mlx(&game);
 	if (parse(av[1], &game) == false)
 		exit(EXIT_FAILURE);
