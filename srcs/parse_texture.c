@@ -33,7 +33,7 @@ bool check_texture_complete(t_assets *assets)
 	if (assets->ceiling_rgb == NULL || assets->floor_rgb == NULL)
 	{
 		msg("RGB not complete\n");
-		free(line);
+		// free(line);
 		return (false);
 	}
 	return (true);
