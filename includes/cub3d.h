@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 15:25:05 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 16:44:49 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# define SCREEN_WIDTH 1400
+# define SCREEN_WIDTH 1000
 # define SCREEN_HEIGHT 1000
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
@@ -126,6 +126,8 @@ typedef struct s_game
 	t_ray		*ray;
 	int			debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
 	bool		is_render;
+	int last_mouse_x;
+	int mouse_initialized;
 }	t_game;
 
 typedef struct s_texture_vars
