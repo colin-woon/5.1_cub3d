@@ -12,22 +12,22 @@
 
 #include "cub3d.h"
 
-bool check_above_wall(char **rows, int i, int j);
-bool check_wall_behind(char *row, int i);
-bool ft_iszero(char c);
-bool ft_isplayer(char c);
-bool ft_iswall(int c);
+bool	check_above_wall(char **rows, int i, int j);
+bool	check_wall_behind(char *row, int i);
+bool	ft_iszero(char c);
+bool	ft_isplayer(char c);
+bool	ft_iswall(int c);
 
-bool check_horizontal_walls(t_map *map)
+bool	check_horizontal_walls(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 	char **rows;
 	char *row;
 
+
 	j = 0;
 	rows = map->layout;
-	//redo here also
 	while (j < map->height)
 	{
 		row = rows[j];
@@ -67,16 +67,15 @@ bool check_horizontal_walls(t_map *map)
 	return (true);
 }
 
-bool check_vertical_walls(t_map *map)
+bool	check_vertical_walls(t_map	*map)
 {
-	int i;
-	int j;
-	char **rows;
-	int len_col;
+	int	i;
+	int	j;
+	char	**rows;
+	int		len_col;
 
 	j = 0;
 	rows = map->layout;
-	//redo logic here, very messy
 	while (j < map->width)
 	{
 		i = 0;
@@ -93,7 +92,7 @@ bool check_vertical_walls(t_map *map)
 				while (ft_isspace(rows[i][j]) && i + 1 != map->height)
 					i++;
 				if (i + 1 >= map->height)
-					break;
+					break ;
 				if (!ft_iswall(rows[i][j]))
 				{
 					msg("ver: map not closed\n");
@@ -102,7 +101,7 @@ bool check_vertical_walls(t_map *map)
 			}
 			while (i + 1 < map->height && (ft_iszero(rows[i][j]) || ft_isplayer(rows[i][j])))
 				i++;
-			if (i >= map->height || !ft_iswall(rows[i][j]))
+			if (!ft_iswall(rows[i][j]) && i < map->height)
 			{
 				msg("ver: map not closed\n");
 				return (false);
@@ -114,11 +113,11 @@ bool check_vertical_walls(t_map *map)
 	return (true);
 }
 
-char *fill_str_sp(char *row, int row_width, int max_width)
+char	*fill_str_sp(char *row, int row_width, int max_width)
 {
 	char *new_row;
 
-	new_row = malloc(sizeof(char) * max_width + 1);
+	new_row = malloc(sizeof(char ) * max_width + 1);
 	if (!new_row)
 		error_msg_exit("Malloc Error filling space\n");
 	int i = 0;
@@ -136,12 +135,12 @@ char *fill_str_sp(char *row, int row_width, int max_width)
 	return new_row;
 }
 
-void make_map_square(t_map *map)
+void	make_map_square(t_map *map)
 {
-	int i;
-	int width;
-	int row_width;
-	int max_width;
+	int	i;
+	int	width;
+	int	row_width;
+	int	max_width;
 	char **rows;
 
 	i = 0;
@@ -161,9 +160,9 @@ void make_map_square(t_map *map)
 	}
 }
 
-int ft_strlen_pro(char *line)
+int		ft_strlen_pro(char *line)
 {
-	int str_len;
+	int	str_len;
 
 	if (ft_strlen(line) == 0)
 		return 0;
@@ -173,7 +172,7 @@ int ft_strlen_pro(char *line)
 	return (str_len);
 }
 
-void save_player(t_map *map, int y, int x, char dir)
+void	save_player(t_map *map, int y, int x, char dir)
 {
 	map->player_x = x;
 	map->player_y = y;
@@ -187,14 +186,14 @@ void save_player(t_map *map, int y, int x, char dir)
 		map->player_dir = EAST;
 }
 
-static bool check_invalid_char(t_map *map, t_game *game)
+static bool	check_invalid_char(t_map *map, t_game *game)
 {
-	int i;
-	int j;
-	char **rows;
-	char *line;
-	int true_len;
-	bool player_found;
+	int		i;
+	int		j;
+	char	**rows;
+	char	*line;
+	int		true_len;
+	bool	player_found;
 
 	true_len = 0;
 	player_found = false;
@@ -209,7 +208,7 @@ static bool check_invalid_char(t_map *map, t_game *game)
 			while (ft_isspace(line[i]))
 				i++;
 			if (line[i] == '\0')
-				break;
+				break ;
 			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
 			{
 				msg("Invalid char in map\n");
@@ -229,42 +228,15 @@ static bool check_invalid_char(t_map *map, t_game *game)
 		}
 		true_len = ft_strlen_pro(line);
 		if (true_len > map->width)
-			map->width = true_len + 1;
+			map->width= true_len + 1;
 		j++;
-	}
-	if (player_found == false)
-	{
-		msg("No player found\n");
-		return (true);
-	}
-	if (true_len == 0)
-	{
-		msg("map is not closed\n");
-		return (true);
 	}
 	return (false);
 }
 
-bool check_valid_player_pos(t_map *map)
-{
-	int y;
-	int x;
-
-	x = map->player_x;
-	y = map->player_y;
-	if ((x - 1 < 0 || x + 1 >= map->height) || (y + 1 >= map->width || y - 1 < 0))
-	{
-		msg("Inavlid player position\n");
-		return (false);
-	}
-	return (true);
-}
-
-bool check_valid_map(t_map *map, t_game *game)
+bool	check_valid_map(t_map *map, t_game *game)
 {
 	if (check_invalid_char(map, game) == true)
-		return (false);
-	if (check_valid_player_pos(map) == false)
 		return (false);
 	make_map_square(map);
 	if (check_horizontal_walls(map) == false || check_vertical_walls(map) == false)
