@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 14:49:22 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 15:25:05 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# define SCREEN_WIDTH 1200
-# define SCREEN_HEIGHT 800
+# define SCREEN_WIDTH 1400
+# define SCREEN_HEIGHT 1000
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1
+# define MOUSE_SENSITIVITY 0.0006
 
 typedef enum e_wall_direction{
     NORTH,
