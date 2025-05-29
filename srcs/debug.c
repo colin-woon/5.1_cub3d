@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:22:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/28 13:11:55 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/05/29 00:51:49 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int debug_event(int keycode, t_mlx *mlx);
 
 int debug_event(int keycode, t_mlx *mlx)
 {
-	printf("DEBUG: event\n");
+	// printf("DEBUG: event\n");
 	return (0);
 }
 

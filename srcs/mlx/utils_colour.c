@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_colour_utils.c                                 :+:      :+:    :+:   */
+/*   utils_colour.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:41:36 by cwoon             #+#    #+#             */
-/*   Updated: 2025/04/14 18:44:39 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/29 00:57:34 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	create_trgb(int transparency, int red, int green, int blue)
 {
 	return (transparency << 24 | red << 16 | green << 8 | blue);
 }
+
 int	get_transparency(int trgb)
 {
 	return ((trgb >> 24) & 0xFF);
