@@ -6,17 +6,19 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:47:19 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 17:48:39 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 17:58:20 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	draw_minimap_rect(t_img *img, t_minimap_vars *var, int color);
-void	get_map_tiles_var(t_minimap_vars *var, t_map *map ,int map_x_grid, int map_y_grid);
+void	get_map_tiles_var(t_minimap_vars *var, t_map *map, \
+int map_x_grid, int map_y_grid);
 void	get_player_box_vars(t_minimap_vars *var, int player_x, int player_y);
 
-void	get_map_tiles_var(t_minimap_vars *var, t_map *map ,int map_x_grid, int map_y_grid)
+void	get_map_tiles_var(t_minimap_vars *var, t_map *map, \
+int map_x_grid, int map_y_grid)
 {
 	var->rect_x = MINIMAP_OFFSET_X + map_x_grid * MINIMAP_SCALE;
 	var->rect_y = MINIMAP_OFFSET_Y + map_y_grid * MINIMAP_SCALE;
@@ -37,7 +39,7 @@ void	get_player_box_vars(t_minimap_vars *var, int player_x, int player_y)
 	var->color = MINIMAP_PLAYER_COLOR;
 }
 
-void draw_minimap_rect(t_img *img, t_minimap_vars *var, int color)
+void	draw_minimap_rect(t_img *img, t_minimap_vars *var, int color)
 {
 	int	i;
 	int	j;

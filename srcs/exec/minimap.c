@@ -6,13 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:47:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 17:50:02 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 18:00:27 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_player_line(t_player *player, t_mlx *mlx, int player_minimap_x, int player_minimap_y);
+void	draw_player_line(t_player *player, t_mlx *mlx, \
+int player_minimap_x, int player_minimap_y);
 void	draw_player_box(t_player *player, t_mlx *mlx);
 void	draw_map_tiles(t_map *map, t_mlx *mlx);
 
@@ -43,9 +44,9 @@ void	draw_map_tiles(t_map *map, t_mlx *mlx)
 
 void	draw_player_box(t_player *player, t_mlx *mlx)
 {
-	int player_minimap_x;
-	int player_minimap_y;
-	t_minimap_vars var;
+	int				player_minimap_x;
+	int				player_minimap_y;
+	t_minimap_vars	var;
 
 	player_minimap_y = MINIMAP_OFFSET_Y + (int)(player->pos_x * MINIMAP_SCALE);
 	player_minimap_x = MINIMAP_OFFSET_X + (int)(player->pos_y * MINIMAP_SCALE);
@@ -57,13 +58,14 @@ void	draw_player_box(t_player *player, t_mlx *mlx)
 // Simple line drawing (draw a few pixels along the vector)
 // For a more precise line, you'd use an algorithm like Bresenham's.
 // This is a simplified version for a short line.
-void	draw_player_line(t_player *player, t_mlx *mlx, int player_minimap_x, int player_minimap_y)
+void	draw_player_line(t_player *player, t_mlx *mlx, \
+int player_minimap_x, int player_minimap_y)
 {
-	double dx;
-	double dy;
-	int i;
-	int px;
-	int py;
+	double	dx;
+	double	dy;
+	int		i;
+	int		px;
+	int		py;
 
 	dx = player->dir_y;
 	dy = player->dir_x;

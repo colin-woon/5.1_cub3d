@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 17:49:56 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 18:04:09 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 		calculate_step_n_init_side_dist(ray, player, map_x, map_y);
 		run_dda(ray, game, &map_x, &map_y);
 		calculate_line_height(ray);
-		draw_wall_texture(&game->assets->textures[get_wall_direction(ray)], \
+		draw_wall_texture(&game->assets->textures[get_wall_dir(ray)], \
 get_fractional_texture_position_x(ray, player), game, &x);
 		x++;
 	}
@@ -91,8 +91,7 @@ void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x)
 	put_texture_pixels(&tex, texture, game, x);
 }
 
-
-void draw_minimap(t_mlx *mlx, t_game *game, t_player *player)
+void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player)
 {
 	draw_map_tiles(game->map, mlx);
 	draw_player_box(player, mlx);

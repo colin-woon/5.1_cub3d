@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:53:35 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 17:54:43 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 18:01:30 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int		mouse_hook(int x, int y, t_game *game);
 void	rotate_player(t_player *player, double angle);
 
+// printf("x: %d y: %d\n", x, y);
 int	mouse_hook(int x, int y, t_game *game)
 {
-	// printf("x: %d y: %d\n", x, y);
-	(void)y;
 	double	delta_x;
 	double	rotation_angle;
 
+	(void)y;
 	if (!game->mouse_initialized)
 	{
 		game->last_mouse_x = x;
@@ -49,6 +49,7 @@ void	rotate_player(t_player *player, double angle)
 	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
 	player->dir_y = old_dir_x * sin(angle) + player->dir_y * cos(angle);
 	old_plane_x = player->plane_x;
-	player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
+	player->plane_x \
+= player->plane_x * cos(angle) - player->plane_y * sin(angle);
 	player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
 }
