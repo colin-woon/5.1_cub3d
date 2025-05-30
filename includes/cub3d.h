@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 15:59:51 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 16:30:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
-# define WALL_HEIGHT_SCALE 1
+# define WALL_HEIGHT_SCALE 2
 # define MOUSE_SENSITIVITY 0.002
 
 typedef enum e_wall_direction{
@@ -36,7 +36,21 @@ typedef enum e_wall_direction{
 	SOUTH,
 	EAST,
 	WEST
-} t_wall_direction;
+}	t_wall_direction;
+
+// --- Minimap Constants ---
+#define MINIMAP_OFFSET_X 20 // Pixels from the left edge of the screen
+#define MINIMAP_OFFSET_Y 20 // Pixels from the top edge of the screen
+#define MINIMAP_SCALE 8    // Screen pixels per map grid unit (e.g., 8px per tile)
+
+// Colors for the minimap (ARGB format, assuming 0xAARRGGBB or 0x00RRGGBB)
+// If your mlx_pixel_put uses a different color format, adjust these.
+#define MINIMAP_WALL_COLOR   0x00808080 // Gray for walls
+#define MINIMAP_FLOOR_COLOR  0x00404040 // Dark Gray for floor
+#define MINIMAP_PLAYER_COLOR 0x00FF0000 // Red for player
+#define MINIMAP_PLAYER_SIZE  10        // Player dot size in pixels (e.g., 3x3 square)
+#define MINIMAP_VIEW_CONE_COLOR 0x00FFFF00 // Yellow for view cone/direction (optional)
+#define MINIMAP_RAY_LENGTH   20       // Length of the player direction indicator in minimap pixels
 
 // DEBUG: TEMPORARY HARDCODED
 #define DEBUG_RENDER_DIRECTION NORTH
@@ -49,7 +63,7 @@ typedef enum e_wall_hit_side
 {
 	VERTICAL,
 	HORIZONTAL
-} t_wall_hit_side;
+}	t_wall_hit_side;
 
 typedef enum e_is_wall
 {
