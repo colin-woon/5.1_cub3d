@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 16:22:42 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 17:39:36 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	calculate_line_height(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
 void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x);
 
-void draw_minimap_rect(t_img *img, int rect_x, int rect_y, int width, int height, int color) ;
+void draw_minimap_rect(t_img *img, t_minimap_vars *var, int color);
 void draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
 
 void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
@@ -43,67 +43,116 @@ get_fractional_texture_position_x(ray, player), game, &x);
 	mlx_put_image_to_window(mlx->ptr, mlx->window, mlx->img->ptr, 0, 0);
 }
 
-void draw_minimap(t_mlx *mlx, t_game *game, t_player *player) {
-	int map_x_grid, map_y_grid; // Grid coordinates
-	int screen_x, screen_y;     // Screen coordinates for drawing tiles
-	int tile_color;
+void	draw_player_line(t_player *player, t_mlx *mlx, int player_minimap_x, int player_minimap_y);
+void	draw_player_box(t_player *player, t_mlx *mlx);
+void	draw_map_tiles(t_map *map, t_mlx *mlx);
 
-	// Draw map tiles
-	for (map_y_grid = 0; map_y_grid < game->map->height; map_y_grid++) {
-		for (map_x_grid = 0; map_x_grid < game->map->width; map_x_grid++) {
-			screen_x = MINIMAP_OFFSET_X + map_x_grid * MINIMAP_SCALE;
-			screen_y = MINIMAP_OFFSET_Y + map_y_grid * MINIMAP_SCALE;
+void draw_minimap(t_mlx *mlx, t_game *game, t_player *player)
+{
+	draw_map_tiles(game->map, mlx);
+	draw_player_box(player, mlx);
+}
 
-			// Determine tile color based on map data
-			if (game->map->grid[map_y_grid][map_x_grid] == WALL) {
-				tile_color = MINIMAP_WALL_COLOR;
-			} else { // Assuming anything not a WALL is a floor/empty space
-				tile_color = MINIMAP_FLOOR_COLOR;
-			}
+void	get_map_tiles_var(t_minimap_vars *var, t_map *map ,int map_x_grid, int map_y_grid);
 
-			// Draw the scaled tile as a rectangle
-			// Ensure this doesn't draw outside the screen or minimap boundaries if desired
-			// For now, it will draw if the top-left of the tile is on screen
-			draw_minimap_rect(mlx->img, screen_x, screen_y, MINIMAP_SCALE, MINIMAP_SCALE, tile_color);
+// Determine tile color based on map data
+// Assuming anything not a WALL is a floor/empty space
+// Draw the scaled tile as a rectangle
+// Ensure this doesn't draw outside the screen or minimap boundaries if desired
+// For now, it will draw if the top-left of the tile is on screen
+void	draw_map_tiles(t_map *map, t_mlx *mlx)
+{
+	int				map_x_grid;
+	int				map_y_grid;
+	t_minimap_vars	var;
+
+	map_x_grid = 0;
+	while (map_x_grid < map->width)
+	{
+		map_y_grid = 0;
+		while (map_y_grid < map->height)
+		{
+			get_map_tiles_var(&var, map, map_x_grid, map_y_grid);
+			draw_minimap_rect(mlx->img, &var, var.color);
+			map_y_grid++;
 		}
-	}
-
-	// Draw player on the minimap
-	int player_minimap_x = MINIMAP_OFFSET_X + (int)(player->pos_y * MINIMAP_SCALE);
-	int player_minimap_y = MINIMAP_OFFSET_Y + (int)(player->pos_x * MINIMAP_SCALE);
-
-	draw_minimap_rect(mlx->img,
-					  player_minimap_x - MINIMAP_PLAYER_SIZE / 2,
-					  player_minimap_y - MINIMAP_PLAYER_SIZE / 2,
-					  MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE,
-					  MINIMAP_PLAYER_COLOR);
-
-	// Optional: Draw player's direction line
-	int dir_line_end_x = player_minimap_x + (int)(player->dir_x * MINIMAP_RAY_LENGTH);
-	int dir_line_end_y = player_minimap_y + (int)(player->dir_y * MINIMAP_RAY_LENGTH);
-
-	// Simple line drawing (draw a few pixels along the vector)
-	// For a more precise line, you'd use an algorithm like Bresenham's.
-	// This is a simplified version for a short line.
-	double dx = player->dir_y;
-	double dy = player->dir_x;
-	for (int i = 0; i < MINIMAP_RAY_LENGTH; i++) {
-		int px = player_minimap_x + (int)(dx * i);
-		int py = player_minimap_y + (int)(dy * i);
-		// Check if pixel is within overall minimap bounds before drawing (optional)
-		// For example, if (px >= MINIMAP_OFFSET_X && px < MINIMAP_OFFSET_X + game->map_width * MINIMAP_SCALE && ...)
-		my_mlx_pixel_put(mlx->img, px, py, MINIMAP_VIEW_CONE_COLOR);
+		map_x_grid++;
 	}
 }
 
-void draw_minimap_rect(t_img *img, int rect_x, int rect_y, int width, int height, int color)
+void	get_map_tiles_var(t_minimap_vars *var, t_map *map ,int map_x_grid, int map_y_grid)
 {
-	int i, j;
+	var->rect_x = MINIMAP_OFFSET_X + map_x_grid * MINIMAP_SCALE;
+	var->rect_y = MINIMAP_OFFSET_Y + map_y_grid * MINIMAP_SCALE;
+	if (map->grid[map_y_grid][map_x_grid] == WALL)
+		var->color = MINIMAP_WALL_COLOR;
+	else
+		var->color = MINIMAP_FLOOR_COLOR;
+	var->height = MINIMAP_SCALE;
+	var->width = MINIMAP_SCALE;
+}
+void	get_player_box_vars(t_minimap_vars *var, int player_x, int player_y);
 
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
-			my_mlx_pixel_put(img, rect_x + j, rect_y + i, color);
+void	draw_player_box(t_player *player, t_mlx *mlx)
+{
+	int player_minimap_x;
+	int player_minimap_y;
+	t_minimap_vars var;
+
+	player_minimap_y = MINIMAP_OFFSET_Y + (int)(player->pos_x * MINIMAP_SCALE);
+	player_minimap_x = MINIMAP_OFFSET_X + (int)(player->pos_y * MINIMAP_SCALE);
+	get_player_box_vars(&var, player_minimap_x, player_minimap_y);
+	draw_minimap_rect(mlx->img, &var, var.color);
+	draw_player_line(player, mlx, player_minimap_x, player_minimap_y);
+}
+
+void	get_player_box_vars(t_minimap_vars *var, int player_x, int player_y)
+{
+	var->rect_x = player_x - MINIMAP_PLAYER_SIZE / 2;
+	var->rect_y = player_y - MINIMAP_PLAYER_SIZE / 2;
+	var->width = MINIMAP_PLAYER_SIZE;
+	var->height = MINIMAP_PLAYER_SIZE;
+	var->color = MINIMAP_PLAYER_COLOR;
+}
+
+// Simple line drawing (draw a few pixels along the vector)
+// For a more precise line, you'd use an algorithm like Bresenham's.
+// This is a simplified version for a short line.
+void	draw_player_line(t_player *player, t_mlx *mlx, int player_minimap_x, int player_minimap_y)
+{
+	double dx;
+	double dy;
+	int i;
+	int px;
+	int py;
+
+	dx = player->dir_y;
+	dy = player->dir_x;
+	i = 0;
+	while (i < MINIMAP_RAY_LENGTH)
+	{
+		px = player_minimap_x + (int)(dx * i);
+		py = player_minimap_y + (int)(dy * i);
+		my_mlx_pixel_put(mlx->img, px, py, MINIMAP_VIEW_CONE_COLOR);
+		i++;
+	}
+}
+
+void draw_minimap_rect(t_img *img, t_minimap_vars *var, int color)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < var->height)
+	{
+		j = 0;
+		while (j < var->width)
+		{
+			my_mlx_pixel_put(img, var->rect_x + j, var->rect_y + i, color);
+			j++;
 		}
+		i++;
 	}
 }
 

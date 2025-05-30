@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 16:30:51 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 17:37:42 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,8 @@
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
-# define WALL_HEIGHT_SCALE 2
-# define MOUSE_SENSITIVITY 0.002
-
-typedef enum e_wall_direction{
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-}	t_wall_direction;
+# define WALL_HEIGHT_SCALE 1.5
+# define MOUSE_SENSITIVITY 0.005
 
 // --- Minimap Constants ---
 #define MINIMAP_OFFSET_X 20 // Pixels from the left edge of the screen
@@ -59,6 +52,12 @@ typedef enum e_wall_direction{
 #define DEBUG_PLAYER_POS_X 3
 #define DEBUG_PLAYER_POS_Y 3
 
+typedef enum e_wall_direction{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+}	t_wall_direction;
 typedef enum e_wall_hit_side
 {
 	VERTICAL,
@@ -154,6 +153,15 @@ typedef struct s_texture_vars
 	double	step;
 	int		color;
 }	t_texture_vars;
+
+typedef struct s_minimap_vars
+{
+	int	rect_x;
+	int	rect_y;
+	int	width;
+	int	height;
+	int	color;
+}	t_minimap_vars;
 
 t_assets	*init_assets(void);
 bool		parse_map(int fd, char *line, t_game *game);
