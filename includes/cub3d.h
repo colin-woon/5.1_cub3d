@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 17:37:42 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 17:54:58 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,10 @@ void	look_left_or_right(int keysym, t_player *player, t_game *game);
 void	look_left(t_player *player, t_game *game);
 void	look_right(t_player *player, t_game *game);
 
+// hooks_mouse.c
+int		mouse_hook(int x, int y, t_game *game);
+void	rotate_player(t_player *player, double angle);
+
 // init.c
 void init_player(t_player **player, t_map *map);
 
@@ -213,6 +217,7 @@ void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 void	calculate_line_height(t_ray *ray);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
 void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x);
+void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
 
 // draw_floor_ceiling.c
 void	draw_floor_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
@@ -235,7 +240,17 @@ void				put_texture_pixels\
 void				prep_texture_vars\
 (t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray);
 
-// mlx_colour_utils.c
+// minimap.c
+void	draw_player_line(t_player *player, t_mlx *mlx, int player_minimap_x, int player_minimap_y);
+void	draw_player_box(t_player *player, t_mlx *mlx);
+void	draw_map_tiles(t_map *map, t_mlx *mlx);
+
+// utils_minimap.c
+void	draw_minimap_rect(t_img *img, t_minimap_vars *var, int color);
+void	get_map_tiles_var(t_minimap_vars *var, t_map *map ,int map_x_grid, int map_y_grid);
+void	get_player_box_vars(t_minimap_vars *var, int player_x, int player_y);
+
+// mlx/utils_colour.c
 int	create_trgb(int transparency, int red, int green, int blue);
 int	get_transparency(int trgb);
 int	get_red(int trgb);

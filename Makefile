@@ -51,10 +51,13 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/exec/textures.c \
 					srcs/exec/dda.c \
 					srcs/exec/draw_floor_ceiling.c \
+					srcs/exec/minimap.c \
+					srcs/exec/utils_minimap.c \
 					srcs/mlx/utils_colour.c \
 					srcs/mlx/mlx.c \
 					srcs/mlx/hooks_movement.c \
-					srcs/mlx/hooks_movement_calc.c
+					srcs/mlx/hooks_movement_calc.c \
+					srcs/mlx/hooks_mouse.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 
