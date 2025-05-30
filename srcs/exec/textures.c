@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:12:57 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 14:49:47 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 18:04:09 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int					get_texture_pixel(t_img *texture, int x, int y);
 double				get_fractional_texture_position_x\
 (t_ray *ray, t_player *player);
-t_wall_direction	get_wall_direction(t_ray *ray);
+t_wall_dir	get_wall_dir(t_ray *ray);
 void				put_texture_pixels\
 (t_texture_vars *tex, t_img *texture, t_game *game, int *x);
 void				prep_texture_vars\
@@ -35,7 +35,7 @@ int	get_texture_pixel(t_img *texture, int x, int y)
 // HORIZONTAL
 // Ray moving down hits SOUTH wall
 // Ray moving up hits NORTH wall
-t_wall_direction	get_wall_direction(t_ray *ray)
+t_wall_dir	get_wall_dir(t_ray *ray)
 {
 	if (ray->wall_hit_side == VERTICAL)
 	{

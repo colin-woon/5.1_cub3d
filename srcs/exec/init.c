@@ -6,14 +6,14 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:48:53 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 01:22:56 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 18:04:09 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	init_player(t_player **player, t_map *map);
-void	init_render_direction(t_player **player, t_wall_direction player_dir);
+void	init_render_direction(t_player **player, t_wall_dir player_dir);
 
 // 	(*player)->pos_x = DEBUG_PLAYER_POS_X;
 // 	(*player)->pos_y = DEBUG_PLAYER_POS_Y;
@@ -28,7 +28,7 @@ void	init_player(t_player **player, t_map *map)
 }
 
 // int	debug_direction = DEBUG_RENDER_DIRECTION;
-void	init_render_direction(t_player **player, t_wall_direction player_dir)
+void	init_render_direction(t_player **player, t_wall_dir player_dir)
 {
 	if (player_dir == NORTH)
 	{
