@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 16:44:49 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/05/30 15:59:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1
-# define MOUSE_SENSITIVITY 0.0006
+# define MOUSE_SENSITIVITY 0.002
 
 typedef enum e_wall_direction{
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
 } t_wall_direction;
 
 // DEBUG: TEMPORARY HARDCODED
@@ -45,12 +45,14 @@ typedef enum e_wall_direction{
 #define DEBUG_PLAYER_POS_X 3
 #define DEBUG_PLAYER_POS_Y 3
 
-typedef enum e_wall_hit_side{
+typedef enum e_wall_hit_side
+{
 	VERTICAL,
 	HORIZONTAL
 } t_wall_hit_side;
 
-typedef enum e_is_wall{
+typedef enum e_is_wall
+{
 	NO_WALL,
 	WALL,
 } t_is_wall;
