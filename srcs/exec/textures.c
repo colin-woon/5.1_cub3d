@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:12:57 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 18:04:09 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 17:25:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int					get_texture_pixel(t_img *texture, int x, int y);
 double				get_fractional_texture_position_x\
 (t_ray *ray, t_player *player);
-t_wall_dir	get_wall_dir(t_ray *ray);
+t_wall_dir			get_wall_dir(t_ray *ray);
 void				put_texture_pixels\
 (t_texture_vars *tex, t_img *texture, t_game *game, int *x);
 void				prep_texture_vars\
-(t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray);
+(t_texture_vars *tex, t_img *texture, t_ray *ray, t_player *player);
 
 int	get_texture_pixel(t_img *texture, int x, int y)
 {
@@ -53,16 +53,39 @@ t_wall_dir	get_wall_dir(t_ray *ray)
 	}
 }
 
+// Flip texture X if necessary (standard practice to avoid mirrored textures)
+	// if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) ||
+	// 	(ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
+// Calculate step size for texture Y coordinate per screen pixel Y
+// ray->line_height is the
+// full projected height of the wall column on screen
+// (calculated in calculate_wall_projection)
+	// if (ray->line_height == 0)
+	// Avoid division by zero if line_height is somehow 0
+// Calculate starting texture Y position
+// for the first screen pixel (ray->draw_start)
+// This formula ensures the texture "sticks"
+// to the wall correctly, accounting for pitch.
+// It maps the screen Y coordinates to texture Y coordinates
+// relative to the (pitched) horizon.
+	// double screen_horizon_pitched = SCREEN_HEIGHT / 2.0 + player->pitch;
+// tex->pos will be the texture Y coordinate
+// corresponding to the screen Y ray->draw_start
 void	prep_texture_vars\
-(t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray)
+(t_texture_vars *tex, t_img *texture, t_ray *ray, t_player *player)
 {
-	tex->x = (int)(wall_x * texture->width);
+	double	screen_horizon_pitched;
+
 	if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) \
 || (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
 		tex->x = texture->width - tex->x - 1;
-	tex->step = (double)texture->height / ray->line_height;
-	tex->pos \
-= (ray->draw_start - SCREEN_HEIGHT / 2 + ray->line_height / 2) * tex->step;
+	if (ray->line_height == 0)
+		tex->step = 0;
+	else
+		tex->step = (double)texture->height / ray->line_height;
+	screen_horizon_pitched = SCREEN_HEIGHT / 2.0 + player->pitch;
+	tex->pos = (texture->height / 2.0) + \
+(ray->draw_start - screen_horizon_pitched) * tex->step;
 }
 
 // shading effect:
@@ -96,9 +119,9 @@ double	get_fractional_texture_position_x(t_ray *ray, t_player *player)
 	double	wall_x;
 
 	if (ray->wall_hit_side == VERTICAL)
-		wall_x = player->pos_y + ray->prependicular_wall_distance * ray->dir_y;
+		wall_x = player->pos_y + ray->perpendicular_wall_distance * ray->dir_y;
 	else
-		wall_x = player->pos_x + ray->prependicular_wall_distance * ray->dir_x;
+		wall_x = player->pos_x + ray->perpendicular_wall_distance * ray->dir_x;
 	wall_x -= floor(wall_x);
 	return (wall_x);
 }

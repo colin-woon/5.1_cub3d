@@ -5,7 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
+/*   Created: 2025/04/14 16:35:45 by cwoon             #+
+#include "cub3d.h"#    #+#             */
 /*   Updated: 2025/05/30 18:11:00 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -23,13 +24,15 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# define SCREEN_WIDTH 1000
-# define SCREEN_HEIGHT 1000
+# define SCREEN_WIDTH 2000
+# define SCREEN_HEIGHT 2000
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1.5
-# define MOUSE_SENSITIVITY 0.005
+# define MOUSE_SENSITIVITY_X 0.001
+#define MOUSE_SENSITIVITY_Y 0.3   // Sensitivity for vertical look (adjust as needed)
+#define MAX_PITCH_PIXELS (SCREEN_HEIGHT / 3.0) // Limit how far up/down player can look (e.g., 1/3 of screen height)
 
 // --- Minimap Constants ---
 // Pixels from the left edge of the screen
@@ -119,6 +122,7 @@ typedef struct s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
+	double	pitch;
 }	t_player;
 
 typedef struct s_raycasting
@@ -132,7 +136,7 @@ typedef struct s_raycasting
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
-	double	prependicular_wall_distance;
+	double	perpendicular_wall_distance;
 	int		step_x;
 	int		step_y;
 	int		wall_hit_side;
@@ -171,6 +175,15 @@ typedef struct s_minimap_vars
 	int	height;
 	int	color;
 }	t_minimap_vars;
+
+typedef struct s_mouse_vars
+{
+	int		screen_center_x;
+	int		screen_center_y;
+	double	delta_x;
+	double	delta_y;
+	double	rotation_angle_yaw;
+}	t_mouse_vars;
 
 t_assets	*init_assets(void);
 bool		parse_map(int fd, char *line, t_game *game);
@@ -214,6 +227,11 @@ void		look_right(t_player *player, t_game *game);
 // hooks_mouse.c
 int			mouse_hook(int x, int y, t_game *game);
 void		rotate_player(t_player *player, double angle);
+void		rotate_horizontally\
+(t_game *game, int *x, t_mouse_vars *var, bool *mouse_moved);
+void		rotate_vertically\
+(t_game *game, int *y, t_mouse_vars *var, bool *mouse_moved);
+void		init_mouse_vars(t_mouse_vars *var, int *x, int *y);
 
 // init.c
 void		init_player(t_player **player, t_map *map);
@@ -224,22 +242,22 @@ void		cleanup(t_game *game);
 // raycasting.c
 void		run_raycasting\
 (t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
-void		calculate_line_height(t_ray *ray);
 void		init_ray_dir_n_map_pos\
 (t_game *game, int x, int *map_x, int *map_y);
 void		draw_wall_texture\
 (t_img *texture, double wall_x, t_game *game, int *x);
-void		draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
+void		calculate_wall_projection(t_ray *ray, t_player *player);
+void		calculate_pitch_offset(t_player *player, t_ray *ray);
 
 // draw_floor_ceiling.c
-void		draw_floor_ceiling\
-(t_mlx *mlx, int floor_colour, int ceiling_colour);
+void		draw_floor(int *y_row, t_ray *ray, t_game *game, int *x_col);
+void		draw_ceiling(int *y_row, t_ray *ray, t_game *game, int *x_col);
 int			get_ceiling_colour(t_game *game);
 int			get_floor_colour(t_game *game);
 
 // dda.c
 void		run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y);
-void		calculate_step_n_init_side_dist\
+void		calculate_step_n_init_side_dist
 (t_ray *ray, t_player *player, int map_x, int map_y);
 void		calculate_point_gap(t_ray *ray);
 
@@ -251,13 +269,14 @@ t_wall_dir	get_wall_dir(t_ray *ray);
 void		put_texture_pixels\
 (t_texture_vars *tex, t_img *texture, t_game *game, int *x);
 void		prep_texture_vars\
-(t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray);
+(t_texture_vars *tex, t_img *texture, t_ray *ray, t_player *player);
 
 // minimap.c
 void		draw_player_line(t_player *player, t_mlx *mlx, \
 int player_minimap_x, int player_minimap_y);
 void		draw_player_box(t_player *player, t_mlx *mlx);
 void		draw_map_tiles(t_map *map, t_mlx *mlx);
+void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
 
 // utils_minimap.c
 void		draw_minimap_rect(t_img *img, t_minimap_vars *var, int color);

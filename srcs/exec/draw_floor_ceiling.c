@@ -12,35 +12,34 @@
 
 #include "cub3d.h"
 
-void	draw_floor_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour);
+void	draw_floor(int *y_row, t_ray *ray, t_game *game, int *x_col);
+void	draw_ceiling(int *y_row, t_ray *ray, t_game *game, int *x_col);
 int		get_ceiling_colour(t_game *game);
 int		get_floor_colour(t_game *game);
 
-void	draw_floor_ceiling(t_mlx *mlx, int floor_colour, int ceiling_colour)
+void	draw_ceiling(int *y_row, t_ray *ray, t_game *game, int *x_col)
 {
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < SCREEN_HEIGHT / 2)
+	*y_row = 0;
+	while (*y_row < ray->draw_start)
 	{
-		y = 0;
-		while (y < SCREEN_WIDTH)
-		{
-			my_mlx_pixel_put(mlx->img, y, x, ceiling_colour);
-			y++;
-		}
-		x++;
+		my_mlx_pixel_put\
+(game->mlx_data->img, *x_col, *y_row, get_ceiling_colour(game));
+		(*y_row)++;
 	}
-	while (x < SCREEN_HEIGHT)
+}
+
+// Ensure *y_row starts validly; if ray->draw_end was SCREEN_HEIGHT - 1,
+// *y_row would be SCREEN_HEIGHT,
+// and the loop condition *y_row < SCREEN_HEIGHT would be false.
+// This is correct, as no floor would be drawn in that case.
+void	draw_floor(int *y_row, t_ray *ray, t_game *game, int *x_col)
+{
+	*y_row = ray->draw_end + 1;
+	while (*y_row < SCREEN_HEIGHT)
 	{
-		y = 0;
-		while (y < SCREEN_WIDTH)
-		{
-			my_mlx_pixel_put(mlx->img, y, x, floor_colour);
-			y++;
-		}
-		x++;
+		my_mlx_pixel_put\
+(game->mlx_data->img, *x_col, *y_row, get_floor_colour(game));
+		(*y_row)++;
 	}
 }
 
