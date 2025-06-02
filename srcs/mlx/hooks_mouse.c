@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:53:35 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 16:28:34 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 22:14:35 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	mouse_hook(int x, int y, t_game *game)
 	t_mouse_vars	var;
 	bool			mouse_moved;
 
+	// printf("x: %d y: %d\n", x, y);
 	mouse_moved = false;
 	init_mouse_vars(&var, &x, &y);
 	rotate_horizontally(game, &x, &var, &mouse_moved);
@@ -114,14 +115,14 @@ void	init_mouse_vars(t_mouse_vars *var, int *x, int *y)
 
 void	rotate_player(t_player *player, double angle)
 {
-	double	old_dir_x;
-	double	old_plane_x;
+	double	old_dir_y;
+	double	old_plane_y;
 
-	old_dir_x = player->dir_x;
-	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
-	player->dir_y = old_dir_x * sin(angle) + player->dir_y * cos(angle);
-	old_plane_x = player->plane_x;
-	player->plane_x \
-= player->plane_x * cos(angle) - player->plane_y * sin(angle);
-	player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
+	old_dir_y = player->dir_y;
+	player->dir_y = player->dir_y * cos(angle) - player->dir_x * sin(angle);
+	player->dir_x = old_dir_y * sin(angle) + player->dir_x * cos(angle);
+	old_plane_y = player->plane_y;
+	player->plane_y \
+= player->plane_y * cos(angle) - player->plane_x * sin(angle);
+	player->plane_x = old_plane_y * sin(angle) + player->plane_x * cos(angle);
 }

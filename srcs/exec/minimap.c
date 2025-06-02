@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:47:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 17:01:04 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 21:32:59 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ void	draw_map_tiles(t_map *map, t_mlx *mlx)
 	int				map_y_grid;
 	t_minimap_vars	var;
 
-	map_x_grid = 0;
-	while (map_x_grid < map->width)
+	map_y_grid = 0;
+	while (map_y_grid < map->height)
 	{
-		map_y_grid = 0;
-		while (map_y_grid < map->height)
+		map_x_grid = 0;
+		while (map_x_grid < map->width)
 		{
 			get_map_tiles_var(&var, map, map_x_grid, map_y_grid);
 			draw_minimap_rect(mlx->img, &var, var.color);
-			map_y_grid++;
+			map_x_grid++;
 		}
-		map_x_grid++;
+		map_y_grid++;
 	}
 }
 
@@ -55,8 +55,8 @@ void	draw_player_box(t_player *player, t_mlx *mlx)
 	int				player_minimap_y;
 	t_minimap_vars	var;
 
-	player_minimap_y = MINIMAP_OFFSET_Y + (int)(player->pos_x * MINIMAP_SCALE);
-	player_minimap_x = MINIMAP_OFFSET_X + (int)(player->pos_y * MINIMAP_SCALE);
+	player_minimap_y = MINIMAP_OFFSET_Y + (int)(player->pos_y * MINIMAP_SCALE);
+	player_minimap_x = MINIMAP_OFFSET_X + (int)(player->pos_x * MINIMAP_SCALE);
 	get_player_box_vars(&var, player_minimap_x, player_minimap_y);
 	draw_minimap_rect(mlx->img, &var, var.color);
 	draw_player_line(player, mlx, player_minimap_x, player_minimap_y);
@@ -74,8 +74,8 @@ int player_minimap_x, int player_minimap_y)
 	int		px;
 	int		py;
 
-	dx = player->dir_y;
-	dy = player->dir_x;
+	dx = player->dir_x;
+	dy = player->dir_y;
 	i = 0;
 	while (i < MINIMAP_RAY_LENGTH)
 	{

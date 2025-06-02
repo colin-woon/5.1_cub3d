@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:12:57 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 17:25:51 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 22:11:17 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ t_wall_dir	get_wall_dir(t_ray *ray)
 	if (ray->wall_hit_side == VERTICAL)
 	{
 		if (ray->dir_x > 0)
-			return (SOUTH);
+			return (EAST);
 		else
-			return (NORTH);
+			return (WEST);
 	}
 	else
 	{
 		if (ray->dir_y > 0)
-			return (EAST);
+			return (SOUTH);
 		else
-			return (WEST);
+			return (NORTH);
 	}
 }
 

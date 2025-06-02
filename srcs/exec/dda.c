@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:15:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 01:25:17 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 21:57:41 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y)
 			*map_y += ray->step_y;
 			ray->wall_hit_side = HORIZONTAL;
 		}
-		if (game->map->grid[*map_x][*map_y] > 0)
+		if (game->map->grid[*map_y][*map_x] > 0)
 			is_wall_hit = 1;
 	}
 }
