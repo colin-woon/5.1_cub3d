@@ -5,7 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 16:35:45 by cwoon             #+#    #+#             */
+/*   Created: 2025/04/14 16:35:45 by cwoon             #+
+#include "cub3d.h"#    #+#             */
 /*   Updated: 2025/05/30 18:11:00 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -29,7 +30,9 @@
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1.5
-# define MOUSE_SENSITIVITY 0.005
+# define MOUSE_SENSITIVITY_X 0.001
+#define MOUSE_SENSITIVITY_Y 0.3   // Sensitivity for vertical look (adjust as needed)
+#define MAX_PITCH_PIXELS (SCREEN_HEIGHT / 3.0) // Limit how far up/down player can look (e.g., 1/3 of screen height)
 
 // --- Minimap Constants ---
 // Pixels from the left edge of the screen
@@ -119,6 +122,7 @@ typedef struct s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
+	double	pitch;
 }	t_player;
 
 typedef struct s_raycasting
