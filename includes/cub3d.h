@@ -24,8 +24,8 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# define SCREEN_WIDTH 1000
-# define SCREEN_HEIGHT 1000
+# define SCREEN_WIDTH 2000
+# define SCREEN_HEIGHT 2000
 # define MOVE_SPEED 0.15
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
@@ -176,6 +176,15 @@ typedef struct s_minimap_vars
 	int	color;
 }	t_minimap_vars;
 
+typedef struct s_mouse_vars
+{
+	int		screen_center_x;
+	int		screen_center_y;
+	double	delta_x;
+	double	delta_y;
+	double	rotation_angle_yaw;
+}	t_mouse_vars;
+
 t_assets	*init_assets(void);
 bool		parse_map(int fd, char *line, t_game *game);
 
@@ -218,6 +227,11 @@ void		look_right(t_player *player, t_game *game);
 // hooks_mouse.c
 int			mouse_hook(int x, int y, t_game *game);
 void		rotate_player(t_player *player, double angle);
+void		rotate_horizontally\
+(t_game *game, int *x, t_mouse_vars *var, bool *mouse_moved);
+void		rotate_vertically\
+(t_game *game, int *y, t_mouse_vars *var, bool *mouse_moved);
+void		init_mouse_vars(t_mouse_vars *var, int *x, int *y);
 
 // init.c
 void		init_player(t_player **player, t_map *map);
