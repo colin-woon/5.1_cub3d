@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:47:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/30 18:00:27 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 17:01:04 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ void	draw_player_line(t_player *player, t_mlx *mlx, \
 int player_minimap_x, int player_minimap_y);
 void	draw_player_box(t_player *player, t_mlx *mlx);
 void	draw_map_tiles(t_map *map, t_mlx *mlx);
+void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
+
+void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player)
+{
+	draw_map_tiles(game->map, mlx);
+	draw_player_box(player, mlx);
+}
 
 // Determine tile color based on map data
 // Assuming anything not a WALL is a floor/empty space

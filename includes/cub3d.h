@@ -136,7 +136,7 @@ typedef struct s_raycasting
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
-	double	prependicular_wall_distance;
+	double	perpendicular_wall_distance;
 	int		step_x;
 	int		step_y;
 	int		wall_hit_side;
@@ -242,22 +242,22 @@ void		cleanup(t_game *game);
 // raycasting.c
 void		run_raycasting\
 (t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
-void		calculate_line_height(t_ray *ray);
 void		init_ray_dir_n_map_pos\
 (t_game *game, int x, int *map_x, int *map_y);
 void		draw_wall_texture\
 (t_img *texture, double wall_x, t_game *game, int *x);
-void		draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
+void		calculate_wall_projection(t_ray *ray, t_player *player);
+void		calculate_pitch_offset(t_player *player, t_ray *ray);
 
 // draw_floor_ceiling.c
-void		draw_floor_ceiling\
-(t_mlx *mlx, int floor_colour, int ceiling_colour);
+void		draw_floor(int *y_row, t_ray *ray, t_game *game, int *x_col);
+void		draw_ceiling(int *y_row, t_ray *ray, t_game *game, int *x_col);
 int			get_ceiling_colour(t_game *game);
 int			get_floor_colour(t_game *game);
 
 // dda.c
 void		run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y);
-void		calculate_step_n_init_side_dist\
+void		calculate_step_n_init_side_dist
 (t_ray *ray, t_player *player, int map_x, int map_y);
 void		calculate_point_gap(t_ray *ray);
 
@@ -270,13 +270,14 @@ void		put_texture_pixels\
 (t_texture_vars *tex, t_img *texture, t_game *game, int *x);
 // void		prep_texture_vars\
 // (t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray);
-void prep_texture_vars(t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray, t_player *player);
+void	prep_texture_vars(t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray, t_player *player);
 
 // minimap.c
 void		draw_player_line(t_player *player, t_mlx *mlx, \
 int player_minimap_x, int player_minimap_y);
 void		draw_player_box(t_player *player, t_mlx *mlx);
 void		draw_map_tiles(t_map *map, t_mlx *mlx);
+void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
 
 // utils_minimap.c
 void		draw_minimap_rect(t_img *img, t_minimap_vars *var, int color);

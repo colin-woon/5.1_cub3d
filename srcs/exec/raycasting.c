@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 16:45:54 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 17:02:25 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,8 @@
 void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game);
 void	init_ray_dir_n_map_pos(t_game *game, int x, int *map_x, int *map_y);
 void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x);
-void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
 void	calculate_wall_projection(t_ray *ray, t_player *player);
-// void	calculate_line_height(t_ray *ray);
-
-void	draw_floor(int *y_row, t_ray *ray, t_game *game, int *x_col);
-void	draw_ceiling(int *y_row, t_ray *ray, t_game *game, int *x_col);
+void	calculate_pitch_offset(t_player *player, t_ray *ray);
 
 void	run_raycasting(t_ray *ray, t_player *player, t_mlx *mlx, t_game *game)
 {
@@ -47,114 +43,60 @@ get_fractional_texture_position_x(ray, player), game, &x_col);
 	mlx_put_image_to_window(mlx->ptr, mlx->window, game->mlx_data->img->ptr, 0, 0);
 }
 
-void	draw_ceiling(int *y_row, t_ray *ray, t_game *game, int *x_col)
-{
-	*y_row = 0;
-	while (*y_row < ray->draw_start)
-	{
-		my_mlx_pixel_put(game->mlx_data->img, *x_col, *y_row, get_ceiling_colour(game));
-		(*y_row)++;
-	}
-}
-
-// Ensure *y_row starts validly; if ray->draw_end was SCREEN_HEIGHT - 1,
-// *y_row would be SCREEN_HEIGHT, and the loop condition *y_row < SCREEN_HEIGHT would be false.
-// This is correct, as no floor would be drawn in that case.
-void	draw_floor(int *y_row, t_ray *ray, t_game *game, int *x_col)
-{
-	*y_row = ray->draw_end + 1;
-	while (*y_row < SCREEN_HEIGHT)
-	{
-		my_mlx_pixel_put(game->mlx_data->img, *x_col, *y_row, get_floor_colour(game));
-		(*y_row)++;
-	}
-}
-
-// calculate line height, prependicular distance needed to avoid fisheye effect
+// Calculate wall projection height and screen draw limits (incorporates pitch)
+// perpendicular distance needed to avoid fisheye effect
 // https://chat.qwen.ai/s/4eaf1fda-5ae9-4f03-b0c1-c08374235e65?fev=0.0.95
 // derived from this formula, its mathematical proof,
 // although not obviously related, using substitution
-// void	calculate_line_height(t_ray *ray)
-// {
-// 	if (ray->wall_hit_side == VERTICAL)
-// 		ray->prependicular_wall_distance \
-// = (ray->side_dist_x - ray->delta_dist_x);
-// 	else
-// 		ray->prependicular_wall_distance \
-// = (ray->side_dist_y - ray->delta_dist_y);
-// 	ray->line_height \
-// = (int)(WALL_HEIGHT_SCALE * SCREEN_HEIGHT / ray->prependicular_wall_distance);
-// 	ray->draw_start = -ray->line_height / 2 + SCREEN_HEIGHT / 2;
-// 	if (ray->draw_start < 0)
-// 		ray->draw_start = 0;
-// 	ray->draw_end = ray->line_height / 2 + SCREEN_HEIGHT / 2;
-// 	if (ray->draw_end >= SCREEN_HEIGHT)
-// 		ray->draw_end = SCREEN_HEIGHT - 1;
-// }
-
-// Calculate wall projection height and screen draw limits (incorporates pitch)
 // This function sets ray->draw_start and ray->draw_end
+// --- 2. Calculate Projected Line Height ---
+// Prevent division by zero or very small distances,
+// which cause excessively large line_height.
 void	calculate_wall_projection(t_ray *ray, t_player *player)
 {
-	// --- 1. Calculate Perpendicular Wall Distance ---
-	// This logic is taken directly from your commented-out `calculate_line_height`.
-	// It assumes that your DDA loop (run_dda) correctly calculates and stores:
-	// - ray->wall_hit_side (VERTICAL or HORIZONTAL)
-	// - ray->side_dist_x, ray->side_dist_y
-	// - ray->delta_dist_x, ray->delta_dist_y
-	// In many DDA implementations (like Lode Vandevenne's tutorial),
-	// (side_dist - delta_dist) correctly gives the perpendicular wall distance.
-	if (ray->wall_hit_side == VERTICAL) // Assuming VERTICAL means hit a N/S wall
-	{
-		ray->prependicular_wall_distance = (ray->side_dist_x - ray->delta_dist_x);
-	}
-	else // Assuming HORIZONTAL means hit an E/W wall
-	{
-		ray->prependicular_wall_distance = (ray->side_dist_y - ray->delta_dist_y);
-	}
+	if (ray->wall_hit_side == VERTICAL)
+		ray->perpendicular_wall_distance \
+= (ray->side_dist_x - ray->delta_dist_x);
+	else
+		ray->perpendicular_wall_distance \
+= (ray->side_dist_y - ray->delta_dist_y);
+	if (ray->perpendicular_wall_distance < 0.01)
+		ray->perpendicular_wall_distance = 0.01;
+	ray->line_height = \
+(int)(WALL_HEIGHT_SCALE * SCREEN_HEIGHT / ray->perpendicular_wall_distance);
+	calculate_pitch_offset(player, ray);
+}
 
-	// --- 2. Calculate Projected Line Height ---
-	// Prevent division by zero or very small distances, which cause excessively large line_height.
-	if (ray->prependicular_wall_distance < 0.01) // Using a small epsilon
-	{
-		ray->prependicular_wall_distance = 0.01;
-	}
+// --- 3. Calculate Draw Start and End Points with Pitch ---
+// Get the vertical look offset from the player's state.
+// (player->pitch is assumed to be in screen pixels offset from the center)
+	// pitch_offset = (int)player->pitch;
+// Calculate the top screen pixel of the wall slice.
+// The wall is centered around (SCREEN_HEIGHT / 2 + pitch_offset).
+	// ray->draw_start = -ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
+// Safeguard: Ensure draw_start is not greater than draw_end.
+// This can happen if line_height is calculated as <= 0.
+	// if (ray->draw_start > ray->draw_end)
+// If the wall is effectively behind the player or too far,
+// or line_height is zero, just draw a single pixel line at horizon or collapse.
+// For simplicity, let's set them to the same point (effectively no wall drawn).
+// You might want to handle this differently, e.g. by not drawing.
+	// center_y = SCREEN_HEIGHT / 2 + pitch_offset;
+void	calculate_pitch_offset(t_player *player, t_ray *ray)
+{
+	int	pitch_offset;
+	int	center_y;
 
-	// Calculate the height of the wall slice on screen.
-	// This uses your WALL_HEIGHT_SCALE.
-	ray->line_height = (int)(WALL_HEIGHT_SCALE * SCREEN_HEIGHT / ray->prependicular_wall_distance);
-
-	// --- 3. Calculate Draw Start and End Points with Pitch ---
-	int pitch_offset;
-
-	// Get the vertical look offset from the player's state.
-	// (player->pitch is assumed to be in screen pixels offset from the center)
 	pitch_offset = (int)player->pitch;
-
-	// Calculate the top screen pixel of the wall slice.
-	// The wall is centered around (SCREEN_HEIGHT / 2 + pitch_offset).
 	ray->draw_start = -ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
 	if (ray->draw_start < 0)
-	{
-		ray->draw_start = 0; // Clamp to the top of the screen.
-	}
-
-	// Calculate the bottom screen pixel of the wall slice.
+		ray->draw_start = 0;
 	ray->draw_end = ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
 	if (ray->draw_end >= SCREEN_HEIGHT)
-	{
-		ray->draw_end = SCREEN_HEIGHT - 1; // Clamp to the bottom of the screen.
-	}
-
-	// Safeguard: Ensure draw_start is not greater than draw_end.
-	// This can happen if line_height is calculated as <= 0.
+		ray->draw_end = SCREEN_HEIGHT - 1;
 	if (ray->draw_start > ray->draw_end)
 	{
-		// If the wall is effectively behind the player or too far,
-		// or line_height is zero, just draw a single pixel line at horizon or collapse.
-		// For simplicity, let's set them to the same point (effectively no wall drawn).
-		// You might want to handle this differently, e.g. by not drawing.
-		int center_y = SCREEN_HEIGHT / 2 + pitch_offset;
+		center_y = SCREEN_HEIGHT / 2 + pitch_offset;
 		if (center_y < 0) center_y = 0;
 		if (center_y >= SCREEN_HEIGHT) center_y = SCREEN_HEIGHT -1;
 		ray->draw_start = center_y;
@@ -188,10 +130,4 @@ void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x)
 
 	prep_texture_vars(&tex, wall_x, texture, game->ray, game->player);
 	put_texture_pixels(&tex, texture, game, x);
-}
-
-void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player)
-{
-	draw_map_tiles(game->map, mlx);
-	draw_player_box(player, mlx);
 }
