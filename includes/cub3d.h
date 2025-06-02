@@ -268,9 +268,8 @@ double		get_fractional_texture_position_x\
 t_wall_dir	get_wall_dir(t_ray *ray);
 void		put_texture_pixels\
 (t_texture_vars *tex, t_img *texture, t_game *game, int *x);
-// void		prep_texture_vars\
-// (t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray);
-void	prep_texture_vars(t_texture_vars *tex, double wall_x, t_img *texture, t_ray *ray, t_player *player);
+void		prep_texture_vars\
+(t_texture_vars *tex, t_img *texture, t_ray *ray, t_player *player);
 
 // minimap.c
 void		draw_player_line(t_player *player, t_mlx *mlx, \

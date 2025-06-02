@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 17:02:25 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 17:24:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ get_fractional_texture_position_x(ray, player), game, &x_col);
 		x_col++;
 	}
 	draw_minimap(mlx, game, player);
-	mlx_put_image_to_window(mlx->ptr, mlx->window, game->mlx_data->img->ptr, 0, 0);
+	mlx_put_image_to_window\
+(mlx->ptr, mlx->window, game->mlx_data->img->ptr, 0, 0);
 }
 
 // Calculate wall projection height and screen draw limits (incorporates pitch)
@@ -73,13 +74,14 @@ void	calculate_wall_projection(t_ray *ray, t_player *player)
 	// pitch_offset = (int)player->pitch;
 // Calculate the top screen pixel of the wall slice.
 // The wall is centered around (SCREEN_HEIGHT / 2 + pitch_offset).
-	// ray->draw_start = -ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
+	// ray->draw_start
+	// = -ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
 // Safeguard: Ensure draw_start is not greater than draw_end.
 // This can happen if line_height is calculated as <= 0.
 	// if (ray->draw_start > ray->draw_end)
 // If the wall is effectively behind the player or too far,
-// or line_height is zero, just draw a single pixel line at horizon or collapse.
-// For simplicity, let's set them to the same point (effectively no wall drawn).
+// or line_height is zero, just draw a single pixel line at horizon or collapse
+// For simplicity, let's set them to the same point (effectively no wall drawn)
 // You might want to handle this differently, e.g. by not drawing.
 	// center_y = SCREEN_HEIGHT / 2 + pitch_offset;
 void	calculate_pitch_offset(t_player *player, t_ray *ray)
@@ -97,8 +99,10 @@ void	calculate_pitch_offset(t_player *player, t_ray *ray)
 	if (ray->draw_start > ray->draw_end)
 	{
 		center_y = SCREEN_HEIGHT / 2 + pitch_offset;
-		if (center_y < 0) center_y = 0;
-		if (center_y >= SCREEN_HEIGHT) center_y = SCREEN_HEIGHT -1;
+		if (center_y < 0)
+			center_y = 0;
+		if (center_y >= SCREEN_HEIGHT)
+			center_y = SCREEN_HEIGHT -1;
 		ray->draw_start = center_y;
 		ray->draw_end = center_y;
 	}
@@ -128,6 +132,7 @@ void	draw_wall_texture(t_img *texture, double wall_x, t_game *game, int *x)
 {
 	t_texture_vars	tex;
 
-	prep_texture_vars(&tex, wall_x, texture, game->ray, game->player);
+	tex.x = (int)(wall_x * texture->width);
+	prep_texture_vars(&tex, texture, game->ray, game->player);
 	put_texture_pixels(&tex, texture, game, x);
 }
