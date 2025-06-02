@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/30 17:54:04 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:47:38 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int main(int ac, char *av[])
 
 void	run_mlx(t_game *game)
 {
+	// mlx_mouse_hide(game->mlx_data->ptr, game->mlx_data->window);
 	mlx_hook(game->mlx_data->window, KeyPress, 1, movement_keys, game);
 	mlx_hook(game->mlx_data->window, MotionNotify, 1L << 6, mouse_hook, game);
 	mlx_loop_hook(game->mlx_data->ptr, game_loop, game);
