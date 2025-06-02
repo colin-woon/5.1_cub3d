@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:53:35 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 15:02:08 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:28:34 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,15 @@
 
 int		mouse_hook(int x, int y, t_game *game);
 void	rotate_player(t_player *player, double angle);
+void	rotate_horizontally\
+(t_game *game, int *x, t_mouse_vars *var, bool *mouse_moved);
+void	rotate_vertically\
+(t_game *game, int *y, t_mouse_vars *var, bool *mouse_moved);
+void	init_mouse_vars(t_mouse_vars *var, int *x, int *y);
 
 // // printf("x: %d y: %d\n", x, y);
+// FOR WINDOWS (need to use relative position
+// as there is no way to reset mouse pointer to center)
 // int	mouse_hook(int x, int y, t_game *game)
 // {
 // 	double	delta_x;
@@ -40,50 +47,69 @@ void	rotate_player(t_player *player, double angle);
 // 	return (0);
 // }
 
-int mouse_hook(int x, int y, t_game *game) {
-    int screen_center_x;
-    int screen_center_y;
-    double delta_x;
-    double delta_y;
-    double rotation_angle_yaw;
-    bool mouse_moved = false;
+int	mouse_hook(int x, int y, t_game *game)
+{
+	t_mouse_vars	var;
+	bool			mouse_moved;
 
-    screen_center_x = SCREEN_WIDTH / 2;
-    screen_center_y = SCREEN_HEIGHT / 2;
+	mouse_moved = false;
+	init_mouse_vars(&var, &x, &y);
+	rotate_horizontally(game, &x, &var, &mouse_moved);
+	rotate_vertically(game, &y, &var, &mouse_moved);
+	if (mouse_moved)
+	{
+		game->is_render = true;
+		mlx_mouse_move(game->mlx_data->ptr, game->mlx_data->window, \
+var.screen_center_x, var.screen_center_y);
+	}
+	return (0);
+}
 
-    // --- Horizontal Rotation (Yaw) ---
-    delta_x = (double)(x - screen_center_x);
-    if (x != screen_center_x) { // Check if x actually changed to avoid tiny rotations if only y moved
-        rotation_angle_yaw = -delta_x * MOUSE_SENSITIVITY_X; // Negative for natural mouse look
-        rotate_player(game->player, rotation_angle_yaw); // This is your existing yaw rotation
-        mouse_moved = true;
-    }
+// --- Horizontal Rotation (Yaw) ---
+// Check if x actually changed to avoid tiny rotations if only y moved
+// Negative for natural mouse look
+// This is your existing yaw rotation
+void	rotate_horizontally\
+(t_game *game, int *x, t_mouse_vars *var, bool *mouse_moved)
+{
+	if (*x != (*var).screen_center_x)
+	{
+		(*var).rotation_angle_yaw = -(*var).delta_x * MOUSE_SENSITIVITY_X;
+		rotate_player(game->player, (*var).rotation_angle_yaw);
+		*mouse_moved = true;
+	}
+}
 
-    // --- Vertical Look (Pitch) ---
-    delta_y = (double)(y - screen_center_y);
-    if (y != screen_center_y) { // Check if y actually changed
-        // Moving mouse down (y > screen_center_y, delta_y > 0) should make player look down (decrease pitch offset).
-        // Moving mouse up (y < screen_center_y, delta_y < 0) should make player look up (increase pitch offset).
-        // The sign of MOUSE_SENSITIVITY_Y can invert this if needed.
-        // Let's make positive pitch mean looking up.
-        game->player->pitch -= delta_y * MOUSE_SENSITIVITY_Y;
-        mouse_moved = true;
+// --- Vertical Look (Pitch) ---
+// Check if y actually changed
+// Moving mouse down (y > screen_center_y, delta_y > 0)
+// should make player look down (decrease pitch offset).
+// Moving mouse up (y < screen_center_y, delta_y < 0)
+// should make player look up (increase pitch offset).
+// The sign of MOUSE_SENSITIVITY_Y can invert this if needed.
+// Let's make positive pitch mean looking up.
+// Clamp pitch to prevent looking too far (and potential visual glitches)
+void	rotate_vertically\
+(t_game *game, int *y, t_mouse_vars *var, bool *mouse_moved)
+{
+	if (*y != (*var).screen_center_y)
+	{
+		game->player->pitch -= (*var).delta_y * MOUSE_SENSITIVITY_Y;
+		*mouse_moved = true;
+		if (game->player->pitch > MAX_PITCH_PIXELS)
+			game->player->pitch = MAX_PITCH_PIXELS;
+		else if (game->player->pitch < -MAX_PITCH_PIXELS)
+			game->player->pitch = -MAX_PITCH_PIXELS;
+	}
+}
 
-        // Clamp pitch to prevent looking too far (and potential visual glitches)
-        if (game->player->pitch > MAX_PITCH_PIXELS) {
-            game->player->pitch = MAX_PITCH_PIXELS;
-        } else if (game->player->pitch < -MAX_PITCH_PIXELS) {
-            game->player->pitch = -MAX_PITCH_PIXELS;
-        }
-    }
-
-    if (mouse_moved) {
-        game->is_render = true; // Signal that a re-render is needed
-        // Reset mouse to the center of the window
-        mlx_mouse_move(game->mlx_data->ptr, game->mlx_data->window, screen_center_x, screen_center_y);
-    }
-
-    return (0);
+void	init_mouse_vars(t_mouse_vars *var, int *x, int *y)
+{
+	(*var).screen_center_x = SCREEN_WIDTH / 2;
+	(*var).screen_center_y = SCREEN_HEIGHT / 2;
+	(*var).delta_x = (double)(*x - (*var).screen_center_x);
+	(*var).delta_y = (double)(*y - (*var).screen_center_y);
+	(*var).rotation_angle_yaw = 0.0;
 }
 
 void	rotate_player(t_player *player, double angle)
