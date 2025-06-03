@@ -15,11 +15,7 @@
 # define CUB3D_H
 
 # include "mlx.h"
-# include <stdlib.h>
-# include <stdio.h>
-# include <stdbool.h>
 # include "libft.h"
-# include <fcntl.h> //for the open
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <math.h>
@@ -30,9 +26,11 @@
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1.5
-# define MOUSE_SENSITIVITY_X 0.001
-#define MOUSE_SENSITIVITY_Y 0.3   // Sensitivity for vertical look (adjust as needed)
-#define MAX_PITCH_PIXELS (SCREEN_HEIGHT / 3.0) // Limit how far up/down player can look (e.g., 1/3 of screen height)
+
+# define MOUSE_SENSITIVITY_X 0.0005
+# define MOUSE_SENSITIVITY_Y 0.2
+// Needed so the player wont look infinitely up or down
+# define MAX_PITCH_PIXELS SCREEN_HEIGHT
 
 // --- Minimap Constants ---
 // Pixels from the left edge of the screen
@@ -50,13 +48,6 @@
 # define MINIMAP_PLAYER_SIZE  10        // Player dot
 # define MINIMAP_VIEW_CONE_COLOR 0x00FFFF00 // Yellow view direction
 # define MINIMAP_RAY_LENGTH   20       // player view ray length
-
-// DEBUG: TEMPORARY HARDCODED
-# define DEBUG_RENDER_DIRECTION NORTH
-# define DEBUG_MAP_WIDTH 24
-# define DEBUG_MAP_HEIGHT 24
-# define DEBUG_PLAYER_POS_X 3
-# define DEBUG_PLAYER_POS_Y 3
 
 typedef enum e_wall_direction
 {
@@ -152,11 +143,10 @@ typedef struct s_game
 	t_map		*map;
 	t_player	*player;
 	t_ray		*ray;
-	int			debug_map[DEBUG_MAP_HEIGHT][DEBUG_MAP_WIDTH];
 	bool		is_render;
-	int			last_mouse_x;
-	int			mouse_initialized;
 }	t_game;
+	// int			last_mouse_x;
+	// int			mouse_initialized;
 
 typedef struct s_texture_vars
 {
@@ -187,6 +177,8 @@ typedef struct s_mouse_vars
 
 t_assets	*init_assets(void);
 bool		parse_map(int fd, char *line, t_game *game);
+
+void		get_map_grid(t_map *map);
 
 char		*get_next_row(int fd);
 bool		ft_strend(char *s, char *suffix);

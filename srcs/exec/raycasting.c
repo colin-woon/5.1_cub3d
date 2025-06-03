@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:29:32 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 17:24:28 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/03 17:24:25 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,18 @@ void	calculate_wall_projection(t_ray *ray, t_player *player)
 
 // --- 3. Calculate Draw Start and End Points with Pitch ---
 // Get the vertical look offset from the player's state.
-// (player->pitch is assumed to be in screen pixels offset from the center)
-	// pitch_offset = (int)player->pitch;
-// Calculate the top screen pixel of the wall slice.
-// The wall is centered around (SCREEN_HEIGHT / 2 + pitch_offset).
-	// ray->draw_start
-	// = -ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
 // Safeguard: Ensure draw_start is not greater than draw_end.
 // This can happen if line_height is calculated as <= 0.
 	// if (ray->draw_start > ray->draw_end)
 // If the wall is effectively behind the player or too far,
 // or line_height is zero, just draw a single pixel line at horizon or collapse
-// For simplicity, let's set them to the same point (effectively no wall drawn)
-// You might want to handle this differently, e.g. by not drawing.
-	// center_y = SCREEN_HEIGHT / 2 + pitch_offset;
 void	calculate_pitch_offset(t_player *player, t_ray *ray)
 {
 	int	pitch_offset;
 	int	center_y;
 
 	pitch_offset = (int)player->pitch;
-	ray->draw_start = -ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;
+	ray->draw_start = SCREEN_HEIGHT / 2 - ray->line_height / 2 + pitch_offset;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
 	ray->draw_end = ray->line_height / 2 + SCREEN_HEIGHT / 2 + pitch_offset;

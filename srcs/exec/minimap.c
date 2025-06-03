@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:47:21 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 21:32:59 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/03 17:02:42 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ void	draw_player_box(t_player *player, t_mlx *mlx)
 	draw_player_line(player, mlx, player_minimap_x, player_minimap_y);
 }
 
-// Simple line drawing (draw a few pixels along the vector)
-// For a more precise line, you'd use an algorithm like Bresenham's.
-// This is a simplified version for a short line.
+// Uses vector calculations to draw the line, remember dir_xy is a vector
 void	draw_player_line(t_player *player, t_mlx *mlx, \
 int player_minimap_x, int player_minimap_y)
 {
