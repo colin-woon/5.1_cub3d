@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:15:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 21:57:41 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/02 22:23:39 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,14 @@ void	run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y)
 	}
 }
 
-// used for side_dist_x/y, will multiply the delta to get the actual length,
-// side_dist is like a ratio,
+
+// 1. side_dist is like a ratio,
+// will multiply the delta to get the actual length,
 // could start from anywhere in the middle between x1/y1 to another x2/y2
-// If it has to go in the negative or positive x-direction,
-// and the negative or positive y-direction
-// will depend on the direction of the ray,
-// and this fact will be stored in stepX and stepY.
-// Those variables are always either -1 or +1.
-// posx and y might look the same here,
-// but because of the movement hooks, theyre actually different,
-// will be calculated to floating point numbers
+// 2. Depending on the ray direction, we calculate which side dist is required
+// 3. Steps are always either -1 or +1.
+// 4. posx and y are floating numbers,
+// itll always be different due to movement and rotation
 void	calculate_step_n_init_side_dist\
 (t_ray *ray, t_player *player, int map_x, int map_y)
 {
@@ -84,8 +81,14 @@ void	calculate_step_n_init_side_dist\
 	}
 }
 
-//length of ray from one x to next x
-//length of ray from one y-side to next y-side
+
+// length of ray from one x to next x
+// length of ray from one y-side to next y-side
+// 1e30 = 1*10^30 - represents "infinite distance"
+// needed for dda where if the ray is in a perfect straight line,
+// the dda algo will choose to step in its corresponding axis
+// , prevents division with 0;
+// eg: if perfectly straight on x axis, will always step to y-axis vice versa
 void	calculate_point_gap(t_ray *ray)
 {
 	if (ray->dir_x == 0)

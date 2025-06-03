@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:12:57 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 22:11:17 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/03 16:56:03 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ int	get_texture_pixel(t_img *texture, int x, int y)
 	return (*(int *)dst);
 }
 
-// Ray moving right hits EAST wall
-// Ray moving left hits WEST wall
-// HORIZONTAL
-// Ray moving down hits SOUTH wall
-// Ray moving up hits NORTH wall
+// This follows the graphical coordinate system in mlx where:
+// +y = down(S)  // -y = up(N)
+// +x = right(E) // -x = left(W)
 t_wall_dir	get_wall_dir(t_ray *ray)
 {
 	if (ray->wall_hit_side == VERTICAL)
@@ -53,32 +51,19 @@ t_wall_dir	get_wall_dir(t_ray *ray)
 	}
 }
 
-// Flip texture X if necessary (standard practice to avoid mirrored textures)
-	// if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) ||
-	// 	(ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
-// Calculate step size for texture Y coordinate per screen pixel Y
-// ray->line_height is the
-// full projected height of the wall column on screen
-// (calculated in calculate_wall_projection)
-	// if (ray->line_height == 0)
-	// Avoid division by zero if line_height is somehow 0
-// Calculate starting texture Y position
-// for the first screen pixel (ray->draw_start)
-// This formula ensures the texture "sticks"
-// to the wall correctly, accounting for pitch.
-// It maps the screen Y coordinates to texture Y coordinates
-// relative to the (pitched) horizon.
-	// double screen_horizon_pitched = SCREEN_HEIGHT / 2.0 + player->pitch;
-// tex->pos will be the texture Y coordinate
-// corresponding to the screen Y ray->draw_start
+
+// 1. avoid mirroring (optional cause textures used is asymmetric)
+// 	if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) \
+// || (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
+// 		tex->x = texture->width - tex->x - 1;
+// 2. step is to get the gap of texture pixels for 1 wall pixel
+// 3. horizon is to ensure that the texture wont have a "swimming" effect
+// 4. tex.pos is the fractional y position in the texture
 void	prep_texture_vars\
 (t_texture_vars *tex, t_img *texture, t_ray *ray, t_player *player)
 {
 	double	screen_horizon_pitched;
 
-	if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) \
-|| (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
-		tex->x = texture->width - tex->x - 1;
 	if (ray->line_height == 0)
 		tex->step = 0;
 	else
@@ -88,6 +73,14 @@ void	prep_texture_vars\
 (ray->draw_start - screen_horizon_pitched) * tex->step;
 }
 
+// 1. tex->y = (int)tex->pos & (texture->height - 1);
+// the purpose is to warp it around the textures, get the actual y
+// can use % here too, but will be slower, but will work for any texture
+// & operator works only for textures with dimensions that are power of 2
+// texture_height - 1 is like a bitmask eg: 64x64 px 64-1=63
+// 63 bitmask is 00111111
+// take 65 AND 63 = 10000001 & 00111111,
+// resulting only 1, effectively warping around
 // shading effect:
 // if (ray->wall_hit_side == HORIZONTAL)
 // 	color = ((color >> 1) & 0x7F7F7F);
@@ -102,7 +95,7 @@ void	put_texture_pixels\
 		tex->y = (int)tex->pos & (texture->height - 1);
 		tex->pos += tex->step;
 		tex->color = get_texture_pixel(texture, tex->x, tex->y);
-		if (game->ray->wall_hit_side == HORIZONTAL)
+		if (game->ray->wall_hit_side == VERTICAL)
 			tex->color = ((tex->color >> 1) & 0x7F7F7F);
 		my_mlx_pixel_put(game->mlx_data->img, *x, y, tex->color);
 		y++;

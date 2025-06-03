@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:53:35 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 22:14:35 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/03 17:15:21 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ void	init_mouse_vars(t_mouse_vars *var, int *x, int *y);
 // 	return (0);
 // }
 
+// printf("x: %d y: %d\n", x, y);
 int	mouse_hook(int x, int y, t_game *game)
 {
 	t_mouse_vars	var;
 	bool			mouse_moved;
 
-	// printf("x: %d y: %d\n", x, y);
 	mouse_moved = false;
 	init_mouse_vars(&var, &x, &y);
 	rotate_horizontally(game, &x, &var, &mouse_moved);
@@ -67,9 +67,7 @@ var.screen_center_x, var.screen_center_y);
 }
 
 // --- Horizontal Rotation (Yaw) ---
-// Check if x actually changed to avoid tiny rotations if only y moved
-// Negative for natural mouse look
-// This is your existing yaw rotation
+
 void	rotate_horizontally\
 (t_game *game, int *x, t_mouse_vars *var, bool *mouse_moved)
 {
@@ -82,14 +80,13 @@ void	rotate_horizontally\
 }
 
 // --- Vertical Look (Pitch) ---
-// Check if y actually changed
+// Check if y actually changed (remember mlx coordinate system)
 // Moving mouse down (y > screen_center_y, delta_y > 0)
 // should make player look down (decrease pitch offset).
 // Moving mouse up (y < screen_center_y, delta_y < 0)
 // should make player look up (increase pitch offset).
-// The sign of MOUSE_SENSITIVITY_Y can invert this if needed.
-// Let's make positive pitch mean looking up.
-// Clamp pitch to prevent looking too far (and potential visual glitches)
+// in this context, -pitch is up, +pitch is down
+// MAX_PITCH used to limit player from infinitely looking up or down
 void	rotate_vertically\
 (t_game *game, int *y, t_mouse_vars *var, bool *mouse_moved)
 {
