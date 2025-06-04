@@ -18,6 +18,19 @@ bool	ft_iszero(char c);
 bool	ft_isplayer(char c);
 bool	ft_iswall(int c);
 
+// bool	skip_space_find_wall(char *line)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (line[i] == ' ')
+// 		i++;
+// 	printf("%s\n", line);
+// 	if (line[i] == '1' || line[i] == '\0')
+// 		return (true);
+// 	return (false);
+// }
+
 bool	check_horizontal_walls(t_map *map)
 {
 	int		i;
@@ -31,34 +44,24 @@ bool	check_horizontal_walls(t_map *map)
 	{
 		row = rows[j];
 		i = 0;
-		if (row[i] == '0')
-		{
-			msg("Hor: map is not closed\n");
-			return (false);
-		}
+		// printf("row: %s\n", row);
 		while (row[i])
 		{
 			if (ft_isspace(row[i]))
 			{
 				if (check_wall_behind(row, i) == false)
-					return (false);
-				while (ft_isspace(row[i]))
+					return (error_msg("Hor: map is not closed\n"));
+				while (row[i] == ' ')
 					i++;
-				if (row[i] == '\0')
-					return (true);
-				if (!ft_iswall(row[i]))
-				{
-					msg("Hor: map is not closed\n");
-					return (false);
-				}
-				i++;
+				if (row[i] != '\0' && row[i] != '1')
+					return (error_msg("Hor: map is not closed\n"));
 			}
-			while (ft_iszero(row[i]) || ft_isplayer(row[i]))
-				i++;
-			if (!ft_iswall(row[i++]))
+			if (row[i++] == '1')
 			{
-				msg("Hor: map is not closed what the\n");
-				return (false);
+				while (ft_iszero(row[i]) || ft_isplayer(row[i]))
+					i++;
+				if (row[i++] != '1')
+					return (error_msg("Hor: map is not closed\n"));
 			}
 		}
 		j++;
@@ -68,8 +71,8 @@ bool	check_horizontal_walls(t_map *map)
 
 bool	check_vertical_walls(t_map	*map)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	**rows;
 	int		len_col;
 
@@ -255,7 +258,7 @@ bool	check_player(t_map *map, t_game *game)
 				{
 					if (check_valid_pos(map, j, i) == false)
 						return (false);
-;					save_player(map, j, i, map->layout[i][j]);
+					save_player(map, j, i, map->layout[i][j]);
 					player_found = true;
 				}
 			}
