@@ -38,13 +38,12 @@ bool	check_horizontal_walls(t_map *map)
 	char	**rows;
 	char	*row;
 
-	j = 0;
+	j = -1;
 	rows = map->layout;
-	while (j < map->height)
+	while (++j < map->height)
 	{
 		row = rows[j];
 		i = 0;
-		// printf("row: %s\n", row);
 		while (row[i])
 		{
 			if (ft_isspace(row[i]))
@@ -64,7 +63,6 @@ bool	check_horizontal_walls(t_map *map)
 					return (error_msg("Hor: map is not closed\n"));
 			}
 		}
-		j++;
 	}
 	return (true);
 }
