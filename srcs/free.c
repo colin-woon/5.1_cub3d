@@ -12,3 +12,17 @@
 
 #include "cub3d.h"
 
+static void	free_rgb(int *rgb)
+{
+	if (rgb)
+	{
+		free(rgb);
+	}
+}
+
+void	free_texture(t_assets *assets)
+{
+	free_rgb(assets->ceiling_rgb);
+	free_rgb(assets->floor_rgb);
+}
+

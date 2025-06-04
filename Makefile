@@ -38,6 +38,7 @@ LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXex
 SRCS_FILES		=	srcs/debug.c \
 					srcs/error.c \
 					srcs/main.c \
+					srcs/free.c \
 					srcs/parse/parse.c \
 					srcs/parse/parse_map.c \
 					srcs/parse/parse_map_utils.c \

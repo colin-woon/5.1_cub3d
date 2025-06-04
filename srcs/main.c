@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/03 17:16:17 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/04 13:44:11 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ int	main(int ac, char *av[])
 		msg("Bad Input\nExample: ./cub3D .cub\n");
 		return (0);
 	}
-	// game = (t_game){0};
+	game = (t_game){0};
 	start_mlx(&game);
+	if (ft_strend(av[1], ".cub") == false)
+		error_msg_exit("input given is not a .cub file\n");
 	if (parse(av[1], &game) == false)
+	{
+		free_texture(game.assets);
 		exit(EXIT_FAILURE);
-	// free_texture(&game);
+	}
 	init_player(&game.player, game.map);
 	game.ray = malloc(sizeof(t_ray));
 	get_map_grid(game.map);

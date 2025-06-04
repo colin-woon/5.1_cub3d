@@ -190,6 +190,8 @@ bool		error_msg(char *err);
 void		msg(char *err);
 void		error_msg_exit(char *err);
 
+void		free_texture(t_assets *assets);
+
 // debug.c
 // void		DEBUG_init_map(t_game *game);
 // void		DEBUG_print_map_assets(t_game *game);

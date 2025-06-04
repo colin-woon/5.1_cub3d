@@ -20,11 +20,10 @@ bool	ft_iswall(int c);
 
 bool	check_horizontal_walls(t_map *map)
 {
-	int	i;
-	int	j;
-	char **rows;
-	char *row;
-
+	int		i;
+	int		j;
+	char	**rows;
+	char	*row;
 
 	j = 0;
 	rows = map->layout;
@@ -193,10 +192,8 @@ static bool	check_invalid_char(t_map *map, t_game *game)
 	char	**rows;
 	char	*line;
 	int		true_len;
-	bool	player_found;
 
 	true_len = 0;
-	player_found = false;
 	rows = map->layout;
 	j = 0;
 	while (rows[j])
@@ -212,17 +209,7 @@ static bool	check_invalid_char(t_map *map, t_game *game)
 			if (!ft_iswall(line[i]) && !ft_iszero(line[i]) && !ft_isplayer(line[i]))
 			{
 				msg("Invalid char in map\n");
-				return (true);
-			}
-			if (ft_isplayer(line[i]))
-			{
-				if (player_found == true)
-				{
-					msg("Multiple players found\n");
-					return (true);
-				}
-				save_player(map, i, j, line[i]);
-				player_found = true;
+				return (false);
 			}
 			i++;
 		}
@@ -231,12 +218,61 @@ static bool	check_invalid_char(t_map *map, t_game *game)
 			map->width= true_len + 1;
 		j++;
 	}
-	return (false);
+	if (true_len == 0)
+		return (error_msg("Map Is Not Surrounded By Walls\n"));
+	return (true);
+}
+
+bool	check_valid_pos(t_map *map, int x, int y)
+{
+	if ((x - 1 < 0 || x >= map->width)
+		|| (y - 1 < 0 || y >= map->height))
+		return (error_msg("Invalid Player Pos\n"));
+	return (true);
+}
+
+bool	check_player(t_map *map, t_game *game)
+{
+	int		i;
+	int		j;
+	bool	player_found;
+
+	player_found = false;
+	i = 0;
+	while (map->layout[i])
+	{
+		j = 0;
+		while (map->layout[i][j])
+		{
+			if (ft_isplayer(map->layout[i][j]) == true)
+			{
+				if (player_found == true)
+				{
+					msg("Multiple players found\n");
+					return (false);
+				}
+				else
+				{
+					if (check_valid_pos(map, j, i) == false)
+						return (false);
+;					save_player(map, j, i, map->layout[i][j]);
+					player_found = true;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	if (player_found == false)
+		return (error_msg("Player not found\n"));
+	return (true);
 }
 
 bool	check_valid_map(t_map *map, t_game *game)
 {
-	if (check_invalid_char(map, game) == true)
+	if (check_invalid_char(map, game) == false)
+		return (false);
+	if (check_player(map, game) == false)
 		return (false);
 	make_map_square(map);
 	if (check_horizontal_walls(map) == false || check_vertical_walls(map) == false)

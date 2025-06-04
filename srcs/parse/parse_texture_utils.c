@@ -12,80 +12,88 @@
 
 #include "cub3d.h"
 
-bool init_rgb(char *rgb_c, int **rgb_ptr)
+static int	ft_atoi_pro_max(char *rgb_c)
 {
-	int i = 0;
-	int j = 0;
-	int color_val;
-	int len;
-	char *tmp;
-	int *res_rgb;
+	int		i;
+	int		rgb;
+	char	*tmp;
+
+	i = 0;
+	if (rgb_c[i] == '\0')
+		return (-1);
+	while (ft_isdigit(rgb_c[i]) || rgb_c[i] == '-' || rgb_c[i] == '+')
+		i++;
+	tmp = malloc(i + 1);
+	if (!tmp)
+	{
+		msg("Malloc Error:rgb atoi\n");
+		return (-1);
+	}
+	tmp[i] = '\0';
+	while (i-- > 0)
+		tmp[i] = rgb_c[i];
+	rgb = ft_atoi(tmp);
+	free(tmp);
+	return (rgb);
+}
+
+bool	init_rgb(char *rgb_c, int **rgb_ptr)
+{
+	int	color_val;
+	int	*res_rgb;
 
 	color_val = 0;
 	res_rgb = ft_calloc(3, (sizeof(int)));
-	while (rgb_c[i])
+	if (!res_rgb)
+		error_msg_exit("Calloc Error:rgb init\n");
+	*rgb_ptr = res_rgb;
+	while (*rgb_c)
 	{
-		while (!ft_isdigit(rgb_c[i]) && rgb_c[i] != '\0' && rgb_c[i] != '-' && rgb_c[i] != '+')
-			i++;
-		if (rgb_c[i] == '\0')
-			break;
-		j = i;
-		while (ft_isdigit(rgb_c[j]) || rgb_c[j] == '-' || rgb_c[j] == '+')
-			j++;
-		len = j - i;
-		tmp = malloc(len + 1);
-		tmp[len] = '\0';
-		i = j;
-		while (len-- > 0)
-			tmp[len] = rgb_c[--j];
-		res_rgb[color_val] = ft_atoi(tmp);
+		while (!ft_isdigit(*rgb_c) && *rgb_c != '\0'
+			&& *rgb_c != '-' && *rgb_c != '+')
+			rgb_c++;
+		res_rgb[color_val] = ft_atoi_pro_max(rgb_c);
 		if (res_rgb[color_val] > 255 || res_rgb[color_val] < 0)
-		{
-			msg("Invalid RGB\n");
-			return (false);
-		}
+			return (error_msg("Invalid RGB\n"));
 		color_val++;
-		free(tmp);
+		while (ft_isdigit(*rgb_c) || *rgb_c == '-' || *rgb_c == '+')
+			rgb_c++;
 	}
 	if (color_val != 3)
-	{
-		msg("RGB incomplete\n");
-		return (false);
-	}
-	*rgb_ptr = res_rgb;
+		return (error_msg("RGB incomplete\n"));
 	return (true);
 }
 
-void fill_img_info(void *img_ptr, t_img *img)
+void	fill_img_info(void *img_ptr, t_img *img)
 {
 	if (!img_ptr || img == NULL)
 	{
-		msg("img_ptr doesnt exist or t_img struct doesn't exist");
-		return;
+		msg("img_ptr doesnt exist or t_img struct doesn't exist\n");
+		return ;
 	}
 	img->address = mlx_get_data_addr(img_ptr,
-									 &img->bits_per_pixel,
-									 &img->line_length,
-									 &img->endian);
+			&img->bits_per_pixel,
+			&img->line_length,
+			&img->endian);
 }
 
-void make_img(char *str, t_game *game, t_img *texture)
+void	make_img(char *str, t_game *game, t_img *texture)
 {
-	char *path_to_file;
-	// t_img	*img;
+	char	*path_to_file;
 
-	path_to_file = ft_strchr(str, '.'); // not./ maybe
+	path_to_file = ft_strchr(str, '.');
 	if (!path_to_file)
 	{
 		msg("texture file given cannot be read or found\n");
-		return 	;
+		exit(EXIT_FAILURE);
+		return ;
 	}
-	// img = ft_calloc(1, sizeof(t_img));
-	// if (!img)
-	// 	error_msg_exit("Calloc Error: make img");
-	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file, &texture->height, &texture->width);
+	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file,
+			&texture->height, &texture->width);
 	if (texture->ptr == NULL)
+	{
 		msg("texture file given cannot be read or found\n");
+		exit(EXIT_FAILURE);
+	}
 	fill_img_info(texture->ptr, texture);
-	// return (texture);
 }
