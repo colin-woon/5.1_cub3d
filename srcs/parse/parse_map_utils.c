@@ -15,34 +15,33 @@
 bool	ft_iswall(int c)
 {
 	if (c == '1')
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 bool	ft_isplayer(char c)
 {
 	if (c == 'W' || c == 'E' || c == 'N' || c == 'S')
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 bool	ft_iszero(char c)
 {
 	if (c == '0')
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 bool	check_wall_behind(char *row, int i)
 {
 	if (i == 0)
 		return (true);
-	else
-		if (!ft_iswall(row[i - 1]))
-		{
-			msg("map is not closed\n");
-			return (false);
-		}
+	if (!ft_iswall(row[i - 1]))
+	{
+		msg("map is not closed\n");
+		return (false);
+	}
 	return (true);
 }
 

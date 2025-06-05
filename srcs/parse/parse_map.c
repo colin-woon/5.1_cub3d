@@ -34,46 +34,62 @@ void	store_map(char *line, t_map *map, int map_height)
 	map->layout = rows;
 }
 
-
-char	*conv_tab(char *line)
+static int	count_tab(char *line)
 {
-	char	*res_line;
-	int		i;
-	int		tab_count;
-	int		j;
+	int	i;
+	int	tab_count;
 
-	tab_count = 0;
-	if (!line)
-		return NULL;
 	i = 0;
+	tab_count = 0;
 	while (line[i])
 	{
 		if (line[i] == '\t')
 			tab_count++;
 		i++;
 	}
-	if (tab_count == 0)
-		return (line);
-	res_line = malloc(sizeof(char) * ((tab_count * 4) + ft_strlen(line)) + 1);
+	return (tab_count);
+}
+
+static char	*make_sp_tb(char *line, int tab_count)
+{
+	int		i;
+	int		j;
+	int		tab_track;
+	char	*res_line;
+
+	res_line = malloc(sizeof(char) * ((tab_count * 4) + ft_strlen(line)));
 	if (!res_line)
 		error_msg_exit("Malloc Error:conv tab\n");
 	i = 0;
-	int	tab_track;
+	j = 0;
 	while (line[i])
 	{
-		while (line[i] == '\t')
+		if (line[i] == '\t')
 		{
 			tab_track = 0;
-			while (tab_track < 4)
-			{
+			while (tab_track++ < 4)
 				res_line[j++] = ' ';
-				tab_track++;
-			}
 			i++;
 		}
 		res_line[j++] = line[i++];
 	}
 	res_line[j] = '\0';
+	return (res_line);
+}
+
+char	*conv_tab(char *line)
+{
+	char	*res_line;
+	int		i;
+	int		tab_count;
+
+	if (!line)
+		return (NULL);
+	i = 0;
+	tab_count = count_tab(line);
+	if (tab_count == 0)
+		return (line);
+	res_line = make_sp_tb(line, tab_count);
 	free(line);
 	return (res_line);
 }
@@ -85,6 +101,8 @@ bool	parse_map(int fd, char *line, t_game *game)
 	int		map_width;
 
 	map_height = 0;
+	if (line == NULL)
+		return (error_msg("Map is missing\n"));
 	game->map = ft_calloc(1, sizeof(t_map));
 	while (line != NULL)
 	{
