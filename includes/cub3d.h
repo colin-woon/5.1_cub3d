@@ -184,7 +184,20 @@ char		*get_next_row(int fd);
 bool		ft_strend(char *s, char *suffix);
 int			open_file(char *path_to_file);
 
+char		*fill_str_sp(char *row, int row_width, int max_width);
+int			ft_strlen_pro(char *line);
+void		save_player(t_map *map, int y, int x, char dir);
+
+bool		check_above_wall(char **rows, int i, int j);
+bool		check_wall_behind(char *row, int i);
+bool		ft_iszero(char c);
+bool		ft_isplayer(char c);
+bool		ft_iswall(int c);
+
 bool		check_horizontal_walls(t_map *map);
+bool		check_vertical_walls(t_map	*map);
+bool		check_horizontal_blocks(char **blocks);
+void		free_blocks(char **blocks);
 
 bool		parse(char *path_to_cub, t_game *game);
 bool		parse_texture(char *line, t_game *game);
