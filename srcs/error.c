@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:51:45 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/04 06:55:50 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/05 22:04:17 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ bool	error_msg(char *err)
 
 void	error_msg_exit(char *err)
 {
-	perror(err);
+	msg(err);
 	exit(EXIT_FAILURE);
 }

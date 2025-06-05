@@ -91,7 +91,6 @@ bool	parse_texture(char *line, t_game *game)
 {
 	if (compare_texture(line, game->assets, game) == true)
 		return (true);
-	else
-		free(line);
+	free(line);
 	return (false);
 }

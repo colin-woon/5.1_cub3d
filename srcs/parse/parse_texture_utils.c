@@ -77,23 +77,37 @@ void	fill_img_info(void *img_ptr, t_img *img)
 			&img->endian);
 }
 
+char	*get_file_path(char *line)
+{
+	char	**words;
+	char	*file_path;
+	int		i;
+
+	words = ft_split(line, ' ');
+	i = 0;
+	while (words[i + 1])
+	{
+		free(words[i]);
+		i++;
+	}
+	file_path = words[i];
+	free(words);
+	return (file_path);
+}
+
 void	make_img(char *str, t_game *game, t_img *texture)
 {
 	char	*path_to_file;
 
-	path_to_file = ft_strchr(str, '.');
+	path_to_file = get_file_path(str);
 	if (!path_to_file)
-	{
-		msg("texture file given cannot be read or found\n");
-		exit(EXIT_FAILURE);
-		return ;
-	}
+		error_msg_exit("texture file given cannot be read or found\n");
+	if (ft_strend(path_to_file, ".xpm") == false)
+		error_msg_exit("texture file given is not a .xpm file\n");
 	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file,
 			&texture->height, &texture->width);
+	free(path_to_file);
 	if (texture->ptr == NULL)
-	{
-		msg("texture file given cannot be read or found\n");
-		exit(EXIT_FAILURE);
-	}
+		error_msg_exit("texture file given cannot be read\n");
 	fill_img_info(texture->ptr, texture);
 }

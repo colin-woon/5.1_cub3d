@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/05/30 13:39:02 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/05 22:07:50 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,27 @@ char	*get_next_row(int fd)
 	return (res_line);
 }
 
-bool ft_strend(char *s, char *suffix)
+bool	ft_strend(char *s, char *suffix)
 {
-	size_t s_len;
-	size_t suffix_len;
+	size_t	s_len;
+	size_t	suffix_len;
 
 	s_len = ft_strlen(s);
 	suffix_len = ft_strlen(suffix);
-
 	if (suffix_len > s_len)
-		return false;
+		return (false);
 	while (suffix_len > 0)
 	{
 		if (s[s_len--] != suffix[suffix_len--])
 			return (false);
 	}
-	return true;
+	return (true);
 }
 
 int	open_file(char *path_to_file)
 {
 	int	fd;
+
 	fd = open(path_to_file, O_RDONLY);
 	if (fd == -1)
 		error_msg("file not found or cant be open");
@@ -59,14 +59,14 @@ void	get_map_grid(t_map *map)
 	int	y;
 
 	i = 0;
-	map->grid = malloc(map->height * sizeof(int*));
+	map->grid = malloc(map->height * sizeof(int *));
 	while (i < map->height)
 	{
 		map->grid[i] = malloc(map->width * sizeof(int));
 		i++;
 	}
 	x = -1;
-	while(++x < map->height)
+	while (++x < map->height)
 	{
 		y = -1;
 		while (++y < map->width)
