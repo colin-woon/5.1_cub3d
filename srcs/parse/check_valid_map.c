@@ -18,55 +18,6 @@ bool	ft_iszero(char c);
 bool	ft_isplayer(char c);
 bool	ft_iswall(int c);
 
-// bool	skip_space_find_wall(char *line)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (line[i] == ' ')
-// 		i++;
-// 	printf("%s\n", line);
-// 	if (line[i] == '1' || line[i] == '\0')
-// 		return (true);
-// 	return (false);
-// }
-
-bool	check_horizontal_walls(t_map *map)
-{
-	int		i;
-	int		j;
-	char	**rows;
-	char	*row;
-
-	j = -1;
-	rows = map->layout;
-	while (++j < map->height)
-	{
-		row = rows[j];
-		i = 0;
-		while (row[i])
-		{
-			if (ft_isspace(row[i]))
-			{
-				if (check_wall_behind(row, i) == false)
-					return (error_msg("Hor: map is not closed\n"));
-				while (row[i] == ' ')
-					i++;
-				if (row[i] != '\0' && row[i] != '1')
-					return (error_msg("Hor: map is not closed\n"));
-			}
-			if (row[i++] == '1')
-			{
-				while (ft_iszero(row[i]) || ft_isplayer(row[i]))
-					i++;
-				if (row[i++] != '1')
-					return (error_msg("Hor: map is not closed\n"));
-			}
-		}
-	}
-	return (true);
-}
-
 bool	check_vertical_walls(t_map	*map)
 {
 	int		i;

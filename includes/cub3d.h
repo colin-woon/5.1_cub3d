@@ -183,6 +183,9 @@ void		get_map_grid(t_map *map);
 char		*get_next_row(int fd);
 bool		ft_strend(char *s, char *suffix);
 int			open_file(char *path_to_file);
+
+bool		check_horizontal_walls(t_map *map);
+
 bool		parse(char *path_to_cub, t_game *game);
 bool		parse_texture(char *line, t_game *game);
 
