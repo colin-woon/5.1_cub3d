@@ -6,17 +6,17 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:15:09 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 14:39:07 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 14:45:37 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool check_vertical_blocks(char **blocks)
+bool	check_vertical_blocks(char **blocks)
 {
-	int i;
-	int len;
-	char *block;
+	int		i;
+	int		len;
+	char	*block;
 
 	i = 0;
 	while (blocks[i])
@@ -37,9 +37,9 @@ bool check_vertical_blocks(char **blocks)
 	return (true);
 }
 
-void free_blocks(char **blocks)
+void	free_blocks(char **blocks)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (blocks[++i])
@@ -47,12 +47,12 @@ void free_blocks(char **blocks)
 	free(blocks);
 }
 
-bool check_horizontal_walls(t_map *map)
+bool	check_horizontal_walls(t_map *map)
 {
-	int i;
-	int j;
-	char **rows;
-	char **blocks;
+	int		i;
+	int		j;
+	char	**rows;
+	char	**blocks;
 
 	i = -1;
 	rows = map->layout;
@@ -69,11 +69,11 @@ bool check_horizontal_walls(t_map *map)
 	return (true);
 }
 
-static char *make_string(t_map *map, int col)
+static char	*make_string(t_map *map, int col)
 {
-	char *res_str;
-	char **map_layout;
-	int i;
+	char	*res_str;
+	char	**map_layout;
+	int		i;
 
 	i = map->height;
 	map_layout = map->layout;
@@ -86,12 +86,12 @@ static char *make_string(t_map *map, int col)
 	return (res_str);
 }
 
-bool check_vertical_walls(t_map *map)
+bool	check_vertical_walls(t_map *map)
 {
-	int i;
-	char **rows;
-	char *tmp;
-	char **blocks;
+	int		i;
+	char	**rows;
+	char	*tmp;
+	char	**blocks;
 
 	i = 0;
 	rows = map->layout;

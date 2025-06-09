@@ -267,7 +267,7 @@ int			get_floor_colour(t_game *game);
 
 // dda.c
 void		run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y);
-void		calculate_step_n_init_side_dist
+void		calculate_step_n_init_side_dist\
 (t_ray *ray, t_player *player, int map_x, int map_y);
 void		calculate_point_gap(t_ray *ray);
 
@@ -286,7 +286,7 @@ void		draw_player_line(t_player *player, t_mlx *mlx, \
 int player_minimap_x, int player_minimap_y);
 void		draw_player_box(t_player *player, t_mlx *mlx);
 void		draw_map_tiles(t_map *map, t_mlx *mlx);
-void	draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
+void		draw_minimap(t_mlx *mlx, t_game *game, t_player *player);
 
 // utils_minimap.c
 void		draw_minimap_rect(t_img *img, t_minimap_vars *var, int color);
