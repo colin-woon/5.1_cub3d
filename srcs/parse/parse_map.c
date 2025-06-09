@@ -70,6 +70,7 @@ static char	*make_sp_tb(char *line, int tab_count)
 			while (tab_track++ < 4)
 				res_line[j++] = ' ';
 			i++;
+			continue ;
 		}
 		res_line[j++] = line[i++];
 	}
@@ -112,6 +113,7 @@ bool	parse_map(int fd, char *line, t_game *game)
 		line = get_next_row(fd);
 	}
 	game->map->height = map_height;
+	free(line);
 	if (check_valid_map(game->map, game) == false)
 		return (false);
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/04 12:09:56 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 16:54:48 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ bool	parse(char *path_to_cub, t_game *game)
 		return (false);
 	}
 	if (parse_map(fd, line, game) == false)
+	{
+		free(line);
 		return (false);
+	}
 	return (true);
 }

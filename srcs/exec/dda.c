@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:15:34 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/02 22:23:39 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/09 14:48:54 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	run_dda(t_ray *ray, t_game *game, int *map_x, int *map_y)
 	}
 }
 
-
 // 1. side_dist is like a ratio,
 // will multiply the delta to get the actual length,
 // could start from anywhere in the middle between x1/y1 to another x2/y2
@@ -80,7 +79,6 @@ void	calculate_step_n_init_side_dist\
 		ray->side_dist_y = (map_y + 1.0 - player->pos_y) * ray->delta_dist_y;
 	}
 }
-
 
 // length of ray from one x to next x
 // length of ray from one y-side to next y-side

@@ -6,13 +6,13 @@
 /*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:15:09 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/05 19:54:55 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 14:45:37 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	check_horizontal_blocks(char **blocks)
+bool	check_vertical_blocks(char **blocks)
 {
 	int		i;
 	int		len;
@@ -23,7 +23,12 @@ bool	check_horizontal_blocks(char **blocks)
 	{
 		block = blocks[i];
 		if (block[0] != '1')
+		{
+			printf("char err: %c\n", block[0]);
+			if (ft_isspace(block[0] == true))
+				printf("there is space\n");
 			return (false);
+		}
 		len = ft_strlen(block);
 		if (block[len - 1] != '1')
 			return (false);
@@ -54,7 +59,7 @@ bool	check_horizontal_walls(t_map *map)
 	while (++i < map->height)
 	{
 		blocks = ft_split(rows[i], ' ');
-		if (check_horizontal_blocks(blocks) == false)
+		if (check_vertical_blocks(blocks) == false)
 		{
 			free_blocks(blocks);
 			return (error_msg("Hor: map not closed\n"));
@@ -81,7 +86,7 @@ static char	*make_string(t_map *map, int col)
 	return (res_str);
 }
 
-bool	check_vertical_walls(t_map	*map)
+bool	check_vertical_walls(t_map *map)
 {
 	int		i;
 	char	**rows;
@@ -95,7 +100,7 @@ bool	check_vertical_walls(t_map	*map)
 		tmp = make_string(map, i);
 		blocks = ft_split(tmp, ' ');
 		free(tmp);
-		if (check_horizontal_blocks(blocks) == false)
+		if (check_vertical_blocks(blocks) == false)
 		{
 			free_blocks(blocks);
 			return (error_msg("Ver: map not closed\n"));
