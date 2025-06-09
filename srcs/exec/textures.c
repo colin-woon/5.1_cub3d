@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:12:57 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/03 16:56:03 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/09 14:48:36 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,8 @@ t_wall_dir	get_wall_dir(t_ray *ray)
 	}
 }
 
-
 // 1. avoid mirroring (optional cause textures used is asymmetric)
-// 	if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0) \
+// 	if ((ray->wall_hit_side == VERTICAL && ray->dir_x > 0)
 // || (ray->wall_hit_side == HORIZONTAL && ray->dir_y < 0))
 // 		tex->x = texture->width - tex->x - 1;
 // 2. step is to get the gap of texture pixels for 1 wall pixel
