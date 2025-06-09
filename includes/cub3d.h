@@ -183,7 +183,8 @@ int			open_file(char *path_to_file);
 void		get_map_grid(t_map *map);
 
 // check_valid_map_utils.c
-char		*fill_str_sp(char *row, int row_width, int max_width);
+char		*fill_str_sp\
+(char *row, int row_width, int max_width, t_game *game);
 int			ft_strlen_pro(char *line);
 void		save_player(t_map *map, int y, int x, char dir);
 
@@ -195,7 +196,7 @@ bool		ft_isplayer(char c);
 bool		ft_iswall(int c);
 
 // check_valid_map.c
-void		make_map_square(t_map *map);
+void		make_map_square(t_map *map, t_game *game);
 bool		check_valid_map(t_map *map, t_game *game);
 bool		get_map_width(t_map *map);
 bool		check_player(t_map *map);
@@ -211,24 +212,24 @@ bool		parse(char *path_to_cub, t_game *game);
 
 // parse_texture.c
 bool		check_texture_complete(t_assets *assets);
-t_assets	*init_assets(void);
+t_assets	*init_assets(t_game *game);
 bool		parse_texture(char *line, t_game *game);
 
 // parse_texture_utils.c
-bool		init_rgb(char *rgb_c, int **rgb_ptr);
+bool		init_rgb(char *rgb_c, int **rgb_ptr, t_game *game);
 void		fill_img_info(void *img_ptr, t_img *img);
 char		*get_file_path(char *line);
 void		make_img(char *str, t_game *game, t_img *texture);
 
 // parse_map.c
-void		store_map(char *line, t_map *map, int map_height);
-char		*conv_tab(char *line);
+void		store_map(char *line, t_map *map, int map_height, t_game *game);
+char		*conv_tab(char *line, t_game *game);
 bool		parse_map(int fd, char *line, t_game *game);
 
 // error.c
 bool		error_msg(char *err);
 void		msg(char *err);
-void		error_msg_exit(char *err);
+void		error_msg_exit(char *err, t_game *game);
 
 // debug.c
 // void		DEBUG_init_map(t_game *game);
@@ -266,7 +267,7 @@ void		rotate_vertically\
 void		init_mouse_vars(t_mouse_vars *var, int *x, int *y);
 
 // init.c
-void		init_player(t_player **player, t_map *map);
+void		init_player(t_player **player, t_map *map, t_game *game);
 
 // utils_cleanup.c
 void		cleanup(t_game *game);

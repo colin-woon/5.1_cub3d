@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 17:58:35 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/09 21:22:51 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int	main(int ac, char *av[])
 	if (ft_strend(av[1], ".cub") == false)
 	{
 		cleanup(&game);
-		error_msg_exit("input given is not a .cub file\n");
+		error_msg_exit("input given is not a .cub file\n", &game);
 	}
 	if (parse(av[1], &game) == false)
 	{
 		cleanup(&game);
 		exit(EXIT_FAILURE);
 	}
-	init_player(&game.player, game.map);
+	init_player(&game.player, game.map, &game);
 	game.ray = malloc(sizeof(t_ray));
 	get_map_grid(game.map);
 	run_raycasting(game.ray, game.player, game.mlx_data, &game);

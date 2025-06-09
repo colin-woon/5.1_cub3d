@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid_map_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 19:58:23 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/05 20:28:41 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 21:14:07 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	*fill_str_sp(char *row, int row_width, int max_width);
+char	*fill_str_sp(char *row, int row_width, int max_width, t_game *game);
 int		ft_strlen_pro(char *line);
 void	save_player(t_map *map, int y, int x, char dir);
 
-char	*fill_str_sp(char *row, int row_width, int max_width)
+char	*fill_str_sp(char *row, int row_width, int max_width, t_game *game)
 {
 	char	*new_row;
 	int		i;
 
 	new_row = malloc(sizeof(char ) * max_width + 1);
 	if (!new_row)
-		error_msg_exit("Malloc Error filling space\n");
+		error_msg_exit("Malloc Error filling space\n", game);
 	i = 0;
 	while (i < row_width)
 	{
