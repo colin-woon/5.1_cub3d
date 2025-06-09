@@ -196,7 +196,7 @@ bool		ft_iswall(int c);
 
 bool		check_horizontal_walls(t_map *map);
 bool		check_vertical_walls(t_map	*map);
-bool		check_horizontal_blocks(char **blocks);
+bool		check_vertical_blocks(char **blocks);
 void		free_blocks(char **blocks);
 
 bool		parse(char *path_to_cub, t_game *game);

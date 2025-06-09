@@ -70,6 +70,7 @@ static char	*make_sp_tb(char *line, int tab_count)
 			while (tab_track++ < 4)
 				res_line[j++] = ' ';
 			i++;
+			continue ;
 		}
 		res_line[j++] = line[i++];
 	}
