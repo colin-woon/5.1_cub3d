@@ -46,6 +46,7 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/parse/check_valid_map_utils.c \
 					srcs/parse/parse_texture.c \
 					srcs/parse/parse_texture_utils.c \
+					srcs/parse/parse_texture_utils2.c \
 					srcs/parse/utils.c \
 					srcs/free.c \
 					srcs/exec/init.c \

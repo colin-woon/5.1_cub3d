@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 21:18:22 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 00:54:58 by rteoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,12 @@ bool	parse(char *path_to_cub, t_game *game)
 	while (line != NULL && !start_of_map(line))
 	{
 		if (parse_texture(line, game) == false)
-		{
-			free(line);
 			return (false);
-		}
 		free(line);
 		line = get_next_row(fd);
 	}
 	if (check_texture_complete(game->assets) == false)
 	{
-		printf("helo\n");
 		free(line);
 		return (false);
 	}

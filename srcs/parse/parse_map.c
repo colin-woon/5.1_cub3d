@@ -13,8 +13,7 @@
 #include "cub3d.h"
 
 static int	count_tab(char *line);
-static char	*make_sp_tb(char *line, int tab_count, t_game *game)
-;
+static char	*make_sp_tb(char *line, int tab_count, t_game *game);
 void		store_map(char *line, t_map *map, int map_height, t_game *game);
 char		*conv_tab(char *line, t_game *game);
 bool		parse_map(int fd, char *line, t_game *game);

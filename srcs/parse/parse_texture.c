@@ -84,8 +84,8 @@ static bool	compare_texture(char *line, t_assets *assets, t_game *game)
 		return (init_rgb(line, &assets->ceiling_rgb, game));
 	else
 	{
-		msg("texture given incorrect\n");
-		return (false);
+		free(line);
+		return (error_msg("texture given incorrect\n"));
 	}
 	return (true);
 }
@@ -94,5 +94,6 @@ bool	parse_texture(char *line, t_game *game)
 {
 	if (compare_texture(line, game->assets, game) == true)
 		return (true);
+	free(line);
 	return (false);
 }

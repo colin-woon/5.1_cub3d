@@ -59,15 +59,13 @@ bool	init_rgb(char *rgb_c, int **rgb_ptr, t_game *game)
 			&& *rgb_c != '-' && *rgb_c != '+')
 			rgb_c++;
 		res_rgb[color_val] = ft_atoi_pro_max(rgb_c);
-		if (res_rgb[color_val] > 255 || res_rgb[color_val] < 0)
-			return (error_msg("Invalid RGB\n"));
 		color_val++;
 		while (ft_isdigit(*rgb_c) || *rgb_c == '-' || *rgb_c == '+')
 			rgb_c++;
 	}
 	if (color_val != 3)
 		return (error_msg("RGB incomplete\n"));
-	return (true);
+	return (check_rgb(res_rgb));
 }
 
 void	fill_img_info(void *img_ptr, t_img *img)
@@ -109,11 +107,17 @@ void	make_img(char *str, t_game *game, t_img *texture)
 	if (!path_to_file)
 		error_msg_exit("texture file given cannot be read or found\n", game);
 	if (ft_strend(path_to_file, ".xpm") == false)
+	{
+		free(path_to_file);
 		error_msg_exit("texture file given is not a .xpm file\n", game);
+	}
 	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file,
 			&texture->height, &texture->width);
-	free(path_to_file);
 	if (texture->ptr == NULL)
+	{
+		free(path_to_file);
 		error_msg_exit("texture file given cannot be read\n", game);
+	}
 	fill_img_info(texture->ptr, texture);
+	free(path_to_file);
 }
