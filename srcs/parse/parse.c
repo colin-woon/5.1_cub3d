@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 18:26:00 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/09 21:02:05 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ bool	parse(char *path_to_cub, t_game *game)
 		return (false);
 	}
 	if (parse_map(fd, line, game) == false)
-	{
-		free(line);
 		return (false);
-	}
 	return (true);
 }

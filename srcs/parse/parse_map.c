@@ -114,6 +114,7 @@ bool	parse_map(int fd, char *line, t_game *game)
 		line = conv_tab(line);
 		store_map(line, game->map, map_height);
 		map_height++;
+		free(line);
 		line = get_next_row(fd);
 	}
 	game->map->height = map_height;
