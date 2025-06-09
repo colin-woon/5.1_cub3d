@@ -12,6 +12,12 @@
 
 #include "cub3d.h"
 
+static int	ft_atoi_pro_max(char *rgb_c);
+bool		init_rgb(char *rgb_c, int **rgb_ptr);
+void		fill_img_info(void *img_ptr, t_img *img);
+char		*get_file_path(char *line);
+void		make_img(char *str, t_game *game, t_img *texture);
+
 static int	ft_atoi_pro_max(char *rgb_c)
 {
 	int		i;

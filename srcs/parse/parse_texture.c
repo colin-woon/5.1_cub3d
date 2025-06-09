@@ -12,6 +12,12 @@
 
 #include "cub3d.h"
 
+bool		check_texture_complete(t_assets *assets);
+t_assets	*init_assets(void);
+bool		parse_texture(char *line, t_game *game);
+static bool	is_empty_line(char *line);
+static bool	compare_texture(char *line, t_assets *assets, t_game *game);
+
 static bool	is_empty_line(char *line)
 {
 	while (*line == '\t' || *line == ' ')
@@ -55,9 +61,6 @@ t_assets	*init_assets(void)
 	return (assets);
 }
 
-bool	*init_rgb(char *rgb_c, int **res_rgb);
-void	make_img(char *str, t_game *game, t_img *texture);
-
 static bool	compare_texture(char *line, t_assets *assets, t_game *game)
 {
 	if (is_empty_line(line))
@@ -91,6 +94,5 @@ bool	parse_texture(char *line, t_game *game)
 {
 	if (compare_texture(line, game->assets, game) == true)
 		return (true);
-	free(line);
 	return (false);
 }

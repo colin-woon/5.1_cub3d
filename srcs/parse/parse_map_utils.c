@@ -12,6 +12,12 @@
 
 #include "cub3d.h"
 
+bool	check_wall_behind(char *row, int i);
+bool	check_above_wall(char **rows, int i, int j);
+bool	ft_iszero(char c);
+bool	ft_isplayer(char c);
+bool	ft_iswall(int c);
+
 bool	ft_iswall(int c)
 {
 	if (c == '1')

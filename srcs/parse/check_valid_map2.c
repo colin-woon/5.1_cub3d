@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid_map2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:15:09 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 14:45:37 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 18:09:59 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+bool		check_horizontal_walls(t_map *map);
+bool		check_vertical_walls(t_map *map);
+void		free_blocks(char **blocks);
+bool		check_vertical_blocks(char **blocks);
+static char	*make_string(t_map *map, int col);
 
 bool	check_vertical_blocks(char **blocks)
 {

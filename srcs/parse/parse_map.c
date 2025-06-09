@@ -12,7 +12,11 @@
 
 #include "cub3d.h"
 
-bool	check_valid_map(t_map *map, t_game *game);
+static int	count_tab(char *line);
+static char	*make_sp_tb(char *line, int tab_count);
+void		store_map(char *line, t_map *map, int map_height);
+char		*conv_tab(char *line);
+bool		parse_map(int fd, char *line, t_game *game);
 
 void	store_map(char *line, t_map *map, int map_height)
 {
@@ -28,7 +32,7 @@ void	store_map(char *line, t_map *map, int map_height)
 		rows[i] = map->layout[i];
 		i++;
 	}
-	rows[i] = line;
+	rows[i] = ft_strdup(line);
 	rows[i + 1] = NULL;
 	free(map->layout);
 	map->layout = rows;

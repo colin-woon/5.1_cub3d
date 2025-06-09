@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 06:57:25 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/04 13:44:11 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 17:58:35 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ int	main(int ac, char *av[])
 	game = (t_game){0};
 	start_mlx(&game);
 	if (ft_strend(av[1], ".cub") == false)
+	{
+		cleanup(&game);
 		error_msg_exit("input given is not a .cub file\n");
+	}
 	if (parse(av[1], &game) == false)
 	{
-		free_texture(game.assets);
+		cleanup(&game);
 		exit(EXIT_FAILURE);
 	}
 	init_player(&game.player, game.map);

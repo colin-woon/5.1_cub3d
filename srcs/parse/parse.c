@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:39:44 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 16:54:48 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 18:26:00 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+bool		parse(char *path_to_cub, t_game *game);
+static bool	start_of_map(char *line);
 
 static bool	start_of_map(char *line)
 {
@@ -23,8 +26,6 @@ static bool	start_of_map(char *line)
 		return (true);
 	return (false);
 }
-
-bool	check_texture_complete(t_assets *assets);
 
 bool	parse(char *path_to_cub, t_game *game)
 {
@@ -41,12 +42,16 @@ bool	parse(char *path_to_cub, t_game *game)
 	while (line != NULL && !start_of_map(line))
 	{
 		if (parse_texture(line, game) == false)
+		{
+			free(line);
 			return (false);
+		}
 		free(line);
 		line = get_next_row(fd);
 	}
 	if (check_texture_complete(game->assets) == false)
 	{
+		printf("helo\n");
 		free(line);
 		return (false);
 	}

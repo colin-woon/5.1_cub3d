@@ -14,7 +14,7 @@
 CC			=	clang
 CFLAGS		=	$(INCLUDES) $(DEBUG)
 WFLAGS		=	-Wall -Werror -Wextra
-INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR) $(FSAN)
+INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
 DEBUG		=	-g3
 FSAN		=	-fsanitize=address,leak
 RM			=	rm -rf
@@ -38,7 +38,6 @@ LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXex
 SRCS_FILES		=	srcs/debug.c \
 					srcs/error.c \
 					srcs/main.c \
-					srcs/free.c \
 					srcs/parse/parse.c \
 					srcs/parse/parse_map.c \
 					srcs/parse/parse_map_utils.c \
@@ -47,8 +46,8 @@ SRCS_FILES		=	srcs/debug.c \
 					srcs/parse/check_valid_map_utils.c \
 					srcs/parse/parse_texture.c \
 					srcs/parse/parse_texture_utils.c \
-					srcs/utils.c \
-					srcs/utils_cleanup.c \
+					srcs/parse/utils.c \
+					srcs/free.c \
 					srcs/exec/init.c \
 					srcs/exec/raycasting.c \
 					srcs/exec/textures.c \
