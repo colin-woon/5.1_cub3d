@@ -12,6 +12,12 @@
 
 #include "cub3d.h"
 
+bool		check_texture_complete(t_assets *assets);
+t_assets	*init_assets(t_game *game);
+bool		parse_texture(char *line, t_game *game);
+static bool	is_empty_line(char *line);
+static bool	compare_texture(char *line, t_assets *assets, t_game *game);
+
 static bool	is_empty_line(char *line)
 {
 	while (*line == '\t' || *line == ' ')
@@ -39,7 +45,7 @@ bool	check_texture_complete(t_assets *assets)
 	return (true);
 }
 
-t_assets	*init_assets(void)
+t_assets	*init_assets(t_game *game)
 {
 	t_assets	*assets;
 	int			i;
@@ -47,16 +53,13 @@ t_assets	*init_assets(void)
 	i = 0;
 	assets = ft_calloc(1, sizeof(t_assets));
 	if (assets == NULL)
-		error_msg_exit("Calloc Error:texture init\n");
+		error_msg_exit("Calloc Error:texture init\n", game);
 	assets->ceiling_rgb = NULL;
 	assets->floor_rgb = NULL;
 	while (i < 4)
 		assets->textures[i++].ptr = NULL;
 	return (assets);
 }
-
-bool	*init_rgb(char *rgb_c, int **res_rgb);
-void	make_img(char *str, t_game *game, t_img *texture);
 
 static bool	compare_texture(char *line, t_assets *assets, t_game *game)
 {
@@ -76,9 +79,9 @@ static bool	compare_texture(char *line, t_assets *assets, t_game *game)
 		&& assets->textures[EAST].ptr == NULL)
 		make_img(line, game, &assets->textures[EAST]);
 	else if (ft_strncmp(line, "F", 1) == 0 && assets->floor_rgb == NULL)
-		return (init_rgb(line, &assets->floor_rgb));
+		return (init_rgb(line, &assets->floor_rgb, game));
 	else if (ft_strncmp(line, "C", 1) == 0 && assets->ceiling_rgb == NULL)
-		return (init_rgb(line, &assets->ceiling_rgb));
+		return (init_rgb(line, &assets->ceiling_rgb, game));
 	else
 	{
 		msg("texture given incorrect\n");
@@ -91,6 +94,5 @@ bool	parse_texture(char *line, t_game *game)
 {
 	if (compare_texture(line, game->assets, game) == true)
 		return (true);
-	free(line);
 	return (false);
 }

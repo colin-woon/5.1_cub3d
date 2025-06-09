@@ -12,6 +12,12 @@
 
 #include "cub3d.h"
 
+static int	ft_atoi_pro_max(char *rgb_c);
+bool		init_rgb(char *rgb_c, int **rgb_ptr, t_game *game);
+void		fill_img_info(void *img_ptr, t_img *img);
+char		*get_file_path(char *line);
+void		make_img(char *str, t_game *game, t_img *texture);
+
 static int	ft_atoi_pro_max(char *rgb_c)
 {
 	int		i;
@@ -37,7 +43,7 @@ static int	ft_atoi_pro_max(char *rgb_c)
 	return (rgb);
 }
 
-bool	init_rgb(char *rgb_c, int **rgb_ptr)
+bool	init_rgb(char *rgb_c, int **rgb_ptr, t_game *game)
 {
 	int	color_val;
 	int	*res_rgb;
@@ -45,7 +51,7 @@ bool	init_rgb(char *rgb_c, int **rgb_ptr)
 	color_val = 0;
 	res_rgb = ft_calloc(3, (sizeof(int)));
 	if (!res_rgb)
-		error_msg_exit("Calloc Error:rgb init\n");
+		error_msg_exit("Calloc Error:rgb init\n", game);
 	*rgb_ptr = res_rgb;
 	while (*rgb_c)
 	{
@@ -101,13 +107,13 @@ void	make_img(char *str, t_game *game, t_img *texture)
 
 	path_to_file = get_file_path(str);
 	if (!path_to_file)
-		error_msg_exit("texture file given cannot be read or found\n");
+		error_msg_exit("texture file given cannot be read or found\n", game);
 	if (ft_strend(path_to_file, ".xpm") == false)
-		error_msg_exit("texture file given is not a .xpm file\n");
+		error_msg_exit("texture file given is not a .xpm file\n", game);
 	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file,
 			&texture->height, &texture->width);
 	free(path_to_file);
 	if (texture->ptr == NULL)
-		error_msg_exit("texture file given cannot be read\n");
+		error_msg_exit("texture file given cannot be read\n", game);
 	fill_img_info(texture->ptr, texture);
 }

@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/05 22:07:50 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/09 18:17:43 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	get_map_grid(t_map *map);
+char	*get_next_row(int fd);
+bool	ft_strend(char *s, char *suffix);
+int		open_file(char *path_to_file);
 void	get_map_grid(t_map *map);
 
 char	*get_next_row(int fd)

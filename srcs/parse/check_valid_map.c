@@ -12,13 +12,13 @@
 
 #include "cub3d.h"
 
-bool	check_above_wall(char **rows, int i, int j);
-bool	check_wall_behind(char *row, int i);
-bool	ft_iszero(char c);
-bool	ft_isplayer(char c);
-bool	ft_iswall(int c);
+void		make_map_square(t_map *map, t_game *game);
+bool		check_valid_map(t_map *map, t_game *game);
+bool		get_map_width(t_map *map);
+bool		check_player(t_map *map);
+static bool	check_invalid_char(t_map *map, t_game *game);
 
-void	make_map_square(t_map *map)
+void	make_map_square(t_map *map, t_game *game)
 {
 	char	*new_row;
 	char	**rows;
@@ -32,7 +32,7 @@ void	make_map_square(t_map *map)
 		row_width = ft_strlen(rows[i]);
 		if (row_width < map->width)
 		{
-			new_row = fill_str_sp(rows[i], row_width, map->width);
+			new_row = fill_str_sp(rows[i], row_width, map->width, game);
 			free(rows[i]);
 			rows[i] = new_row;
 		}
@@ -122,7 +122,7 @@ bool	check_valid_map(t_map *map, t_game *game)
 		return (false);
 	if (check_player(map) == false)
 		return (false);
-	make_map_square(map);
+	make_map_square(map, game);
 	if (check_horizontal_walls(map) == false
 		|| check_vertical_walls(map) == false)
 		return (false);
