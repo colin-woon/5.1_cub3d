@@ -24,5 +24,5 @@ make
 # valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_hole_east.cub
 # valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_hole_north.cub
 # valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_hole_south.cub
-valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_hole_west.cub
-valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_none.cub
+# valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_hole_west.cub
+# valgrind --leak-check=full --show-leak-kinds=all ./cub3D ./maps/bad/wall_none.cub

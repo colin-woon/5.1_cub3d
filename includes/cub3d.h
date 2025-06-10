@@ -27,7 +27,7 @@
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1.5
 
-# define MOUSE_SENSITIVITY_X 0.0005
+# define MOUSE_SENSITIVITY_X 0.0002
 # define MOUSE_SENSITIVITY_Y 0.2
 // Needed so the player wont look infinitely up or down
 # define MAX_PITCH_PIXELS SCREEN_HEIGHT
@@ -221,6 +221,9 @@ void		fill_img_info(void *img_ptr, t_img *img);
 char		*get_file_path(char *line);
 void		make_img(char *str, t_game *game, t_img *texture);
 
+//parse_texture_utils2.c
+bool		check_rgb(int	*rgb);
+
 // parse_map.c
 void		store_map(char *line, t_map *map, int map_height, t_game *game);
 char		*conv_tab(char *line, t_game *game);
@@ -231,13 +234,8 @@ bool		error_msg(char *err);
 void		msg(char *err);
 void		error_msg_exit(char *err, t_game *game);
 
-// debug.c
-// void		DEBUG_init_map(t_game *game);
-// void		DEBUG_print_map_assets(t_game *game);
-// int			debug_event(int keycode, t_mlx *mlx);
-
 // mlx.c
-int			close_window(int keycode, t_game *game);
+int			close_window(t_game *game);
 void		start_mlx(t_game *game);
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		init_mlx_img(t_mlx *mlx);
@@ -269,7 +267,7 @@ void		init_mouse_vars(t_mouse_vars *var, int *x, int *y);
 // init.c
 void		init_player(t_player **player, t_map *map, t_game *game);
 
-// utils_cleanup.c
+// free.c
 void		cleanup(t_game *game);
 
 // raycasting.c
@@ -324,9 +322,5 @@ int			get_transparency(int trgb);
 int			get_red(int trgb);
 int			get_green(int trgb);
 int			get_blue(int trgb);
-
-//free.c
-
-bool		check_rgb(int	*rgb);
 
 #endif

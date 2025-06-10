@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:43:47 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 01:07:46 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 13:39:16 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,10 @@ bool	is_valid_keys(int keysym);
 void	recalculate_variables\
 (t_game *game, t_map *map, t_player *player, int keysym);
 
-// printf("DEBUG: sym INT is %d\n", keysym);
-// printf("DEBUG: sym HEXA is %x\n", keysym);
-// REFACTOR: exit
 int	movement_keys(int keysym, t_game *game)
 {
 	if (keysym == XK_Escape)
-		close_window(0, game);
+		close_window(game);
 	if (is_valid_keys(keysym))
 		recalculate_variables(game, game->map, game->player, keysym);
 	return (0);

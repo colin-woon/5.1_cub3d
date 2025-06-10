@@ -102,9 +102,7 @@ char	*conv_tab(char *line, t_game *game)
 
 bool	parse_map(int fd, char *line, t_game *game)
 {
-	t_map	*map;
 	int		map_height;
-	int		map_width;
 
 	map_height = 0;
 	if (line == NULL)

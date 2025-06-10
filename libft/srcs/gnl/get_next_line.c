@@ -6,24 +6,31 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 15:26:05 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/10 13:26:12 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:14:28 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "libft.h"
 
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, bool is_flush);
 void	create_linked_list(t_s_list **list_ptr, int fd);
 void	append_str_node(t_s_list **list_ptr, char *str_buffer);
 char	*get_line(t_s_list *node_ptr);
 void	update_list_after_newline(t_s_list **list_ptr);
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, bool is_flush)
 {
 	static t_s_list	*list;
 	char			*next_line;
 
 	next_line = NULL;
+	if (list && is_flush)
+	{
+		free(list->file_buffer);
+		free(list);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next_line, 0) < 0)
 		return (NULL);
 	create_linked_list(&list, fd);

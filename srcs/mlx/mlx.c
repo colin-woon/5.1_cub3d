@@ -6,20 +6,19 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:24:08 by cwoon             #+#    #+#             */
-/*   Updated: 2025/05/29 01:05:53 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 13:37:15 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		close_window(int keycode, t_game *game);
+int		close_window(t_game *game);
 void	start_mlx(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	init_mlx_img(t_mlx *mlx);
 
-int	close_window(int keycode, t_game *game)
+int	close_window(t_game *game)
 {
-	printf("DEBUG: closing window\n");
 	cleanup(game);
 	exit(0);
 	return (0);
@@ -44,11 +43,6 @@ void	init_mlx_img(t_mlx *mlx)
 
 void	start_mlx(t_game *game)
 {
-	t_mlx	mlx;
-	void	*img;
-	int		img_width;
-	int		img_height;
-
 	game->mlx_data = malloc(sizeof(t_mlx));
 	game->mlx_data->ptr = mlx_init();
 	game->mlx_data->window = mlx_new_window\

@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:15:09 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 18:09:59 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 13:41:08 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,7 @@ bool	check_vertical_blocks(char **blocks)
 	{
 		block = blocks[i];
 		if (block[0] != '1')
-		{
-			printf("char err: %c\n", block[0]);
-			if (ft_isspace(block[0] == true))
-				printf("there is space\n");
 			return (false);
-		}
 		len = ft_strlen(block);
 		if (block[len - 1] != '1')
 			return (false);
@@ -56,7 +51,6 @@ void	free_blocks(char **blocks)
 bool	check_horizontal_walls(t_map *map)
 {
 	int		i;
-	int		j;
 	char	**rows;
 	char	**blocks;
 

@@ -12,7 +12,7 @@
 # add back WFLAGS later to CFLAGS, removed cause it doesnt work for testing
 # Compiler and flags
 CC			=	clang
-CFLAGS		=	$(INCLUDES) $(DEBUG)
+CFLAGS		=	$(INCLUDES) $(WFLAGS) -O3
 WFLAGS		=	-Wall -Werror -Wextra
 INCLUDES	=	-I$(INC_LIBFT) -I$(INC_DIR) -I$(MLX_DIR)
 DEBUG		=	-g3
@@ -35,8 +35,7 @@ OBJS_DIR		=	bin/
 
 LIB_FLAGS		=	-L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 
-SRCS_FILES		=	srcs/debug.c \
-					srcs/error.c \
+SRCS_FILES		=	srcs/error.c \
 					srcs/main.c \
 					srcs/parse/parse.c \
 					srcs/parse/parse_map.c \
