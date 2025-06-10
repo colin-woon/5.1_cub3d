@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:35:45 by cwoon             #+#    #+#             */
-/*   Updated: 2024/11/15 17:02:37 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:07:05 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 typedef struct s_s_list
 {
@@ -27,7 +28,7 @@ typedef struct s_s_list
 	struct s_s_list	*next_node;
 }	t_s_list;
 
-char		*get_next_line(int fd);
+char		*get_next_line(int fd, bool is_flush);
 void		create_linked_list(t_s_list **list_ptr, int fd);
 int			found_newline(t_s_list *node_ptr);
 void		append_str_node(t_s_list **list_ptr, char *str_buffer);

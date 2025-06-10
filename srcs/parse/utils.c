@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:10:13 by rteoh             #+#    #+#             */
-/*   Updated: 2025/06/09 18:17:43 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:18:26 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_next_row(int fd)
 	char	*line;
 	char	*res_line;
 
-	line = get_next_line(fd);
+	line = get_next_line(fd, false);
 	res_line = ft_strtrim(line, "\n");
 	free(line);
 	return (res_line);

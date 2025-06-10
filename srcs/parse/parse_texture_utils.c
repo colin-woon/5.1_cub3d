@@ -109,6 +109,7 @@ void	make_img(char *str, t_game *game, t_img *texture)
 	if (ft_strend(path_to_file, ".xpm") == false)
 	{
 		free(path_to_file);
+		free(str);
 		error_msg_exit("texture file given is not a .xpm file\n", game);
 	}
 	texture->ptr = mlx_xpm_file_to_image(game->mlx_data->ptr, path_to_file,

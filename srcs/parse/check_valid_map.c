@@ -16,7 +16,7 @@ void		make_map_square(t_map *map, t_game *game);
 bool		check_valid_map(t_map *map, t_game *game);
 bool		get_map_width(t_map *map);
 bool		check_player(t_map *map);
-static bool	check_invalid_char(t_map *map, t_game *game);
+static bool	check_invalid_char(t_map *map);
 
 void	make_map_square(t_map *map, t_game *game)
 {
@@ -40,7 +40,7 @@ void	make_map_square(t_map *map, t_game *game)
 	}
 }
 
-static bool	check_invalid_char(t_map *map, t_game *game)
+static bool	check_invalid_char(t_map *map)
 {
 	int		i;
 	int		j;
@@ -116,7 +116,7 @@ bool	get_map_width(t_map *map)
 
 bool	check_valid_map(t_map *map, t_game *game)
 {
-	if (check_invalid_char(map, game) == false)
+	if (check_invalid_char(map) == false)
 		return (false);
 	if (get_map_width(map) == false)
 		return (false);

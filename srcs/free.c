@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rteoh <rteoh@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:01:59 by cwoon             #+#    #+#             */
-/*   Updated: 2025/06/10 01:06:49 by rteoh            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:19:07 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_map(t_map *map)
 
 void	cleanup(t_game *game)
 {
-	printf("in cleanup\n");
+	get_next_line(-1, true);
 	if (game->ray)
 		free(game->ray);
 	if (game->player)

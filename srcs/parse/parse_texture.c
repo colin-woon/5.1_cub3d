@@ -83,10 +83,7 @@ static bool	compare_texture(char *line, t_assets *assets, t_game *game)
 	else if (ft_strncmp(line, "C", 1) == 0 && assets->ceiling_rgb == NULL)
 		return (init_rgb(line, &assets->ceiling_rgb, game));
 	else
-	{
-		free(line);
 		return (error_msg("texture given incorrect\n"));
-	}
 	return (true);
 }
 

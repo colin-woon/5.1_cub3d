@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:38:46 by cwoon             #+#    #+#             */
-/*   Updated: 2025/02/04 15:47:11 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:07:15 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <string.h>
 # include <limits.h>
-# include <stdbool.h>
 # include <errno.h>
 # include <stdint.h>
 # include <stdio.h>
@@ -83,6 +82,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // GNL
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, bool is_flush);
 
 #endif
