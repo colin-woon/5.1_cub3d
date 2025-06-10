@@ -6,7 +6,7 @@
 /*   By: cwoon <cwoon@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 15:26:05 by cwoon             #+#    #+#             */
-/*   Updated: 2024/11/15 17:02:06 by cwoon            ###   ########.fr       */
+/*   Updated: 2025/06/10 13:26:12 by cwoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	append_str_node(t_s_list **list_ptr, char *str_buffer)
 		*list_ptr = new_node;
 	else
 		last_node->next_node = new_node;
-	*new_node = (t_s_list) \
-	{.file_buffer = str_buffer, .next_node = NULL};
+	*new_node = (t_s_list)\
+{.file_buffer = str_buffer, .next_node = NULL};
 	return ;
 }
 
@@ -102,20 +102,20 @@ void	update_list_after_newline(t_s_list **list_ptr)
 	str_buffer = malloc(BUFFER_SIZE + 1);
 	new_node_after_newline = malloc(sizeof(t_s_list));
 	if (str_buffer == NULL || new_node_after_newline == NULL || \
-	list_ptr == NULL)
+list_ptr == NULL)
 		return ;
 	last_node = find_last_node(*list_ptr);
 	i_src = 0;
 	i_dest = 0;
 	while (last_node->file_buffer[i_src] != '\0' && \
-	last_node->file_buffer[i_src] != '\n')
+last_node->file_buffer[i_src] != '\n')
 		i_src++;
 	while (last_node->file_buffer[i_src] != '\0' && \
-	last_node->file_buffer[++i_src] != '\0')
+last_node->file_buffer[++i_src] != '\0')
 		str_buffer[i_dest++] = last_node->file_buffer[i_src];
 	str_buffer[i_dest] = '\0';
-	*new_node_after_newline = (t_s_list) \
-	{.file_buffer = str_buffer, .next_node = NULL};
+	*new_node_after_newline = (t_s_list)\
+{.file_buffer = str_buffer, .next_node = NULL};
 	clear_list(list_ptr, new_node_after_newline, str_buffer);
 }
 /*
