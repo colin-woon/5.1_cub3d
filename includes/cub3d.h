@@ -27,7 +27,7 @@
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1.5
 
-# define MOUSE_SENSITIVITY_X 0.0005
+# define MOUSE_SENSITIVITY_X 0.0002
 # define MOUSE_SENSITIVITY_Y 0.2
 // Needed so the player wont look infinitely up or down
 # define MAX_PITCH_PIXELS SCREEN_HEIGHT
@@ -322,6 +322,5 @@ int			get_transparency(int trgb);
 int			get_red(int trgb);
 int			get_green(int trgb);
 int			get_blue(int trgb);
-
 
 #endif
