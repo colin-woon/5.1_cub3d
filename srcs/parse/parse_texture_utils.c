@@ -58,6 +58,8 @@ bool	init_rgb(char *rgb_c, int **rgb_ptr, t_game *game)
 		while (!ft_isdigit(*rgb_c) && *rgb_c != '\0'
 			&& *rgb_c != '-' && *rgb_c != '+')
 			rgb_c++;
+		if (color_val > 2)
+			return (error_msg("too many RGB\n"));
 		res_rgb[color_val] = ft_atoi_pro_max(rgb_c);
 		color_val++;
 		while (ft_isdigit(*rgb_c) || *rgb_c == '-' || *rgb_c == '+')
