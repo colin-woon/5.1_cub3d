@@ -59,7 +59,8 @@ SRCS_FILES		=	srcs/error.c \
 					srcs/mlx/mlx.c \
 					srcs/mlx/hooks_movement.c \
 					srcs/mlx/hooks_movement_calc.c \
-					srcs/mlx/hooks_mouse.c
+					srcs/mlx/hooks_mouse.c \
+					srcs/mlx/hooks_movement_calc_utils.c
 
 OBJS_FILES		=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS_FILES))
 

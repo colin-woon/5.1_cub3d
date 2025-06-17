@@ -23,6 +23,7 @@
 # define SCREEN_WIDTH 2000
 # define SCREEN_HEIGHT 2000
 # define MOVE_SPEED 0.15
+# define COLLISION_BUFFER 0.25
 # define ROTATION_SPEED 0.08
 # define FOV 0.66
 # define WALL_HEIGHT_SCALE 1.5
@@ -175,6 +176,14 @@ typedef struct s_mouse_vars
 	double	rotation_angle_yaw;
 }	t_mouse_vars;
 
+typedef struct s_movement_vars
+{
+	double	move_x;
+	double	move_y;
+	double	potential_x;
+	double	potential_y;
+}	t_movement_vars;
+
 // parse/utils.c
 void		get_map_grid(t_map *map);
 char		*get_next_row(int fd);
@@ -254,6 +263,8 @@ void		move_forward_or_backward\
 void		look_left_or_right(int keysym, t_player *player, t_game *game);
 void		look_left(t_player *player, t_game *game);
 void		look_right(t_player *player, t_game *game);
+void		validate_movement\
+(t_player *player, t_map *map, t_movement_vars *var);
 
 // hooks_mouse.c
 int			mouse_hook(int x, int y, t_game *game);
